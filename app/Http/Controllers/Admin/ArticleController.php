@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Article;
+use App\Comment;
 use Illuminate\Validation\Rule;
 class ArticleController extends Controller {
 	// return view with articles
@@ -73,6 +74,7 @@ class ArticleController extends Controller {
 
 	public function destroy($id){
 		Article::find($id)->delete();
+		Comment::where('article_id',$id)->delete();
 		return redirect()->back()->withInput()->withErrors("删除成功！");
 	}
 	public function show(Request $request){

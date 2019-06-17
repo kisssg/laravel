@@ -11,11 +11,7 @@
  * |
  */
 Auth::routes ();
-
 Route::get ( '/', 'HomeController@index' )->name ( 'home' )->middleware('age');
-Route::get ( '/time', function () {
-	return date ( 'Y-m-d H:i:s' );
-} )->middleware('age');
 Route::group ( [ 
 		'middleware' => 'auth',
 		'namespace' => 'Admin',
