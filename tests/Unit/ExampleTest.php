@@ -6,7 +6,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-use App\User;
+use App\Issue;
 
 class ExampleTest extends TestCase
 {
@@ -17,8 +17,7 @@ class ExampleTest extends TestCase
      */
     public function testBasicTest()
     {    	
-    	$user=User::find('2');
-    	$user->revokePermissionTo('edit articles');
-    	$this->assertTrue(true);    	
+    	$issue=Issue::all();
+    	$this->assertJson($issue,"hahahdsafss");
     }
 }

@@ -7,12 +7,20 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Article extends Model
 {
-	use SoftDeletes;
+
+    use SoftDeletes;
+
+    const DELETED_AT = 'removed_at';
+
     //relations
-    public function hasManyComments(){
-    	return $this->hasMany('App\Comment','article_id','id');
+    public function hasManyComments()
+    {
+        return $this->hasMany('App\Comment', 'article_id', 'id');
     }
-    public function user(){
-    	return $this->belongsTo('App\user');
+
+    public function user()
+    {
+        return $this->belongsTo('App\User');
     }
+
 }

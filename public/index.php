@@ -55,9 +55,5 @@ $response = $kernel->handle(
 );
 $response->send();
 
-$app->resolving(function ($object, $app1) {
-	// Called when container resolves object of any type...	
-	//echo get_class($object).'-'.get_class($app1).'<br/>';
-});
 
 $kernel->terminate($request, $response);
