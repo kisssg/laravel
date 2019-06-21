@@ -10,16 +10,25 @@
  * | contains the "web" middleware group. Now create something great!
  * |
  */
-Auth::routes ();
-Route::get ( '/', 'HomeController@index' )->name ( 'home' )->middleware('age');
-Route::group ( [ 
-		'middleware' => 'auth',
-		'namespace' => 'Admin',
-		'prefix' => 'admin' 
-], function () {
-	Route::get ( '/', 'HomeController@index' );
-	Route::resource('articles', 'ArticleController');
-	Route::resource('comments', 'CommentController');
-} );
-Route::get('article/{id}','ArticleController@show');
-Route::post('comment','CommentController@store');
+Auth::routes();
+Route::get('/', 'HomeController@index')->name('home')->middleware('auth');
+Route::group([
+    'middleware' => 'auth',
+    'namespace' => 'Admin',
+    'prefix' => 'admin'
+        ], function () {
+    Route::get('/', 'HomeController@index');
+    Route::resource('articles', 'ArticleController');
+    Route::resource('comments', 'CommentController');
+});
+Route::group([
+    'middleware' => 'auth',
+    'namespace'=>'Issue',
+    'prefix'=>'issue'
+        ], function() {
+    Route::get('/', 'IssueController@home');
+    Route::get('/detail/{id}', 'IssueController@show');
+    Route::get('/{key}','IssueController@search');
+});
+Route::get('article/{id}', 'ArticleController@show');
+Route::post('comment', 'CommentController@store');

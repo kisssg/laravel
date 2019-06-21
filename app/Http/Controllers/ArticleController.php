@@ -19,6 +19,6 @@ class ArticleController extends Controller
     	$writer = new Xlsx($spreadsheet);
     	$writer->save('hello world.xlsx'); */
     	
-    	return view('article/show')->withArticle(Article::with('hasManyComments')->find($id));
+    	return view('article/show')->withArticle(Article::with('hasManyComments')->findOrFail($id));
     }
 }
