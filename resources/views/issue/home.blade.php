@@ -16,7 +16,10 @@
                         </div>
                     </form>
                     <ul>
-                        <li class="list-inline">{{$issues->total().' records'}}</li>
+                        <li class="list-inline">{{$issues->total().' records'}}
+                            @if($search)
+                            <a class="btn btn-default btn-sm" href="{{url('issue/search?s='.$search.'&e=1')}}">导出excel</a></li>
+                            @endif
                         @foreach ($issues as $issue)
                         <li class='list-group' style="margin: 30px;">
                             <div class="title row">

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
+    <div class="justify-center">
         <div class="card-deck">
             <div class="card" style="width: 18rem; ">
                 <img class="card-img-top" src="picture/blank.png" >
@@ -11,7 +11,7 @@
                     <a href="{{url('issue')}}" class="btn btn-primary">Search issues</a>
                 </div>
             </div>
-      <div class="card" style="width: 18rem; ">
+            <div class="card" style="width: 18rem; ">
                 <img class="card-img-top" src="picture/blank.png" >
                 <div class="card-body">
                     <h5 class="card-title">placeholder</h5>
@@ -20,8 +20,6 @@
                 </div>
             </div>
         </div>
-
-
     </div>
 </div>
 @endsection
