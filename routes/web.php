@@ -23,12 +23,22 @@ Route::group([
 });
 Route::group([
     'middleware' => 'auth',
-    'namespace'=>'Issue',
-    'prefix'=>'issue'
+    'namespace' => 'Issue',
+    'prefix' => 'issue'
         ], function() {
     Route::get('/', 'IssueController@home');
     Route::get('/detail/{id}', 'IssueController@show');
-    Route::get('/{key}','IssueController@search');
+    Route::get('/{key}', 'IssueController@search');
 });
 Route::get('article/{id}', 'ArticleController@show');
 Route::post('comment', 'CommentController@store');
+
+Route::group([
+    'namespace' => 'Violation',
+    'prefix' => 'violation',
+    'middleware' => 'auth',
+        ], function() {
+    Route::get('batchUpload', 'ViolationController@batchUpload');
+    Route::get('search', 'ViolationController@search');
+});
+Route::resource('violation', 'Violation\ViolationController')->middleware('auth');
