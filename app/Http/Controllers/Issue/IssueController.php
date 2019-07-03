@@ -4,15 +4,17 @@ namespace App\Http\Controllers\Issue;
 
 use App\Http\Controllers\Controller;
 use App\Traits\ExcelHandle;
+use App\Imports\ImportIssues;
+use Maatwebsite\Excel\Facades\Excel;
 
 class IssueController extends Controller
 {
 
     use ExcelHandle;
 
-    public function home()
+    public function index()
     {
-        return view('issue.home')->with('search', '');
+        return view('issue.index')->with('search', '');
     }
 
     public function show($id)
@@ -33,6 +35,20 @@ class IssueController extends Controller
             'callback_id', 'add_time', 'feedback_person', 'feedback_time', 'close_person', 'close_time', 'edit_log', 'source', 'harassment_type', 'upload_time', 'uploader', 'violationRecords', 'deleted_at', 'user_id', 'updated_at',];
         
         return $excel ? $this->arrayToExcel($data->get()->toArray(), 'issues' . date("Ymd"), $title, 'A2') : view("issue.search")->withIssues($data->paginate(20)->appends(['s' => $key]))->with('search', $key);
+    }
+    public function upload(){
+        return view('issue.upload');
+    }
+    public function import(){
+        try {
+            Excel::import(new ImportIssues(), request()->file('file'));
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+            $failures = $e->failures();
+            return back()->withErrors($failures);            
+        } catch(\Exception $e){
+            return back()->withErrors($e->getMessage());
+        }      
+        return url('issue');
     }
 
 }

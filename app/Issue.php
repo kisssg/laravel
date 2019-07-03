@@ -24,6 +24,34 @@ class Issue extends Model
     use ExcelHandle;
 
     protected $table = 'fc_issue';
+    protected $fillable = [
+        'date',
+        'contract_no',
+        'client_name',
+        'phone',
+        'object',
+        'city',
+        'region',
+        'collector',
+        'employeeID',
+        'issue_type',
+        'issue',
+        'remark',
+        'responsible_person',
+        'feedback',
+        'qc_name',
+        'result',
+        'close_reason',
+        'callback_id',
+        'add_time',
+        'feedback_person',
+        'close_person',
+        'close_time',
+        'edit_log',
+        'source',
+        'harassment_type',
+        'uploader',
+    ];
 
     public function user()
     {
@@ -34,4 +62,5 @@ class Issue extends Model
     {
         return $this->hasMany('App\Violation', 'issue_id', 'id');
     }
+
 }

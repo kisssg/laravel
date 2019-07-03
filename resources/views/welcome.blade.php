@@ -8,6 +8,9 @@
                 <h5 class="card-title">Issues</h5>
                 <p class="card-text">QC submit issues when got complaint about LLIs or agencies.</p>
                 <a href="{{url('issue')}}" class="btn btn-primary">Search issues</a>
+                @can('upload issues')
+                <a href="{{url('issue/upload')}}" class="btn btn-secondary">Upload</a>
+                @endcan
             </div>
         </div>
         <div class="card" style="max-width: 16rem; min-width: 16rem;">

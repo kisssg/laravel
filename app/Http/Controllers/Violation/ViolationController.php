@@ -13,7 +13,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Imports\ImportViolations;
 use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Support\Arr;
 
 /**
  * Controller controls requests relevant to violations
@@ -73,7 +72,7 @@ class ViolationController extends Controller
 
     public function upload()
     {
-        return view('violation.import');
+        return view('violation.upload');
     }
 
     public function import()
@@ -86,7 +85,7 @@ class ViolationController extends Controller
         } catch(\Exception $e){
             return back()->withErrors($e->getMessage());
         }      
-        return back();
+        return url('violation');
     }
 
     public function edit()

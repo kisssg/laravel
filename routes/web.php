@@ -26,10 +26,12 @@ Route::group([
     'namespace' => 'Issue',
     'prefix' => 'issue'
         ], function() {
-    Route::get('/', 'IssueController@home');
-    Route::get('/detail/{id}', 'IssueController@show');
-    Route::get('/{key}', 'IssueController@search');
+    Route::get('upload', 'IssueController@upload');
+    Route::post('import', 'IssueController@import');
+    Route::get('search', 'IssueController@search');
 });
+Route::resource('issue','Issue\IssueController')->middleware('auth');
+
 Route::get('article/{id}', 'ArticleController@show');
 Route::post('comment', 'CommentController@store');
 

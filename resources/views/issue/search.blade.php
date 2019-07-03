@@ -22,7 +22,7 @@
                         <li class='list-group' style="margin: 30px;">
                             <div class="title row">
                                 <div><span class='badge {{$issue->result=="无效"?'badge-secondary':'badge-primary'}}'>{{$issue->result}}</span></div>
-                                <a href="{{ url('issue/detail/'.$issue->id) }}">
+                                <a href="{{ url('issue/'.$issue->id) }}">
                                     <h4>{{ $issue->contract_no.'-'.$issue->issue.'-'.$issue->collector  }}</h4>
                                 </a>
                             </div>
