@@ -29,8 +29,8 @@
                                 @foreach($issue->hasManyViolations as $violation)
                                 <span class="badge badge-danger">{{$violation->punishment_decided}}</span><br/>
                                 建议的处罚：{{$violation->punishment_proposed}}<br/>
-                                {{$violation->who_execute_disciplinary.'：'.$violation->comment}}
-                                
+                                {{$violation->who_execute_disciplinary.'：'.$violation->comment}}<br/>
+                                <a href="{{url('violation/'.$violation->id)}}">Violation详情</a>
                                 @endforeach
                                 @else
                                 <span class="badge badge-danger">No punishment yet</span>

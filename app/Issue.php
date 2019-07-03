@@ -10,6 +10,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\ExcelHandle;
 
 /**
  * Description of Issues
@@ -20,6 +21,7 @@ class Issue extends Model
 {
 
     use SoftDeletes;
+    use ExcelHandle;
 
     protected $table = 'fc_issue';
 

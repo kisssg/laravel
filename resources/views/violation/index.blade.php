@@ -3,10 +3,10 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">Issues</div>
+                <div class="card-header">Violations</div>
 
                 <div id="content">
-                    <form action="{{ url('issue/search') }}" method="GET">
+                    <form action="{{ url('violation/search') }}" method="GET">
                         <div class="input-group">
                             <input type="text" class="form-control" name="s" value="{{$search}}" placeholder="Search by name of collector or contract number...">
                             <span class="input-group-btn">
