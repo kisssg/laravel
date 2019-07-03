@@ -38,7 +38,8 @@ Route::group([
     'prefix' => 'violation',
     'middleware' => 'auth',
         ], function() {
-    Route::get('batchUpload', 'ViolationController@batchUpload');
+    Route::get('upload', 'ViolationController@upload');
+    Route::post('import','ViolationController@import');
     Route::get('search', 'ViolationController@search');
 });
 Route::resource('violation', 'Violation\ViolationController')->middleware('auth');

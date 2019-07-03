@@ -16,6 +16,9 @@
                 <h5 class="card-title">Violations</h5>
                 <p class="card-text">Valid issues will become violations and be punished.</p>
                 <a href="{{url('violation')}}" class="btn btn-primary">Search violations</a>
+                @can('upload violations')
+                <a href="{{url('violation/upload')}}" class="btn btn-secondary">Upload</a>
+                @endcan
             </div>
         </div>
     </div>

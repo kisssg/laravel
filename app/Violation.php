@@ -22,6 +22,43 @@ class Violation extends Model
 
     use SoftDeletes;
 
+    protected $fillable = ['channel',
+        'issue_id',
+        'contract_no',
+        'issue_type',
+        'issue',
+        'remark',
+        'cash_collect_amt',
+        'city_en',
+        'region',
+        'name_lli',
+        'employee_id',
+        'name_tl',
+        'name_sv',
+        'lcs',
+        'month_violation',
+        'date_violation',
+        'month_propose_action',
+        'date_propose_action',
+        'month_decided_action',
+        'date_decided_action',
+        'month_executed_disciplinary',
+        'date_executed_disciplinary',
+        'month_verify_disciplinary',
+        'date_verify_disciplinary',
+        'who_detected',
+        'who_proposed_disciplinary',
+        'who_decide_disciplinary',
+        'who_execute_disciplinary',
+        'who_verify_disciplinary',
+        'source',
+        'harassment_type',
+        'punishment_proposed',
+        'punishment_decided',
+        'comment',
+        'month_belong',
+    ];
+
     public function issue()
     {
         return $this->belongsTo('App\Issue');
