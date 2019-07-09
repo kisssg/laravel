@@ -8,7 +8,9 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use Notifiable,HasRoles;
+
+    use Notifiable,
+        HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -36,7 +38,15 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    public function hasManyArticles(){
-    	return $this->hasMany('App\Article','user_id','id');
+
+    public function hasManyArticles()
+    {
+        return $this->hasMany('App\Article', 'user_id', 'id');
     }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new Notifications\ResetPasswordNotification($token));
+    }
+
 }

@@ -48,7 +48,7 @@ class IssueController extends Controller
         } catch(\Exception $e){
             return back()->withErrors($e->getMessage());
         }      
-        return url('issue');
+        return redirect('issue');
     }
 
 }
