@@ -9,12 +9,20 @@
                     <button class="btn-default" onclick="javascript:history.back()">返回</button>
                     {{ $issue->issue  }}</div>
                 <div class="card-body">
+
                     <table class='contracts'><tr><td>ID：{{$issue->id}}</td><td>来源：{{$issue->source}}</td></tr>
                         <tr><td>日期：{{$issue->date}}</td><td>合同号：{{$issue->contract_no}}</td></tr>
                         <tr><td>客户姓名：{{$issue->client_name}}</td><td>电话：{{$issue->phone}}</td></tr>
                         <tr><td colspan='2'>投诉对象：{{$issue->object}}</td></tr>
                         <tr><td>城市：{{$issue->city}}</td><td>区域：{{$issue->region}}</td></tr>
-                        <tr><td>催收员：{{$issue->collector}}</td><td>工号：{{$issue->employeeID}}</td></tr>
+                        <tr><td>催收员：{{$issue->collector}}</td><td>工号：
+                                @if($issue->Collector)
+                                <a href="{{url('collector/'.$issue->Collector->id)}}">
+                                {{$issue->employeeID}}</a>
+                                @else
+                                {{$issue->employeeID}}
+                                @endif
+                            </td></tr>
                         <tr><td>困扰类型:{{$issue->harassment_type}}</td>
                             <td>异常类别：{{$issue->issue_type.'->'.$issue->issue}}</td></tr>
                         <tr><td colspan='2'>备注：{{$issue->remark}}</td></tr><tr><td colspan='2'>负责人/部门：{{$issue->responsible_person}}</td></tr>
@@ -25,13 +33,11 @@
                         <tr><td>关闭时间：{{$issue->close_time}}</td><td>关闭操作者：{{$issue->close_person}}</td></tr><tr><td colspan='2'>关闭原因：{{$issue->close_reason}}</td></tr>
                         <tr><td colspan="2"> 
                                 执行的处罚：
-                                @if($issue->hasManyViolations->count())
-                                @foreach($issue->hasManyViolations as $violation)
-                                <span class="badge badge-danger">{{$violation->punishment_decided}}</span><br/>
-                                建议的处罚：{{$violation->punishment_proposed}}<br/>
-                                {{$violation->who_execute_disciplinary.'：'.$violation->comment}}<br/>
-                                <a href="{{url('violation/'.$violation->id)}}">Violation详情</a>
-                                @endforeach
+                                @if($issue->violation)
+                                <span class="badge badge-danger">{{$issue->violation->punishment_decided}}</span><br/>
+                                建议的处罚：{{$issue->violation->punishment_proposed}}<br/>
+                                {{$issue->violation->who_execute_disciplinary.'：'.$issue->violation->comment}}<br/>
+                                <a href="{{url('violation/'.$issue->violation->id)}}">Violation详情</a>
                                 @else
                                 <span class="badge badge-danger">No punishment yet</span>
                                 @endif

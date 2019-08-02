@@ -58,9 +58,13 @@ class Issue extends Model
         return $this->belongsTo('App\User');
     }
 
-    public function hasManyViolations()
+    public function violation()
     {
-        return $this->hasMany('App\Violation', 'issue_id', 'id');
+        return $this->hasOne('App\Violation', 'issue_id', 'id');
     }
+    public function collector(){
+        return $this->belongsTo('App\Collector','employeeID','employee_id');
+    }
+            
 
 }

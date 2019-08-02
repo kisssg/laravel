@@ -11,7 +11,8 @@
  * |
  */
 Auth::routes(['register' => false]);
-Route::get('/', 'HomeController@index')->name('home')->middleware('auth');
+Route::get('/', 'HomeController@index')->middleware('auth');
+Route::get('/home', 'HomeController@index')->middleware('auth');
 Route::group([
     'middleware' => 'auth',
     'namespace' => 'Admin',
@@ -31,7 +32,6 @@ Route::group([
     Route::get('search', 'IssueController@search');
 });
 Route::resource('issue','Issue\IssueController')->middleware('auth');
-
 Route::get('article/{id}', 'ArticleController@show');
 Route::post('comment', 'CommentController@store');
 
@@ -45,3 +45,9 @@ Route::group([
     Route::get('search', 'ViolationController@search');
 });
 Route::resource('violation', 'Violation\ViolationController')->middleware('auth');
+Route::get('test/{date}','Issue\IssueController@generateViolations');
+Route::get('test','Issue\IssueController@test');
+Route::get('collector/upload','CollectorController@upload')->middleware('auth');
+Route::post('collector/import','CollectorController@import')->middleware('auth');
+Route::post('collector/delete','CollectorController@delete')->middleware('auth');
+Route::resource('collector','CollectorController')->middleware('auth');
