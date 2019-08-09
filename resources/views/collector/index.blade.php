@@ -6,6 +6,15 @@
             <div class="card">
                 <div class="card-header">Collectors</div>
                 <div class='card-body' id="content">
+                    <form action="{{ url('collector') }}" method="GET">
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="s" value="{{Request::get('s')}}" placeholder="Search by name of collector...">
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" type="submit">Go
+                                </button>
+                            </span>
+                        </div>
+                    </form>
                     @if($collectors->count())
                     <table class='table'>
                         <thead>
@@ -29,9 +38,6 @@
                             <td>{{$collector->city}}</td>
                             <td>{{$collector->position}}</td>
                             <td>{{$collector->employee_id}}</td>
-<!--                            <td>{{$collector->onboard_date}}</td>
-                            <td>{{$collector->email}}</td>
-                            <td>{{$collector->province}}</td>-->
                             <td>{{$collector->tl}}</td>
                             <td>{{$collector->sv}}</td>
                             <td>{{$collector->manager}}</td>
@@ -42,11 +48,18 @@
                     </table>
                     @endif
                 </div>
-                <div class="card-footer text-right">
-                    {{$collectors->links()}}                    
-                    <button class="btn btn-light" onclick="deleteCollector()">删除</button>
-                    <button class="btn btn-light" onclick="">标记离职</button>
-                    <a class='btn btn-light' href="{{url('collector/create')}}">创建</a>
+                <div class="card-footer">
+                    <div class="row text-right">
+                        {{$collectors->links()}}
+                        <div class="text-right">
+                            <a class="btn btn-light btn-xs" href="{{url('collector/export?s='.Request::get('s'))}}">导出Excel</a>
+                            <a class="btn btn-light btn-xs" href="{{url('collector/upload')}}">Excel上传</a>
+                            <a class='btn btn-light btn-xs' href="{{url('collector/create')}}">添加</a>                    
+                            <button class="btn btn-light btn-xs" onclick="if (confirm('确认删除选择的外催员吗？')) {
+                                        deleteCollector();
+                                    }">删除</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -76,6 +89,7 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+        console.log(args);
         $.post('collector/delete', args, function (data) {
             console.log(data);
         }, 'json');

@@ -2,7 +2,7 @@
 
 namespace App\Imports;
 
-use App\Violation;
+use App\Collector;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
@@ -21,9 +21,30 @@ class ImportCollectors implements ToModel, WithHeadingRow, WithValidation
      */
     public function model(array $row)
     {
-        return new Collector(['name_cn', 'area', 'city', 'position', 'name_en', 'employee_id',
-            'onboard_date', 'email', 'province', 'city_cn', 'tl', 'sv', 'manager', 'type', 'status',
-            'phone_number', 'cfc_hm_id', 'gc_hm_id', 'person_id', 'district',
+        return new Collector(
+                ['name_cn' => $row['name_cn'],
+            'area' => $row['area'],
+            'city' => $row['city'],
+            'position' => $row['position'],
+            'name_en' => $row['name_en'],
+            'employee_id' => $row['employee_id'],
+            'onboard_date' => $row['onboard_date'],
+            'email' => $row['email'],
+            'phone_number' => $row['phone_number'],
+            'cfc_hm_id' => $row['cfc_hm_id'],
+            'gc_hm_id' => $row['gc_hm_id'],
+            'person_id' => $row['person_id'],
+            'district' => $row['district'],
+            'province' => $row['province'],
+            'city_cn' => $row['city_cn'],
+            'tl' => $row['tl'],
+            'sv' => $row['sv'],
+            'manager' => $row['manager'],
+            'last_date' => $row['last_date'],
+            'action_type' => $row['action_type'],
+            'action_reason' => $row['action_reason'],
+            'type' => $row['type'],
+            'status' => $row['status'],
         ]);
     }
 
@@ -32,7 +53,7 @@ class ImportCollectors implements ToModel, WithHeadingRow, WithValidation
         return [
             'name_cn' => "required", 'area' => "required", 'city' => "required", 'position' => "required", 'name_en' => "required", 'employee_id' => "required",
             'onboard_date' => "", 'email' => "email|required", 'province' => "", 'city_cn' => "", 'tl' => "", 'sv' => '', 'manager' => '', 'type' => Rule::in('lli', 'agency'),
-            'status' => Rule::in('intern', 'on-job', 'departured'), 'phone_number' => '', 'cfc_hm_id' => 'required|unique:fc_employees', 'gc_hm_id' => '', 'person_id' => 'unique:fc_employees', 'district' => '',
+            'status' => Rule::in('intern', 'on-job', 'departured'), 'phone_number' => '', 'cfc_hm_id' => 'required|unique:fc_employees', 'gc_hm_id' => '', 'district' => '',
         ];
     }
 

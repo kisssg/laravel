@@ -20,6 +20,7 @@
                 <input type="file" name="file" class="form-control">
                 <br>
                 <button type="submit" class="btn btn-success" id="submitBtn"  >上传</button>
+                <a href="{{url('collector/export?s=下载模板')}}">上传模板</a>
             </form>
             @endcan
         </div>

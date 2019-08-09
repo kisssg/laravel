@@ -3,10 +3,10 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">Issues</div>
+                <div class="card-header">Violations</div>
 
                 <div id="content">
-                    <form action="{{ url('issue/search') }}" method="GET">
+                    <form action="{{ url('violation/search') }}" method="GET">
                         <div class="input-group">
                             <input type="text" class="form-control" name="s" value="{{$search}}" placeholder="Search by name of collector or contract number...">
                             <span class="input-group-btn">
@@ -16,26 +16,25 @@
                         </div>
                     </form>
                     <ul>
-                        <li class="list-inline">{{$issues->total().' records'}}
+                        <li class="list-inline">{{$violations->total().' records'}}
 
-                            @foreach ($issues as $issue)
+                            @foreach ($violations as $violation)
                         <li class='list-group' style="margin: 30px;">
-                            <div class="title row">
-                                <div><span class='badge {{$issue->result=="无效"?'badge-secondary':'badge-primary'}}'>{{$issue->result}}</span></div>
-                                <a href="{{ url('issue/'.$issue->id) }}">
-                                    <h4>{{ $issue->contract_no.'-'.$issue->issue.'-'.$issue->collector  }}</h4>
+                            <div class="title row">                                
+                                <a href="{{ url('violation/'.$violation->id) }}">
+                                    <h4>{{ $violation->contract_no.'-'.$violation->issue.'-'.$violation->punishment_decided  }}</h4>
                                 </a>
                             </div>
                             <div class="body">
-                                <p>{{ $issue->remark }}</p>
+                                <p>{{ $violation->remark }}</p>
                             </div>
                         </li> 
                         @endforeach
                     </ul>
                 </div>
-                <div class='card-footer'><div class="row">{{$issues->links()}}
+                <div class='card-footer'><div class="row">{{$violations->links()}}
                         @if($search)
-                        <div> <a class="btn btn-primary" href="{{url('issue/search?s='.$search.'&e=1')}}">导出excel</a>
+                        <div> <a class="btn btn-primary" href="{{url('violation/search?s='.$search.'&e=1')}}">导出excel</a></li>
                         </div>
                         @endif
                     </div>

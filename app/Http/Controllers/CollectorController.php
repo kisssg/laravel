@@ -7,13 +7,23 @@ use App\Collector;
 use Illuminate\Validation\Rule;
 use App\Imports\ImportCollectors;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Traits\ExcelHandle;
 
 class CollectorController extends Controller
 {
 
+    use ExcelHandle;
+
+    protected $excelTitle = ['id', 'name_cn', 'area', 'city', 'position', 'name_en', 'employee_id',
+        'onboard_date', 'email', 'phone_number', 'cfc_hm_id', 'gc_hm_id', 'person_id', 'district',
+        'province', 'city_cn', 'tl', 'sv', 'manager', 'last_date', 'action_type', 'action_reason',
+        'type', 'status', 'created_at', 'updated_at', 'deleted_at',
+    ];
+
     public function index()
     {
-        return view('collector.index')->withCollectors(Collector::paginate(30));
+        $key = \Request::get('s');
+        return view('collector.index')->withCollectors(Collector::where("name_cn", "like", "%" . $key . "%")->paginate(30)->appends(['s' => $key]));
     }
 
     public function show($id)
@@ -23,7 +33,7 @@ class CollectorController extends Controller
 
     public function create()
     {
-        return view('collector.create')->withCollector(Collector::findOrFail(88004)->only(['name_cn', 'area', 'city', 'position', 'name_en', 'employee_id',
+        return view('collector.create')->withCollector(Collector::findOrFail(1)->only(['name_cn', 'area', 'city', 'position', 'name_en', 'employee_id',
                             'onboard_date', 'email', 'province', 'city_cn', 'tl', 'sv', 'manager', 'type', 'status',
                             'phone_number', 'cfc_hm_id', 'gc_hm_id', 'person_id', 'district',
         ]));
@@ -35,7 +45,8 @@ class CollectorController extends Controller
         $rules = ['name_en' => 'required|min:3',
             'type' => Rule::in('lli', 'agency'),
             'status' => Rule::in('on-job', 'intern', 'departured'),
-            'email' => 'email'
+            'email' => 'email',
+            'employee_id' => 'unique:fc_employees'
         ];
         $this->validate($request, $rules);
         if (Collector::create($request->only(['name_cn', 'area', 'city', 'position', 'name_en', 'employee_id',
@@ -75,7 +86,6 @@ class CollectorController extends Controller
         }
         else
         {
-
             return redirect()->back()->withErrors();
         }
     }
@@ -99,13 +109,31 @@ class CollectorController extends Controller
         }
         return redirect('collector');
     }
-    public function delete(Request $request){
-        $ids=$request->input('ids');
-        foreach($ids as $id){
-            $collector=Collector::findOrfail($id);
+
+    public function export()
+    {
+        $key=\Request::get('s');
+        $data=Collector::where("name_cn","like","%".$key."%")->get()->toArray();
+        return $this->arrayToExcel($data,'collectors',$this->excelTitle,"A2");
+    }
+
+    public function delete(Request $request)
+    {
+        $ids = $request->input('ids');
+        if ($ids == null)
+        {
+            return json_encode($ids);
+        }
+        foreach ($ids as $id)
+        {
+            $collector = Collector::findOrFail($id);
             $collector->delete();
         }
         return json_encode($ids);
     }
     
+    public function overview($id){
+        return view('collector.overview')->withCollector(Collector::findOrFail($id));
+    }
+
 }

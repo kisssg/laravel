@@ -53,18 +53,14 @@ class Issue extends Model
         'uploader',
     ];
 
-    public function user()
+    public function collector()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\Collector', 'employeeID', 'employee_id');
     }
 
     public function violation()
     {
         return $this->hasOne('App\Violation', 'issue_id', 'id');
     }
-    public function collector(){
-        return $this->belongsTo('App\Collector','employeeID','employee_id');
-    }
-            
 
 }

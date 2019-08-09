@@ -48,6 +48,8 @@ Route::resource('violation', 'Violation\ViolationController')->middleware('auth'
 Route::get('test/{date}','Issue\IssueController@generateViolations');
 Route::get('test','Issue\IssueController@test');
 Route::get('collector/upload','CollectorController@upload')->middleware('auth');
+Route::get('collector/export','CollectorController@export')->middleware('auth');
 Route::post('collector/import','CollectorController@import')->middleware('auth');
 Route::post('collector/delete','CollectorController@delete')->middleware('auth');
 Route::resource('collector','CollectorController')->middleware('auth');
+Route::get('overview/{id}','CollectorController@overview')->middleware('auth');
