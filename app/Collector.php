@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Collector extends Model
 {
@@ -37,7 +38,7 @@ class Collector extends Model
                         ->groupBy('id_employee');
     }
 
-    public function getFcCameraScoresAttribute()
+    public function getFcCameraScoresCountAttribute()
     {
         if (!array_key_exists('fcCameraScoresCount', $this->relations))
         {
@@ -88,7 +89,7 @@ class Collector extends Model
     public static function boot()
     {
         static::deleting(function($collector) {
-            $collector->name_en = 'deleted';
+            $collector->edit_log = 'deleted by '.Auth::user()->name;
             $collector->save();
         });
         parent::boot();

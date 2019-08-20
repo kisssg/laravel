@@ -42,7 +42,8 @@
                             <td>{{$collector->sv}}</td>
                             <td>{{$collector->manager}}</td>
                             <td>{{$collector->type}}</td>
-                            <td><a href='{{url("collector/".$collector->id)}}'>Detail...</a></td>
+                            <td><a href='{{url("collector/".$collector->id)}}'>Info</a>
+                                <a href='{{url('overview/'.$collector->id)}}'>Quality</a></td>
                         </tr>
                         @endforeach
                     </table>
