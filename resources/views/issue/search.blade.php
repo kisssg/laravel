@@ -22,7 +22,7 @@
                         <li class='list-group' style="margin: 30px;">
                             <div class="title row">
                                 <div><span class='badge {{$issue->result=="无效"?'badge-secondary':'badge-primary'}}'>{{$issue->result}}</span></div>
-                                <a href="{{ url('issue/detail/'.$issue->id) }}">
+                                <a href="{{ url('issue/'.$issue->id) }}">
                                     <h4>{{ $issue->contract_no.'-'.$issue->issue.'-'.$issue->collector  }}</h4>
                                 </a>
                             </div>
@@ -35,7 +35,7 @@
                 </div>
                 <div class='card-footer'><div class="row">{{$issues->links()}}
                         @if($search)
-                        <div> <a class="btn btn-primary" href="{{url('issue/search?s='.$search.'&e=1')}}">导出excel</a></li>
+                        <div> <a class="btn btn-primary" href="{{url('issue/search?s='.$search.'&e=1')}}">导出excel</a>
                         </div>
                         @endif
                     </div>

@@ -21,10 +21,6 @@ class ImportViolations implements ToModel, WithHeadingRow, WithValidation
      */
     public function model(array $row)
     {
-        if (!isset($row['channel']) || !array_key_exists("channel", $row))
-        {
-            throw new \Exception('确认列channel是否存在');
-        }
         return new Violation([
             'channel' => $row['channel'],
             'issue_id' => $row['issue_id'],
@@ -76,11 +72,10 @@ class ImportViolations implements ToModel, WithHeadingRow, WithValidation
     public function customValidationMessages()
     {
         return [
-            'issue_id.required' => 'issue_id不能为空',
-            'issue_id.unique' => 'issue_id已存在',
-            'issue_id.max' => 'issue_id长度不能超过:max',
-            'channel.in' => 'channel需为Field或Agency',
-            'month_belong.required' => '所属月份必须填写',
+            '*.required' => ':attribute不能为空',
+            '*.unique' => ':attribute已存在',
+            '*.max' => ':attribute长度不能超过:max',
+            '*.in' => ':attribute不在可选项内：:values',
             'month_belong.between' => '所属月份格式为:yyyymm 如:201906'
         ];
     }

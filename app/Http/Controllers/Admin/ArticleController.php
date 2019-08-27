@@ -45,7 +45,7 @@ class ArticleController extends Controller
         }
         else
         {
-            return redirect()->back()->withInput()->withErrors('保存失败！');
+            return  redirect()->back()->withInput()->withErrors('保存失败！');
         }
     }
 

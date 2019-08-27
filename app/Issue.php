@@ -24,14 +24,52 @@ class Issue extends Model
     use ExcelHandle;
 
     protected $table = 'fc_issue';
+    protected $fillable = [
+        'date',
+        'contract_no',
+        'client_name',
+        'phone',
+        'object',
+        'city',
+        'region',
+        'collector',
+        'employeeID',
+        'issue_type',
+        'issue',
+        'remark',
+        'responsible_person',
+        'feedback',
+        'qc_name',
+        'result',
+        'close_reason',
+        'callback_id',
+        'add_time',
+        'feedback_person',
+        'close_person',
+        'close_time',
+        'edit_log',
+        'source',
+        'harassment_type',
+        'uploader',
+    ];
 
-    public function user()
+    public function collector()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\Collector', 'employeeID', 'employee_id');
     }
 
-    public function hasManyViolations()
+    public function violation()
     {
-        return $this->hasMany('App\Violation', 'issue_id', 'id');
+        return $this->hasOne('App\Violation', 'issue_id', 'id');
     }
+    public static function boot()
+    {
+        static::deleting(function($issue) {
+            $issue->edit_log = 'deleted by '.Auth::user()->name;
+            $issue->result='失误添加';
+            $issue->save();
+        });
+        parent::boot();
+    }
+
 }

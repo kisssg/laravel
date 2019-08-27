@@ -9,7 +9,7 @@
                     <button class="btn-default" onclick="history.back()">返回</button>
                     {{ $violation->issue.' '.$violation->punishment_decided  }}</div>
                 <div class="card-body">
-                    <table class='contracts'><tr><td>ID：{{$violation->id}}</td><td><a href="{{url('issue/detail/'.$violation->Issue->id)}}">查看Issue</a></td></tr>
+                    <table class='contracts'><tr><td>ID：{{$violation->id}}</td><td><a href="{{url('issue/'.$violation->Issue->id)}}">查看Issue</a></td></tr>
                         <tr><td>提出月份：{{$violation->month_belong}}</td><td>合同号：{{$violation->contract_no}}</td></tr>                        
                         <tr><td colspan='2'>Channel：{{$violation->channel}}</td></tr>
                         <tr><td>City：{{$violation->city_en}}</td><td>Region：{{$violation->region}}</td></tr>
