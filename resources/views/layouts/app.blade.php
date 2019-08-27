@@ -10,7 +10,7 @@
     <title>{{ config('app.name', 'Blog') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js?t=1') }}" defer></script>
+    <script src="{{ asset('js/app.js?t=7') }}" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">

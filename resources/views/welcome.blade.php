@@ -44,7 +44,9 @@
             </div>
         </div>
         @endcan
-        
+        <search-box></search-box>
+        <welcome></welcome>
+
     </div>
 </div>
 @endsection

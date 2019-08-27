@@ -62,5 +62,14 @@ class Issue extends Model
     {
         return $this->hasOne('App\Violation', 'issue_id', 'id');
     }
+    public static function boot()
+    {
+        static::deleting(function($issue) {
+            $issue->edit_log = 'deleted by '.Auth::user()->name;
+            $issue->result='失误添加';
+            $issue->save();
+        });
+        parent::boot();
+    }
 
 }

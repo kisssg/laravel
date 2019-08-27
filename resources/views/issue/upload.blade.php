@@ -17,7 +17,7 @@
                   onSubmit="btn = document.getElementById('submitBtn');btn.disabled = true;btn.innerText = '上传中...'"
                   enctype="multipart/form-data">
                 {{ csrf_field() }}
-                <input type="file" name="file" class="form-control">
+                <input type="file" name="file" accept=".xlsx" class="form-control">
                 <br>
                 <button type="submit" class="btn btn-success" id="submitBtn"  >上传</button>
             </form>
