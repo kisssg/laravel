@@ -352,7 +352,7 @@ class ViolationController extends Controller
             return back()->withInput()->withErrors('已超过反馈提交期限，如需提交或修改请申请新的链接。');
         }
         $violation = Violation::findOrFail($violation_id);
-        if($violation->status != 'proposed'){
+        if($violation->status != 'proposed' &&  $violation->status != 'rm approved'){
             return back()->withInput()->withErrors('后续流程已经执行，或者建议的处罚还没有设置。');
         }
         $violation->region_manager_comment = $request->get('feedback');
