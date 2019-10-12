@@ -29,6 +29,7 @@
         "@babel/polyfill": "^7.6.0",
         "babel-polyfill": "^6.26.0",
         "npm-watch": "^0.6.0",
+        "set-value": "^2.0.1",
         "vue-router": "^3.1.2",
         "vue-select": "^3.2.0",
         "webpack": "^4.39.2"
