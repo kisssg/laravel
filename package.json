@@ -26,8 +26,11 @@
     },
     "dependencies": {
         "3": "^2.1.0",
+        "@babel/polyfill": "^7.6.0",
+        "babel-polyfill": "^6.26.0",
         "npm-watch": "^0.6.0",
         "vue-router": "^3.1.2",
+        "vue-select": "^3.2.0",
         "webpack": "^4.39.2"
     }
 }

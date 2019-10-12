@@ -33,7 +33,7 @@ class CollectorController extends Controller
 
     public function create()
     {
-        return view('collector.create')->withCollector(Collector::findOrFail(1)->only(['name_cn', 'area', 'city', 'position', 'name_en', 'employee_id',
+        return view('collector.create')->withCollector(Collector::findOrFail(2603)->only(['name_cn', 'area', 'city', 'position', 'name_en', 'employee_id',
                             'onboard_date', 'email', 'province', 'city_cn', 'tl', 'sv', 'manager', 'type', 'status',
                             'phone_number', 'cfc_hm_id', 'gc_hm_id', 'person_id', 'district',
         ]));

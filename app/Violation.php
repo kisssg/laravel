@@ -57,11 +57,24 @@ class Violation extends Model
         'punishment_decided',
         'comment',
         'month_belong',
+        "punishment_evidence",
+        "bonus_reduction",
+        "action_level",
+        "evidence_id"
     ];
 
     public function issue()
     {
         return $this->belongsTo('App\Issue');
+    }
+
+    /**
+     * 
+     * @return type
+     */
+    public function evidence()
+    {
+        return $this->belongsTo('App\Evidence');
     }
 
 }
