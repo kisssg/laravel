@@ -4,9 +4,9 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">Collectors</div>
+                <div class="card-header">Camera scores</div>
                 <div class='card-body' id="content">
-                    <form action="{{ url('collector') }}" method="GET">
+                    <form action="{{ url('camera') }}" method="GET">
                         <div class="input-group">
                             <input type="text" class="form-control" name="s" value="{{Request::get('s')}}" placeholder="Search by name of collector...">
                             <span class="input-group-btn">
@@ -15,7 +15,7 @@
                             </span>
                         </div>
                     </form>
-                    @if($collectors->count())
+                    @if($cameras->count())
                     <table class='table'>
                         <thead>
                         <th><input onclick='switch_check_all(this);' type='checkbox' />Name EN</th>
@@ -30,20 +30,20 @@
                         <th>Type</th>
                         <th>Action</th>
                         </thead>
-                        @foreach($collectors as $collector)
+                        @foreach($cameras as $camera)
                         <tr>
-                            <td><input name='checkbox_lli' type='checkbox' value='{{$collector->id}}'/>{{$collector->name_en}}</td>
-                            <td>{{$collector->name_cn}}</td>
-                            <td>{{$collector->area}}</td>
-                            <td>{{$collector->city}}</td>
-                            <td>{{$collector->position}}</td>
-                            <td>{{$collector->employee_id}}</td>
-                            <td>{{$collector->tl}}</td>
-                            <td>{{$collector->sv}}</td>
-                            <td>{{$collector->manager}}</td>
-                            <td>{{$collector->type}}</td>
-                            <td><a href='{{url("collector/".$collector->id)}}'>Info</a>
-                                <a href='{{url('overview/'.$collector->id)}}'>Quality</a></td>
+                            <td><input name='checkbox_lli' type='checkbox' value='{{$camera->id}}'/>{{$camera->NAME_COLLECTOR}}</td>
+                            <td>{{$camera->ID_EMPLOYEE}}</td>
+                            <td>{{$camera->area}}</td>
+                            <td>{{$camera->city}}</td>
+                            <td>{{$camera->position}}</td>
+                            <td>{{$camera->employee_id}}</td>
+                            <td>{{$camera->tl}}</td>
+                            <td>{{$camera->sv}}</td>
+                            <td>{{$camera->manager}}</td>
+                            <td>{{$camera->type}}</td>
+                            <td><a href='{{url("collector/".$camera->id)}}'>Info</a>
+                                <a href='{{url('overview/'.$camera->id)}}'>Quality</a></td>
                         </tr>
                         @endforeach
                     </table>
@@ -51,11 +51,11 @@
                 </div>
                 <div class="card-footer">
                     <div class="row text-right">
-                        {{$collectors->links()}}
+                        {{$cameras->links()}}
                         <div class="text-right">
-                            <a class="btn btn-light btn-xs" href="{{url('collector/export?s='.Request::get('s'))}}">导出Excel</a>
-                            <a class="btn btn-light btn-xs" href="{{url('collector/upload')}}">Excel上传</a>
-                            <a class='btn btn-light btn-xs' href="{{url('collector/create')}}">添加</a>                    
+                            <a class="btn btn-light btn-xs" href="{{url('camera/export?s='.Request::get('s'))}}">导出Excel</a>
+                            <a class="btn btn-light btn-xs" href="{{url('camera/upload')}}">Excel上传</a>
+                            <a class='btn btn-light btn-xs' href="{{url('camera/create')}}">添加</a>                    
                             <button class="btn btn-light btn-xs" onclick="if (confirm('确认删除选择的外催员吗？')) {
                                         deleteCollector();
                                     }">删除</button>
@@ -90,6 +90,7 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+        console.log(args);
         $.post('collector/delete', args, function (data) {
             console.log(data);
         }, 'json');

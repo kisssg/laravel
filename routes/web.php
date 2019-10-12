@@ -22,6 +22,7 @@ Route::group([
     Route::resource('articles', 'ArticleController');
     Route::resource('comments', 'CommentController');
 });
+Route::get('issue/issues',"Issue\IssueController@issues");
 Route::group([
     'middleware' => 'auth',
     'namespace' => 'Issue',
@@ -31,25 +32,32 @@ Route::group([
     Route::post('import', 'IssueController@import');
     Route::get('search', 'IssueController@search');
 });
-Route::resource('issue','Issue\IssueController')->middleware('auth');
+Route::resource('issue', 'Issue\IssueController')->middleware('auth');
 Route::get('article/{id}', 'ArticleController@show');
 Route::post('comment', 'CommentController@store');
 
+Route::post('violation/feedback/{id}', 'Violation\ViolationController@feedbackStore');
 Route::group([
     'namespace' => 'Violation',
     'prefix' => 'violation',
     'middleware' => 'auth',
         ], function() {
     Route::get('upload', 'ViolationController@upload');
-    Route::post('import','ViolationController@import');
+    Route::post('import', 'ViolationController@import');
     Route::get('search', 'ViolationController@search');
 });
+Route::post('violation/generate', 'Issue\IssueController@generateViolations')->middleware('auth');
+Route::post('violation/propose', 'Violation\ViolationController@proposePunishment')->middleware('auth');
+Route::post('violation/set/email', 'Violation\ViolationController@setEmail')->middleware('auth');
+Route::get('violation/sendlink/{email}/{id}', 'Violation\ViolationController@sendFeedbackLink')->middleware('auth');
+Route::post('violation/sendlinks','Violation\ViolationController@sendFeedbackLinks')->middleware('auth');
 Route::resource('violation', 'Violation\ViolationController')->middleware('auth');
-Route::get('test/{date}','Issue\IssueController@generateViolations');
-Route::get('test','Issue\IssueController@test');
-Route::get('collector/upload','CollectorController@upload')->middleware('auth');
-Route::get('collector/export','CollectorController@export')->middleware('auth');
-Route::post('collector/import','CollectorController@import')->middleware('auth');
-Route::post('collector/delete','CollectorController@delete')->middleware('auth');
-Route::resource('collector','CollectorController')->middleware('auth');
-Route::get('overview/{id}','CollectorController@overview')->middleware('auth');
+Route::get('collector/upload', 'CollectorController@upload')->middleware('auth');
+Route::get('collector/export', 'CollectorController@export')->middleware('auth');
+Route::post('collector/import', 'CollectorController@import')->middleware('auth');
+Route::post('collector/delete', 'CollectorController@delete')->middleware('auth');
+Route::resource('collector', 'CollectorController')->middleware('auth');
+Route::get('overview/{id}', 'CollectorController@overview')->middleware('auth');
+Route::get('confirm-violation/{id}/{token}', 'Violation\ViolationController@feedback');
+Route::resource('camera',"FcCameraScoreController")->middleware('auth');
+

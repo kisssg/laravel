@@ -6,19 +6,20 @@
             <div class="card" >
 
                 <div class="card-header">
-                    <button class="btn-default" onclick="history.back()">返回</button>
-                    {{ $violation->issue.' '.$violation->punishment_decided  }}</div>
+                    <button class="btn-default" onclick="window.history.go(-1);">返回</button>
+                    {{ $violation->Issue->issue.' '.$violation->punishment_decided  }}</div>
                 <div class="card-body">
-                    <table class='contracts'><tr><td>ID：{{$violation->id}}</td><td><a href="{{url('issue/'.$violation->Issue->id)}}">查看Issue</a></td></tr>
+                    <table class='table'><tr><td>ID：{{$violation->id}}</td><td><a href="{{url('issue/'.$violation->Issue->id)}}">查看Issue</a></td></tr>
                         <tr><td>提出月份：{{$violation->month_belong}}</td><td>合同号：{{$violation->contract_no}}</td></tr>                        
                         <tr><td colspan='2'>Channel：{{$violation->channel}}</td></tr>
                         <tr><td>City：{{$violation->city_en}}</td><td>Region：{{$violation->region}}</td></tr>
-                        <tr><td>催收员：{{$violation->name_lli}}</td><td>工号：{{$violation->employee_id}}</td></tr>
+                        <tr><td>催收员：{{$violation->name_collector}}</td><td>工号：{{$violation->employee_id}}</td></tr>
                         <tr><td>困扰类型:{{$violation->harassment_type}}</td>
-                            <td>异常类别：{{$violation->issue_type.'->'.$violation->issue}}</td></tr>
-                        <tr><td colspan='2'>备注：{{$violation->remark}}</td></tr>
+                            <td>异常类别：{{$violation->Issue->issue_type.'->'.$violation->Issue->issue}}</td></tr>
+                        <tr><td colspan='2'>备注：{{$violation->Issue->remark}}</td></tr>
+                        <tr><td colspan='2'>反馈：{{$violation->Issue->feedback}}</td></tr>
                         <tr><td>违规日期：{{$violation->month_violation.' '.$violation->date_violation}}</td>
-                            <td>发现违规的人：{{$violation->who_detected}}</td>
+                            <td>发现违规的ＱＣ：{{$violation->who_detected}}</td>
                         </tr>
                         <tr><td colspan='2'>建议的处罚：{{$violation->punishment_proposed}}</td></tr>
                         <tr>
@@ -39,7 +40,7 @@
                     </table>
                 </div>
                 <div class="card-footer">
-                    <button class="btn-default" onclick="history.back()">返回</button>
+                    <button class="btn-default" onclick="window.history.go(-1);">返回</button>
                 </div>
             </div>
         </div>
