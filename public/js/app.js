@@ -1384,7 +1384,7 @@ module.exports = function spread(callback) {
 
 
 var bind = __webpack_require__(/*! ./helpers/bind */ "./node_modules/axios/lib/helpers/bind.js");
-var isBuffer = __webpack_require__(/*! is-buffer */ "./node_modules/is-buffer/index.js");
+var isBuffer = __webpack_require__(/*! is-buffer */ "./node_modules/axios/node_modules/is-buffer/index.js");
 
 /*global toString:true*/
 
@@ -1688,6 +1688,28 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./node_modules/axios/node_modules/is-buffer/index.js":
+/*!************************************************************!*\
+  !*** ./node_modules/axios/node_modules/is-buffer/index.js ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/*!
+ * Determine if an object is a Buffer
+ *
+ * @author   Feross Aboukhadijeh <https://feross.org>
+ * @license  MIT
+ */
+
+module.exports = function isBuffer (obj) {
+  return obj != null && obj.constructor != null &&
+    typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj)
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Issues.vue?vue&type=script&lang=js&":
 /*!*****************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Issues.vue?vue&type=script&lang=js& ***!
@@ -1703,7 +1725,36 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['id'],
+  data: function data() {
+    return {
+      collector: null
+    };
+  },
+  watch: {
+    id: function id(newValue, oldValue) {
+      console.log('watch' + newValue);
+      this.showLLI(newValue, this);
+    }
+  },
+  methods: {
+    showLLI: function showLLI(id, vm) {
+      axios.get('/collector/get?id=' + id).then(function (res) {
+        console.log(res.data[0]);
+        vm.collector = res.data[0];
+      });
+    }
+  }
+});
 
 /***/ }),
 
@@ -7824,7 +7875,7 @@ module.exports = function (NAME, wrapper, methods, common, IS_MAP, IS_WEAK) {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-var core = module.exports = { version: '2.6.9' };
+var core = module.exports = { version: '2.6.10' };
 if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
 
 
@@ -17376,28 +17427,6 @@ function toComment(sourceMap) {
 
 /***/ }),
 
-/***/ "./node_modules/is-buffer/index.js":
-/*!*****************************************!*\
-  !*** ./node_modules/is-buffer/index.js ***!
-  \*****************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-/*!
- * Determine if an object is a Buffer
- *
- * @author   Feross Aboukhadijeh <https://feross.org>
- * @license  MIT
- */
-
-module.exports = function isBuffer (obj) {
-  return obj != null && obj.constructor != null &&
-    typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj)
-}
-
-
-/***/ }),
-
 /***/ "./node_modules/jquery/dist/jquery.js":
 /*!********************************************!*\
   !*** ./node_modules/jquery/dist/jquery.js ***!
@@ -17406,7 +17435,7 @@ module.exports = function isBuffer (obj) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
- * jQuery JavaScript Library v3.4.1
+ * jQuery JavaScript Library v3.4.0
  * https://jquery.com/
  *
  * Includes Sizzle.js
@@ -17416,7 +17445,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
  * Released under the MIT license
  * https://jquery.org/license
  *
- * Date: 2019-05-01T21:04Z
+ * Date: 2019-04-10T19:48Z
  */
 ( function( global, factory ) {
 
@@ -17549,7 +17578,7 @@ function toType( obj ) {
 
 
 var
-	version = "3.4.1",
+	version = "3.4.0",
 
 	// Define a local copy of jQuery
 	jQuery = function( selector, context ) {
@@ -21905,12 +21934,8 @@ var documentElement = document.documentElement;
 		},
 		composed = { composed: true };
 
-	// Support: IE 9 - 11+, Edge 12 - 18+, iOS 10.0 - 10.2 only
 	// Check attachment across shadow DOM boundaries when possible (gh-3504)
-	// Support: iOS 10.0-10.2 only
-	// Early iOS 10 versions support `attachShadow` but not `getRootNode`,
-	// leading to errors. We need to check for `getRootNode`.
-	if ( documentElement.getRootNode ) {
+	if ( documentElement.attachShadow ) {
 		isAttached = function( elem ) {
 			return jQuery.contains( elem.ownerDocument, elem ) ||
 				elem.getRootNode( composed ) === elem.ownerDocument;
@@ -22770,7 +22795,8 @@ jQuery.event = {
 
 				// Claim the first handler
 				if ( rcheckableType.test( el.type ) &&
-					el.click && nodeName( el, "input" ) ) {
+					el.click && nodeName( el, "input" ) &&
+					dataPriv.get( el, "click" ) === undefined ) {
 
 					// dataPriv.set( el, "click", ... )
 					leverageNative( el, "click", returnTrue );
@@ -22787,7 +22813,8 @@ jQuery.event = {
 
 				// Force setup before triggering a click
 				if ( rcheckableType.test( el.type ) &&
-					el.click && nodeName( el, "input" ) ) {
+					el.click && nodeName( el, "input" ) &&
+					dataPriv.get( el, "click" ) === undefined ) {
 
 					leverageNative( el, "click" );
 				}
@@ -22828,9 +22855,7 @@ function leverageNative( el, type, expectSync ) {
 
 	// Missing expectSync indicates a trigger call, which must force setup through jQuery.event.add
 	if ( !expectSync ) {
-		if ( dataPriv.get( el, type ) === undefined ) {
-			jQuery.event.add( el, type, returnTrue );
-		}
+		jQuery.event.add( el, type, returnTrue );
 		return;
 	}
 
@@ -22845,13 +22870,9 @@ function leverageNative( el, type, expectSync ) {
 			if ( ( event.isTrigger & 1 ) && this[ type ] ) {
 
 				// Interrupt processing of the outer synthetic .trigger()ed event
-				// Saved data should be false in such cases, but might be a leftover capture object
-				// from an async native handler (gh-4350)
-				if ( !saved.length ) {
+				if ( !saved ) {
 
 					// Store arguments for use when handling the inner native event
-					// There will always be at least one argument (an event object), so this array
-					// will not be confused with a leftover capture object.
 					saved = slice.call( arguments );
 					dataPriv.set( this, type, saved );
 
@@ -22864,14 +22885,14 @@ function leverageNative( el, type, expectSync ) {
 					if ( saved !== result || notAsync ) {
 						dataPriv.set( this, type, false );
 					} else {
-						result = {};
+						result = undefined;
 					}
 					if ( saved !== result ) {
 
 						// Cancel the outer synthetic event
 						event.stopImmediatePropagation();
 						event.preventDefault();
-						return result.value;
+						return result;
 					}
 
 				// If this is an inner synthetic event for an event with a bubbling surrogate
@@ -22886,19 +22907,17 @@ function leverageNative( el, type, expectSync ) {
 
 			// If this is a native event triggered above, everything is now in order
 			// Fire an inner synthetic event with the original arguments
-			} else if ( saved.length ) {
+			} else if ( saved ) {
 
 				// ...and capture the result
-				dataPriv.set( this, type, {
-					value: jQuery.event.trigger(
+				dataPriv.set( this, type, jQuery.event.trigger(
 
-						// Support: IE <=9 - 11+
-						// Extend with the prototype to reset the above stopImmediatePropagation()
-						jQuery.extend( saved[ 0 ], jQuery.Event.prototype ),
-						saved.slice( 1 ),
-						this
-					)
-				} );
+					// Support: IE <=9 - 11+
+					// Extend with the prototype to reset the above stopImmediatePropagation()
+					jQuery.extend( saved.shift(), jQuery.Event.prototype ),
+					saved,
+					this
+				) );
 
 				// Abort handling of the native event
 				event.stopImmediatePropagation();
@@ -28029,7 +28048,7 @@ return jQuery;
   var undefined;
 
   /** Used as the semantic version number. */
-  var VERSION = '4.17.15';
+  var VERSION = '4.17.13';
 
   /** Used as the size to enable large array optimizations. */
   var LARGE_ARRAY_SIZE = 200;
@@ -48764,18 +48783,41 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c(
+    "div",
+    {
+      staticClass: "card",
+      staticStyle: { "max-width": "15rem", "min-width": "15rem" }
+    },
+    [
+      _c("div", { staticClass: "card-header" }, [_vm._v("Collector info")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-body" }, [
+        _vm._v(
+          "\n " +
+            _vm._s(_vm.collector.name_cn) +
+            "\n " +
+            _vm._s(_vm.collector.name_en)
+        ),
+        _c("br"),
+        _vm._v("\n 工号：" + _vm._s(_vm.collector.employee_id)),
+        _c("br"),
+        _vm._v("\n Homer:" + _vm._s(_vm.collector.cfc_hm_id)),
+        _c("br"),
+        _vm._v(
+          "\n 区域城市:" +
+            _vm._s(_vm.collector.area + " " + _vm.collector.city) +
+            " "
+        ),
+        _c("br"),
+        _vm._v("     \n " + _vm._s(_vm.collector.email) + "\n        ")
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-footer" })
+    ]
+  )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "flex-center position-ref full-height" }, [
-      _c("div", { staticClass: "content" })
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -61054,8 +61096,10 @@ Vue.component('issues', _components_Issues_vue__WEBPACK_IMPORTED_MODULE_1__["def
 var app = new Vue({
   el: '#app',
   data: {
-    value: 'This is afasfasdfs',
     options: ['输入关键字'],
+    collectors: ['输入催收员英文姓名', 'input english name'],
+    name_en: '',
+    selectedCollector: '',
     selectedIssue: '',
     channel: '',
     statusValue: '',
@@ -61071,7 +61115,7 @@ var app = new Vue({
         this.combine += "[channel:" + this.channel + "]";
       }
 
-      if (this.selectedIssue !== '') {
+      if (this.selectedIssue) {
         this.combine += "[issue:" + this.selectedIssue + "]";
       }
 
@@ -61094,15 +61138,25 @@ var app = new Vue({
       console.log(this.combine);
       window.location = '/violation/search?s=' + encodeURIComponent(this.combine);
     },
+    fetchCollectors: function fetchCollectors(search, loading) {
+      loading(true);
+      this.searchCollectors(loading, search, this);
+    },
+    searchCollectors: _.debounce(function (loading, search, vm) {
+      if (search.length < 3) {
+        loading(false);
+        return;
+      }
+
+      axios.get('/collector/search?s=' + search).then(function (res) {
+        vm.collectors = res.data;
+        console.log(res.data);
+        loading(false);
+      });
+    }, 350),
     fetchOptions: function fetchOptions(search, loading) {
       loading(true);
       this.search(loading, search, this);
-    },
-    searchFunction: function searchFunction(loading, search, vm) {
-      axios.get("/issue/issues").then(function (response) {
-        vm.options = response.data;
-        loading(false);
-      });
     },
     search: _.debounce(function (loading, search, vm) {
       axios.get("/issue/issues").then(function (res) {
@@ -61111,7 +61165,33 @@ var app = new Vue({
         vm.options = res.data;
         loading(false);
       });
-    }, 350)
+    }, 350),
+    queryString: function queryString(item) {
+      var svalue = location.search.match(new RegExp("[\?\&]" + item + "=([^\&]*)(\&?)", "i"));
+      return svalue ? svalue[1] : svalue;
+    }
+  },
+  mounted: function mounted(combine, issuep, issuem, collectorp, collectorm, rangem, rangep, channelp, channelm, statusp, statusm, contract_nop, contract_nom) {
+    combine = decodeURIComponent(this.queryString('s'));
+    issuep = /\[issue:(.+?)\]/g;
+    issuem = issuep.exec(combine);
+    this.selectedIssue = issuem ? issuem[1] : '';
+    collectorp = /\[collector:(.+?)\]/g;
+    collectorm = collectorp.exec(combine);
+    this.collector = collectorm ? collectorm[1] : '';
+    rangep = /\[range\:(\d{4}\-\d{2}\-\d{2})\s(\d{4}\-\d{2}\-\d{2})\]/g;
+    rangem = rangep.exec(combine);
+    this.range_start = rangem ? rangem[1] : '';
+    this.range_end = rangem ? rangem[2] : '';
+    statusp = /\[status:(.+?)\]/g;
+    channelp = /\[channel:(.+?)\]/g;
+    statusm = statusp.exec(combine);
+    channelm = channelp.exec(combine);
+    this.statusValue = statusm ? statusm[1] : '';
+    this.channel = channelm ? channelm[1] : '';
+    contract_nop = /\[contract_no:(.+?)\]/g;
+    contract_nom = contract_nop.exec(combine);
+    this.contract_no = contract_nom ? contract_nom[1] : '';
   }
 });
 

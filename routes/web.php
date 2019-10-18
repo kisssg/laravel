@@ -56,8 +56,11 @@ Route::get('collector/upload', 'CollectorController@upload')->middleware('auth')
 Route::get('collector/export', 'CollectorController@export')->middleware('auth');
 Route::post('collector/import', 'CollectorController@import')->middleware('auth');
 Route::post('collector/delete', 'CollectorController@delete')->middleware('auth');
+Route::get('collector/search', 'CollectorController@searchCollectors')->middleware('auth');
+Route::get('collector/delete-on-lli','CollectorController@deleteOnjobLLIs');
+Route::get('collector/get','CollectorController@getCollector');
 Route::resource('collector', 'CollectorController')->middleware('auth');
 Route::get('overview/{id}', 'CollectorController@overview')->middleware('auth');
 Route::get('confirm-violation/{id}/{token}', 'Violation\ViolationController@feedback');
 Route::resource('camera',"FcCameraScoreController")->middleware('auth');
-
+Route::get('concentration',"ConcentrationController@index")->middleware('auth');

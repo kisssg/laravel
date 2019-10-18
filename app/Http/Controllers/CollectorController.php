@@ -8,6 +8,7 @@ use Illuminate\Validation\Rule;
 use App\Imports\ImportCollectors;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Traits\ExcelHandle;
+use Illuminate\Support\Arr;
 
 class CollectorController extends Controller
 {
@@ -23,7 +24,10 @@ class CollectorController extends Controller
     public function index()
     {
         $key = \Request::get('s');
-        return view('collector.index')->withCollectors(Collector::where("name_cn", "like", "%" . $key . "%")->paginate(30)->appends(['s' => $key]));
+        return view('collector.index')->withCollectors(Collector::where("name_cn", "like", "%" . $key . "%")
+                                ->orWhere("name_en", "like", "%" . $key . "%")
+                                ->orWhere("employee_id","=",$key)
+                                ->paginate(30)->appends(['s' => $key]));
     }
 
     public function show($id)
@@ -112,9 +116,9 @@ class CollectorController extends Controller
 
     public function export()
     {
-        $key=\Request::get('s');
-        $data=Collector::where("name_cn","like","%".$key."%")->get()->toArray();
-        return $this->arrayToExcel($data,'collectors',$this->excelTitle,"A2");
+        $key = \Request::get('s');
+        $data = Collector::where("name_cn", "like", "%" . $key . "%")->get()->toArray();
+        return $this->arrayToExcel($data, 'collectors', $this->excelTitle, "A2");
     }
 
     public function delete(Request $request)
@@ -131,9 +135,23 @@ class CollectorController extends Controller
         }
         return json_encode($ids);
     }
-    
-    public function overview($id){
+    public function deleteOnjobLLIs(){
+        return Collector::select('name_en')->where("status","on-job")->where('type','lli')->get();
+    }
+
+    public function overview($id)
+    {
         return view('collector.overview')->withCollector(Collector::findOrFail($id));
+    }
+
+    public function searchCollectors(Request $request)
+    {
+        $key = $request->get('s');
+        return Collector::select('name_en','employee_id')->where('name_en', 'like', '%'.$key.'%')->limit(20)->get();
+    }
+    public function getCollector(Request $request){
+        $id=$request->get('id');
+        return Collector::where('employee_id',$id)->get();
     }
 
 }

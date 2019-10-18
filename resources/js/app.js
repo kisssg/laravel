@@ -21,7 +21,7 @@ window.Vue = require('vue');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 Vue.component('v-select', vSelect);
 Vue.component('search-box', require('./components/SearchBox.vue').default);
-Vue.component('issues',issues);
+Vue.component('issues', issues);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -31,24 +31,26 @@ Vue.component('issues',issues);
 const app = new Vue({
     el: '#app',
     data: {
-        value: 'This is afasfasdfs',
         options: ['输入关键字'],
+        collectors: ['输入催收员英文姓名', 'input english name'],
+        name_en: '',
+        selectedCollector: '',
         selectedIssue: '',
-        channel:'',
-        statusValue:'',
-        collector:'',
-        contract_no:'',
-        range_start:'',
-        range_end:'',
-        combine:''
+        channel: '',
+        statusValue: '',
+        collector: '',
+        contract_no: '',
+        range_start: '',
+        range_end: '',
+        combine: ''
     },
     methods: {
         searchViolation() {
-            
+
             if (this.channel !== '') {
                 this.combine += "[channel:" + this.channel + "]";
             }
-            if (this.selectedIssue !== '') {
+            if (this.selectedIssue) {
                 this.combine += "[issue:" + this.selectedIssue + "]";
             }
             if (this.statusValue !== '') {
@@ -66,15 +68,24 @@ const app = new Vue({
             console.log(this.combine);
             window.location = '/violation/search?s=' + encodeURIComponent(this.combine);
         },
+        fetchCollectors(search, loading) {
+            loading(true);
+            this.searchCollectors(loading, search, this);
+        },
+        searchCollectors: _.debounce((loading, search, vm) => {
+            if (search.length < 3) {
+                loading(false);
+                return;
+            }
+            axios.get('/collector/search?s=' + search).then(res => {
+                vm.collectors = res.data;
+                console.log(res.data);
+                loading(false);
+            });
+        }, 350),
         fetchOptions(search, loading) {
             loading(true);
             this.search(loading, search, this);
-        }, searchFunction(loading, search, vm) {
-            axios.get(`/issue/issues`)
-                    .then(response => {
-                        vm.options = response.data;
-                        loading(false);
-                    })
         },
         search: _.debounce((loading, search, vm) => {
             axios.get(
@@ -85,6 +96,32 @@ const app = new Vue({
                 vm.options = res.data;
                 loading(false);
             });
-        }, 350)
+        }, 350),
+        queryString: function (item) {
+            var svalue = location.search.match(new RegExp("[\?\&]" + item + "=([^\&]*)(\&?)", "i"));
+            return svalue ? svalue[1] : svalue;
+        }
+    },
+    mounted(combine,issuep,issuem,collectorp,collectorm,rangem,rangep,channelp,channelm,statusp,statusm,contract_nop,contract_nom ) {
+        combine = (decodeURIComponent(this.queryString('s')));
+        issuep = /\[issue:(.+?)\]/g;
+        issuem = issuep.exec(combine);
+        this.selectedIssue=issuem?(issuem[1]):'';
+        collectorp=/\[collector:(.+?)\]/g;
+        collectorm=collectorp.exec(combine);
+        this.collector=collectorm?collectorm[1]:'';
+        rangep=/\[range\:(\d{4}\-\d{2}\-\d{2})\s(\d{4}\-\d{2}\-\d{2})\]/g;
+        rangem=rangep.exec(combine);
+        this.range_start=rangem?rangem[1]:'';
+        this.range_end=rangem?rangem[2]:'';
+        statusp=/\[status:(.+?)\]/g;
+        channelp=/\[channel:(.+?)\]/g;
+        statusm=statusp.exec(combine);
+        channelm=channelp.exec(combine);
+        this.statusValue=statusm?statusm[1]:'';
+        this.channel=channelm?channelm[1]:'';
+        contract_nop=/\[contract_no:(.+?)\]/g;
+        contract_nom=contract_nop.exec(combine);
+        this.contract_no=contract_nom?contract_nom[1]:'';
     }
 });

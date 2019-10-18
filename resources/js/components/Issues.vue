@@ -1,11 +1,40 @@
 <template>
-        <div class="flex-center position-ref full-height">
-            <div class="content">
+     <div class='card' style="max-width: 15rem; min-width: 15rem;">
+        <div class='card-header'>Collector info</div>
+            <div class='card-body'>
+     {{collector.name_cn}}
+     {{collector.name_en}}<br>
+     工号：{{collector.employee_id}}<br>
+     Homer:{{collector.cfc_hm_id}}<br>
+     区域城市:{{collector.area +' '+ collector.city}} <br>     
+     {{collector.email}}
             </div>
-        </div>
+            <div class='card-footer'></div>
+    </div>
     </template>
     <script>
-        export default {}
+    export default {
+        props:['id'],
+        data() {  
+        return {
+                collector:null,                   
+        }  
+        },  
+        watch: {  
+        id(newValue, oldValue) {  
+        console.log('watch' + newValue);
+                this.showLLI(newValue,this);
+        }  
+        },
+methods:{
+    showLLI(id,vm){ 
+            axios.get('/collector/get?id='+id).then(res=>{
+                console.log(res.data[0]);
+                vm.collector=res.data[0];
+            });
+}
+}
+    }
     </script>
     <style scoped>
         html, body {
