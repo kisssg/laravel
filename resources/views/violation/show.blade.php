@@ -26,6 +26,11 @@
                             <td>提交建议处罚的日期：{{$violation->month_propose_action.' '.$violation->date_propose_action}}</td>
                             <td>提交建议处罚的人：{{$violation->who_proposed_disciplinary}}</td>                            
                         </tr>
+                        <tr>
+                            <td colspan="2">区域经理反馈：{{$violation->region_manager_email}}
+                                <span class="badge badge-success">{{$violation->region_manager_approval}}</span>
+                                <br>{{$violation->region_manager_comment}}</td>
+                        </tr>
                         <tr><td>确定要执行的处罚：{{$violation->punishment_decided}}</td></tr>
                         <tr><td colspan='2'>确定执行什么处罚的人批注：{{$violation->comment}}</td></tr>
                         <tr><td>确定处罚的日期：{{$violation->month_decided_action.' '.$violation->date_decided_action}}</td>
