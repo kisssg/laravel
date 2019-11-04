@@ -22,7 +22,6 @@ Route::group([
     Route::resource('articles', 'ArticleController');
     Route::resource('comments', 'CommentController');
 });
-Route::get('issue/issues',"Issue\IssueController@issues");
 Route::group([
     'middleware' => 'auth',
     'namespace' => 'Issue',
@@ -31,6 +30,8 @@ Route::group([
     Route::get('upload', 'IssueController@upload');
     Route::post('import', 'IssueController@import');
     Route::get('search', 'IssueController@search');
+    Route::get('issues',"IssueController@issues");
+    Route::get('get-by-eid',"IssueController@findIssuesByEid");
 });
 Route::resource('issue', 'Issue\IssueController')->middleware('auth');
 Route::get('article/{id}', 'ArticleController@show');
@@ -57,10 +58,13 @@ Route::get('collector/export', 'CollectorController@export')->middleware('auth')
 Route::post('collector/import', 'CollectorController@import')->middleware('auth');
 Route::post('collector/delete', 'CollectorController@delete')->middleware('auth');
 Route::get('collector/search', 'CollectorController@searchCollectors')->middleware('auth');
-Route::get('collector/delete-on-lli','CollectorController@deleteOnjobLLIs');
+Route::get('collector/del-on-job-lli','CollectorController@deleteOnjobLLIs');
 Route::get('collector/get','CollectorController@getCollector');
 Route::resource('collector', 'CollectorController')->middleware('auth');
 Route::get('overview/{id}', 'CollectorController@overview')->middleware('auth');
 Route::get('confirm-violation/{id}/{token}', 'Violation\ViolationController@feedback');
 Route::resource('camera',"FcCameraScoreController")->middleware('auth');
 Route::get('concentration',"ConcentrationController@index")->middleware('auth');
+Route::get('training-test',"OnlineTestController@getTraingTestResults");
+Route::get('online-test',"OnlineTestController@getOnlineTestResults");
+Route::get('visit-records',"VisitRecordController@getVisitRecords");

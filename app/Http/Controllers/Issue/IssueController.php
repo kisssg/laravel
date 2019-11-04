@@ -10,7 +10,7 @@ use App\Issue;
 use App\Violation;
 use App\Collector;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
 class IssueController extends Controller
@@ -145,5 +145,10 @@ class IssueController extends Controller
     }
     public function issues(){
         return Arr::pluck(\App\IssueType::select('issue')->get(),"issue");
+    }
+    public function findIssuesByEid(Request $request){
+        $eid=$request->get('eid')?:'2';// if get no request, set "2" to get nothing.
+        $issues=Issue::where('employeeID',$eid)->Where('result','=','有效')->orderBy("close_time","desc")->get();
+        return $issues;
     }
 }

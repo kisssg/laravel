@@ -29,18 +29,19 @@
                 @endcan
             </div>
         </div>
-        @can('manage violations')
+        @can('view concentration')
         <div class="card" style="max-width: 15rem; min-width: 15rem;">
             <img class="card-img-top" src="picture/blank.png" >
             <div class="card-body">
-                <h5 class="card-title">Violation Handle</h5>
-                <p class="card-text">Produce violations based on issues, handle region managers' confirmation</p>   
+                <h5 class="card-title">Concentration</h5>
+                <p class="card-text">Concentration of collectors</p>   
             </div>
             <div class='card-footer'>
-                <a href="{{url('violation/handle')}}" class="btn btn-primary">Go</a>                    
+                <a href="{{url('concentration')}}" class="btn btn-primary">Go</a>                    
             </div>
         </div>
         @endcan
+        
         @can('manage collectors')
         <div class="card" style="max-width: 15rem; min-width: 15rem;">
             <img class="card-img-top" src="picture/blank.png" >
@@ -54,6 +55,5 @@
         </div>
         @endcan
     </div>
-    <issues></issues>
 </div>
 @endsection

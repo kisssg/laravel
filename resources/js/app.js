@@ -4,9 +4,10 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 import "babel-polyfill";
-import issues from './components/Issues.vue';
 import vSelect from 'vue-select';
 import 'vue-select/dist/vue-select.css';
+import Vue from 'vue';
+
 require('./bootstrap');
 window.Vue = require('vue');
 /**
@@ -17,11 +18,11 @@ window.Vue = require('vue');
  * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
  */
 
-// const files = require.context('./', true, /\.vue$/i);
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
+ const files = require.context('./', true, /\.vue$/i);
+ files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 Vue.component('v-select', vSelect);
-Vue.component('search-box', require('./components/SearchBox.vue').default);
-Vue.component('issues', issues);
+//Vue.component('search-box', require('./components/SearchBox.vue').default);
+//Vue.component('issues', issues);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -30,10 +31,11 @@ Vue.component('issues', issues);
 
 const app = new Vue({
     el: '#app',
+    name:'app',
     data: {
         options: ['输入关键字'],
         collectors: ['输入催收员英文姓名', 'input english name'],
-        name_en: '',
+        name_en: '催收员的英文名',
         selectedCollector: '',
         selectedIssue: '',
         channel: '',
@@ -46,7 +48,6 @@ const app = new Vue({
     },
     methods: {
         searchViolation() {
-
             if (this.channel !== '') {
                 this.combine += "[channel:" + this.channel + "]";
             }

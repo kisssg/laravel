@@ -24,6 +24,7 @@
                             <input type='hidden' name='violation_id' value="{{$violation->id}}" />
                             <tr><td colspan="2">Issue 违规：{{$violation->Issue->issue_type.'->'.$violation->Issue->issue}}</td></tr>
                             <tr><td colspan="2">Remark 违规备注：{{$violation->Issue->remark}}</td></tr>
+                            <tr><td colspan="2">Feedback 调查反馈：{{$violation->Issue->feedback}}</td></tr>
                             <tr><td colspan="2">Punish proposed 建议的处罚：{{$violation->punishment_proposed}}</td></tr>
                             <tr><td>Bonus reduction 奖金扣减：{{FLOOR(($violation->bonus_reduction)*100).'%'}}</td>
                                 <td>Administration action 行政处罚：{{$violation->action_level}}</td></tr>
