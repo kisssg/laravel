@@ -68,3 +68,4 @@ Route::get('concentration',"ConcentrationController@index")->middleware('auth');
 Route::get('training-test',"OnlineTestController@getTraingTestResults");
 Route::get('online-test',"OnlineTestController@getOnlineTestResults");
 Route::get('visit-records',"VisitRecordController@getVisitRecords");
+Route::get('call-records',"CallbackController@getCallRecords");

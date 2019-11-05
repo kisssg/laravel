@@ -1,6 +1,8 @@
 <template>
     <div>
-       <table class="table">
+        <img src="picture/loading.gif" v-if="records===null" alt="Loading...">
+        <span v-else-if="records.length===0">无相关数据</span>
+        <table class="table" v-else>
             <thead><th>外访日期</th><th>外访结果</th><th>外访备注</th><th>质检结果</th><th>核查质检</th></thead>
         <tr v-for="(item,key,index) in records">
             <td>{{item.visit_date}}</td>
