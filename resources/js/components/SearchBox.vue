@@ -1,7 +1,7 @@
 <template>
     <div>
         <form action="" method="get">
-            <input class='form-group' type='text' placeholder='输入关键字...' name='s' v-model='wtfValue'>
+            <input class='form-group' type='text' placeholder='英文名、工号、Homer ID' name='s' v-model='wtfValue'>
             <input class='btn btn-default btn-sm' type="submit" value="Search"/>
         </form>
         <tabs :onSelect="onSelect">
