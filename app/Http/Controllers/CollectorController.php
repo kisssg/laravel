@@ -26,7 +26,7 @@ class CollectorController extends Controller
         $key = \Request::get('s');
         return view('collector.index')->withCollectors(Collector::where("name_cn", "like", "%" . $key . "%")
                                 ->orWhere("name_en", "like", "%" . $key . "%")
-                                ->orWhere("employee_id","=",$key)
+                                ->orWhere("employee_id", "=", $key)
                                 ->paginate(30)->appends(['s' => $key]));
     }
 
@@ -135,10 +135,15 @@ class CollectorController extends Controller
         }
         return json_encode($ids);
     }
-    public function deleteOnjobLLIs(){
-        return Collector::select('name_en')->where("status","on-job")->where('type','lli')->get();
-    }
 
+    public function deleteOnjobLLIs()
+    {
+        if (Collector::where("status", "on-job")->where('type', 'lli')->forceDelete())
+        {
+            return "Deleted!";
+        }
+    }
+    
     public function overview($id)
     {
         return view('collector.overview')->withCollector(Collector::findOrFail($id));
@@ -147,11 +152,13 @@ class CollectorController extends Controller
     public function searchCollectors(Request $request)
     {
         $key = $request->get('s');
-        return Collector::select('name_en','employee_id')->where('name_en', 'like', '%'.$key.'%')->limit(20)->get();
+        return Collector::select('name_en', 'employee_id')->where('name_en', 'like', '%' . $key . '%')->limit(20)->get();
     }
-    public function getCollector(Request $request){
-        $id=$request->get('id');
-        return Collector::where('employee_id',$id)->get();
+
+    public function getCollector(Request $request)
+    {
+        $id = $request->get('id');
+        return Collector::where('employee_id', $id)->orWhere('cfc_hm_id', $id)->orWhere("name_en",$id)->orWhere("name_cn",$id)->get();
     }
 
 }

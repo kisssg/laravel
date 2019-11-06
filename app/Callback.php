@@ -8,12 +8,15 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Model;
+
 /**
  * Description of Callback
  *
  * @author Sucre.xu
  */
-class Callback
+class Callback extends Model
 {
     //put your code here
+    protected $table="callback";
 }
