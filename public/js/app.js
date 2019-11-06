@@ -28497,7 +28497,11 @@ var render = function() {
             }
           ],
           staticClass: "form-group",
-          attrs: { type: "text", placeholder: "输入关键字...", name: "s" },
+          attrs: {
+            type: "text",
+            placeholder: "英文名、工号、Homer ID",
+            name: "s"
+          },
           domProps: { value: _vm.wtfValue },
           on: {
             input: function($event) {
