@@ -4,7 +4,7 @@
             <input class='form-group' type='text' placeholder='英文名、工号、Homer ID' name='s' v-model='wtfValue'>
             <input class='btn btn-default btn-sm' type="submit" value="Search"/>
         </form>
-        <tabs :onSelect="onSelect">
+        <tabs>
             <tab title="Collector's info" >
                 <img src="picture/loading.gif" v-if="collector===null" alt="Loading...">
                 <span v-else-if="collector===undefined">未找到相关数据</span>
@@ -25,14 +25,16 @@
                 </tabs>
             </tab>
             <tab id="oh-hi-mark" title="QC Records">
-                <tabs :onSelect="onSelect">
+                <tabs>
                     <tab title='Callback'>
                         <callback :id="hm_id"></callback>
                     </tab>
                     <tab title='Dingtalk'>
                         <visit-records :id="hm_id"></visit-records>
                     </tab>
-                    <tab title='Camera'></tab>
+                    <tab title='Camera'>
+                        <camera-records :id="hm_id"></camera-records>
+                    </tab>
                 </tabs>
             </tab>
             <tab title-slot="issues">
@@ -77,7 +79,6 @@
         methods: {
             searchLLI: _.debounce(function (newVal, vm) {
                 axios.get('/collector/get?id=' + newVal).then(res => {
-                    console.log(res.data);
                     vm.collector = res.data[0];
                     if (vm.collector) {
                         vm.collector_name = res.data[0].name_cn;
@@ -85,12 +86,7 @@
                         vm.hm_id = res.data[0].cfc_hm_id;
                     }
                 });
-            }, 1000),
-            onSelect(e, index) {
-                // e: click event
-                // index: index of selected tab
-                console.log(e);
-            }
+            }, 1000)
         }
     }
 </script>
