@@ -30,7 +30,6 @@
         methods: {
             showTest: _.debounce(function (id, vm) {
                 axios.get('/training-test?employee_id=' + id).then(res => {
-                    console.log(res.data);
                     vm.results = res.data;
                 });
                 } , 1000)
