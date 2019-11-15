@@ -35,6 +35,7 @@ class CallbackController extends Controller
         return DB::table('callback')
                 ->selectRaw("distinct is_harassed as name,count(*) as value")
                 ->groupBy("is_harassed")
+                ->where("is_connected","=","接通")
                 ->where("homer_id","=",$id)->get();
     }
 }
