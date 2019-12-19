@@ -29,7 +29,7 @@
 </div>
 
 <div class="modal fade bs-propose-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class='modal-header'>
                 <h4 class=modal-title>设定建议处罚</h4>

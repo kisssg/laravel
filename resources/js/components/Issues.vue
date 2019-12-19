@@ -4,11 +4,12 @@
         <span v-else-if="issues==='error'">获取数据失败，可能是登陆已过期。<button v-on:click='retry'>重试</button></span>
         <span v-else-if="issues.length===0">无相关数据</span>
         <table class="table" v-else>
-            <thead><th>异常类别</th><th>详情</th><th>调查反馈</th><th>确认时间</th><th>登记ＱＣ</th><th>操作</th></thead>
+            <thead><th>异常类别</th><th>详情</th><th>调查反馈</th><th>发生日期</th><th>确认时间</th><th>登记ＱＣ</th><th>操作</th></thead>
         <tr v-for="item in issues">
             <td>{{item.issue}}</td>
             <td>{{item.remark}}</td>
             <td>{{item.feedback}}</td>
+            <td>{{item.date}}</td>
             <td>{{item.close_time}}</td>
             <td>{{item.qc_name}}</td>
             <td><a target="_blank" :href='"issue/"+item.id'>详情</a></td>
