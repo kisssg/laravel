@@ -19,8 +19,8 @@ window.Vue = require('vue');
  * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
  */
 
- const files = require.context('./', true, /\.vue$/i);
- files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
+const files = require.context('./', true, /\.vue$/i);
+files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 Vue.component('v-select', vSelect);
 Vue.component('v-chart', ECharts);
 //Vue.component('search-box', require('./components/SearchBox.vue').default);
@@ -33,7 +33,7 @@ Vue.component('v-chart', ECharts);
 
 const app = new Vue({
     el: '#app',
-    name:'app',
+    name: 'app',
     data: {
         options: ['输入关键字'],
         collectors: ['输入催收员英文姓名', 'input english name'],
@@ -46,9 +46,18 @@ const app = new Vue({
         contract_no: '',
         range_start: '',
         range_end: '',
-        combine: ''
+        combine: '',
+        data_to_score: null,
+        score: null,
+        scoreCardKey:10
     },
     methods: {
+        setData(value) {
+            this.data_to_score = value;
+        },
+        setScore(value) {
+            this.score = value;
+        },
         searchViolation() {
             if (this.channel !== '') {
                 this.combine += "[channel:" + this.channel + "]";
@@ -105,26 +114,26 @@ const app = new Vue({
             return svalue ? svalue[1] : svalue;
         }
     },
-    mounted(combine,issuep,issuem,collectorp,collectorm,rangem,rangep,channelp,channelm,statusp,statusm,contract_nop,contract_nom ) {
+    mounted(combine, issuep, issuem, collectorp, collectorm, rangem, rangep, channelp, channelm, statusp, statusm, contract_nop, contract_nom) {
         combine = (decodeURIComponent(this.queryString('s')));
         issuep = /\[issue:(.+?)\]/g;
         issuem = issuep.exec(combine);
-        this.selectedIssue=issuem?(issuem[1]):'';
-        collectorp=/\[collector:(.+?)\]/g;
-        collectorm=collectorp.exec(combine);
-        this.collector=collectorm?collectorm[1]:'';
-        rangep=/\[range\:(\d{4}\-\d{2}\-\d{2})\s(\d{4}\-\d{2}\-\d{2})\]/g;
-        rangem=rangep.exec(combine);
-        this.range_start=rangem?rangem[1]:'';
-        this.range_end=rangem?rangem[2]:'';
-        statusp=/\[status:(.+?)\]/g;
-        channelp=/\[channel:(.+?)\]/g;
-        statusm=statusp.exec(combine);
-        channelm=channelp.exec(combine);
-        this.statusValue=statusm?statusm[1]:'';
-        this.channel=channelm?channelm[1]:'';
-        contract_nop=/\[contract_no:(.+?)\]/g;
-        contract_nom=contract_nop.exec(combine);
-        this.contract_no=contract_nom?contract_nom[1]:'';
+        this.selectedIssue = issuem ? (issuem[1]) : '';
+        collectorp = /\[collector:(.+?)\]/g;
+        collectorm = collectorp.exec(combine);
+        this.collector = collectorm ? collectorm[1] : '';
+        rangep = /\[range\:(\d{4}\-\d{2}\-\d{2})\s(\d{4}\-\d{2}\-\d{2})\]/g;
+        rangem = rangep.exec(combine);
+        this.range_start = rangem ? rangem[1] : '';
+        this.range_end = rangem ? rangem[2] : '';
+        statusp = /\[status:(.+?)\]/g;
+        channelp = /\[channel:(.+?)\]/g;
+        statusm = statusp.exec(combine);
+        channelm = channelp.exec(combine);
+        this.statusValue = statusm ? statusm[1] : '';
+        this.channel = channelm ? channelm[1] : '';
+        contract_nop = /\[contract_no:(.+?)\]/g;
+        contract_nom = contract_nop.exec(combine);
+        this.contract_no = contract_nom ? contract_nom[1] : '';
     }
 });

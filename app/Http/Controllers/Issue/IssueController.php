@@ -148,7 +148,7 @@ class IssueController extends Controller
     }
     public function findIssuesByEid(Request $request){
         $eid=$request->get('eid')?:'2';// if get no request, set "2" to get nothing.
-        $issues=Issue::where('employeeID',$eid)->Where('result','=','有效')->orderBy("close_time","desc")->get();
+        $issues=Issue::where('employeeID',$eid)->where('result','=','有效')->whereIn('object',['外催员/法律调查员','外包公司'])->orderBy("close_time","desc")->get();
         return $issues;
     }
 }

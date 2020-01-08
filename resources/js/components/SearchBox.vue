@@ -17,32 +17,29 @@
             <tab title="Test Results">
                 <tabs>
                     <tab title='Training'>
-                        <traing-test :id="employee_id"></traing-test>
+                        <keep-alive><traing-test :id="employee_id"></traing-test></keep-alive>
                     </tab>
                     <tab title='Monthly'>
-                        <online-test :id="employee_id"></online-test>
+                        <keep-alive><online-test :id="employee_id"></online-test></keep-alive>
                     </tab>
                 </tabs>
             </tab>
             <tab id="oh-hi-mark" title="QC Records">
                 <tabs>
                     <tab title='Callback'>
-                        <callback :id="hm_id"></callback>
+                        <keep-alive><callback :id="hm_id"></callback></keep-alive>
                     </tab>
                     <tab title='Dingtalk'>
-                        <visit-records :id="hm_id"></visit-records>
+                        <keep-alive><visit-records :id="hm_id"></visit-records></keep-alive>
                     </tab>
                     <tab title='Camera'>
-                        <camera-records :id="hm_id"></camera-records>
+                        <keep-alive><camera-records :id="hm_id"></camera-records></keep-alive>
                     </tab>
                 </tabs>
             </tab>
-            <tab title-slot="issues">
-                <issues :id="employee_id"></issues>
+            <tab title="Issues">
+                <keep-alive><issues :id="employee_id"></issues></keep-alive>
             </tab>
-            <template slot="issues">
-                Issues
-            </template>
         </tabs>
     </div>
 </template>

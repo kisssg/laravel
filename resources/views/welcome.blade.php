@@ -20,7 +20,7 @@
             <div class="card-body">
                 <h5 class="card-title">Violations</h5>
                 <p class="card-text">Valid issues will become violations and be punished.</p>
-                
+
             </div>
             <div class='card-footer'>
                 <a href="{{url('violation')}}" class="btn btn-primary">Search</a>
@@ -41,7 +41,7 @@
             </div>
         </div>
         @endcan
-        
+
         @can('manage collectors')
         <div class="card" style="max-width: 15rem; min-width: 15rem;">
             <img class="card-img-top" src="picture/blank.png" >
@@ -54,6 +54,22 @@
             </div>
         </div>
         @endcan
+
+        @foreach($projects as $project)
+        @can('use project'.$project->id)
+        <div class="card" style="max-width: 15rem; min-width: 15rem;">
+            <img class="card-img-top" src="picture/blank.png" >
+            <div class="card-body">
+                <h5 class="card-title">{{$project->name}}</h5>
+                <p class="card-text">{{$project->description}}</p>   
+            </div>
+            <div class='card-footer'>
+                <a href="{{url('project/'.$project->id)}}" class="btn btn-primary">Go</a>                    
+            </div>
+        </div>
+        @endcan        
+        @endforeach
+
     </div>
 </div>
 @endsection
