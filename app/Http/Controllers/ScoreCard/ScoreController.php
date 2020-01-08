@@ -9,11 +9,10 @@
 namespace App\Http\Controllers\ScoreCard;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Arr;
 use App\ScoreCard\ScoreProject;
 use App\ScoreCard\Score;
-use App\ScoreCard\DataToScore;
 use Illuminate\Http\Request;
+use App\ScoreCard\DataToScore as Data;
 
 /**
  * Description of ScoreController
@@ -25,7 +24,23 @@ class ScoreController extends Controller
 
     public function index()
     {
-        return 'index';
+        try {
+            $project = ScoreProject::findOrFail(1);
+            $score = new Score;
+            $result = $score->setProject($project);
+            if (count($result->where("data_id", 201)->get()))
+            {
+                $record = $result->firstOrCreate(["data_id" => 20], []);
+                $record->fillable(["data_id", "project_id", "col1"]);
+                $record->update(["col1" => "0-2"]);
+                return $record;
+            }
+            $result->fill(["data_id" => 201, "project_id" => 1, "col1" => "0-3"]);
+            $result->save();
+            return $result;
+        } catch (Exception $e) {
+            return json_encode($e->getMessage());
+        }
     }
 
     public function create(Request $request)
@@ -49,14 +64,36 @@ class ScoreController extends Controller
 
     public function store(Request $request)
     {
-        return '{"result":"hell no"}';
-        $project = SocreProject::findOrFail($request->get('project'));
-        $scoreObj = new Score();
-        $score = $scoreObj->setProject($project)->where('data_id', $request->score->data_id);
-        $score->setData($request->score->data_id);
-        $score->fill($request);
-        $score->save();
-        return $request;
+        try {
+            $project = ScoreProject::findOrFail($request->project_id);
+            $dataInstance = new Data;
+            $data = $dataInstance->setProject($project)->findOrFail($request->data_id);
+            if($data->owner!=$request->user()->name){
+                throw new \Exception('You can\'t update data owned by '.$data->owner);
+            }
+            $score = new Score;
+            $result = $score->setProject($project);
+            $now = date('Y-m-d H:i:s');
+            if (count($result->where("data_id", $request->data_id)->get()))
+            {
+                /**
+                 * if record exists, update it; why firstOrCreate? actually the 'Create' part will never be triggered here,
+                 * we only need the 'first-' part, only this way can the fillable() work.
+                 * I don't know why this works, don't ask!
+                 */
+                $record = $result->firstOrCreate(["data_id" => $request->data_id], []);
+                $record->fillable(explode(",", $project->score_fillable));
+                $record->update($request->all());
+                return '{"result":"success","score":' . $record . ',"msg":"score updated at ' . $now . '"}';
+            }
+            $result->fill($request->all());
+            $result->save();
+            $data->checked=1;
+            $data->save();
+            return '{"result":"success","score":' . $result . ',"msg":"score added at ' . $now . '"}';
+        } catch (\Exception $e) {
+            return '{"result":"failed","msg":"' . $e->getMessage() . '","score":null}';
+        }
     }
 
     public function edit()

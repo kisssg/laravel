@@ -32,6 +32,22 @@
                         <span class="text-muted">separate by comma ','</span></td>
                     </tr>
                     <tr>
+                        <td class="text-right">Data list columns:</td>
+                        <td><input name='data_list_columns' class='form-control' type='text' value='{{$project->data_list_columns}}'/></td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">Data columns on score card:</td>
+                        <td><input name='data_to_score_columns' class='form-control' type='text' value='{{$project->data_to_score_columns}}'/></td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">Data field of date:</td>
+                        <td><input name='date_field' class='form-control' type='text' value='{{$project->date_field}}'/></td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">Data field of contract number:</td>
+                        <td><input name='contract_no_field' class='form-control' type='text' value='{{$project->contract_no_field}}'/></td>
+                    </tr>
+                    <tr>
                         <td class="text-right">Score save to:</td>
                         <td><input name='score_save_to' class='form-control' type='text' value='{{$project->score_save_to}}'/></td>
                     </tr>

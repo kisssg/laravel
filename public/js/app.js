@@ -1944,22 +1944,20 @@ __webpack_require__.r(__webpack_exports__);
       owner: '',
       data: null,
       score: null,
-      dataFetched: false
+      dataFetched: false,
+      pickResult: null
     };
   },
   methods: {
     execute: function execute() {
       if (this.pickOrScore === "Pick") {
-        console.log('pick');
-        this.owner = 'Roug.Zhang';
+        this.pickData(this.project, this.id, this);
       } else {
-        this.$parent.scoreCardKey++;
-        $(".bs-score-card").modal('show');
-
         if (!this.dataFetched) {
           this.$emit("set-data", null); //send null data in case ajax fethch nothing and score card show the previous
 
           this.$emit("set-score", null);
+          console.log('null data and score sent to app');
           this.getData(this.id, this.project, this);
           this.getScore(this.id, this.project, this);
           return;
@@ -1967,6 +1965,9 @@ __webpack_require__.r(__webpack_exports__);
 
         this.$emit("set-data", this.data);
         this.$emit("set-score", this.score);
+        this.$parent.scoreCardKey++;
+        console.log('card key++');
+        $(".bs-score-card").modal('show');
       }
     },
     getData: _.debounce(function (id, project, vm) {
@@ -1978,7 +1979,7 @@ __webpack_require__.r(__webpack_exports__);
 
         _this.$emit("set-data", vm.data);
 
-        console.log(id);
+        console.log('ajax got data and sent to app');
       }, function (error) {
         if (error.response.status !== 200) {
           vm.issues = "error";
@@ -1996,12 +1997,28 @@ __webpack_require__.r(__webpack_exports__);
 
         _this2.$emit("set-score", vm.score);
 
-        console.log(data_id);
+        console.log('ajax got score and sent to app');
+        _this2.$parent.scoreCardKey++;
+        console.log('card key++');
+        console.log(_this2);
+        $(".bs-score-card").modal('show');
       }, function (error) {
         if (error.response.status !== 200) {
           console.log('error triggered');
         }
 
+        return false;
+      });
+    }, 50),
+    pickData: _.debounce(function (project_id, data_id, vm) {
+      axios.get('data/pick/' + data_id + '?project_id=' + project_id).then(function (res) {
+        if (res.data.result === "failed") {
+          vm.pickResult = 'ed by ' + res.data.owner;
+          return;
+        }
+
+        vm.owner = res.data.owner;
+      }, function (error) {
         return false;
       });
     }, 50)
@@ -2166,11 +2183,13 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     console.log('score card mounted');
     this.getItems(this.project_id, this);
+    this.totalScore = this.$parent.score ? this.$parent.score.score : null;
   },
   data: function data() {
     return {
       "items": null,
-      "totalScore": 0
+      "totalScore": 0,
+      'msg': ''
     };
   },
   methods: {
@@ -2187,32 +2206,12 @@ __webpack_require__.r(__webpack_exports__);
     }, 50),
     submitResult: function submitResult() {
       var score = {};
-      var scoreData = this.$refs;
+      var scoreData = this.$refs,
+          totalScore = 0;
 
       for (var item in scoreData) {
         score[item] = scoreData[item][0].answer;
-      }
-
-      score.data_id = this.data_to_score.id;
-      var url = "score/?project=" + this.project_id,
-          args = score;
-      $.ajaxSetup({
-        headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-      });
-      console.log(score);
-      $.post(url, args, function (data) {
-        console.log("data is" + data);
-      }, 'json');
-    },
-    setItemScore: function setItemScore(index, score) {
-      $("#score" + index).val(score);
-      var items = $(".scoreToAdd");
-      var totalScore = 0;
-
-      for (var i = 0; i < items.length; i++) {
-        totalScore += Number(items[i].value);
+        totalScore += scoreData[item][0].answer === null ? 0 : Number(scoreData[item][0].score);
       }
 
       totalScore = totalScore > 100 ? 100 : totalScore; //总分大于100分就是100分
@@ -2220,9 +2219,27 @@ __webpack_require__.r(__webpack_exports__);
       totalScore = totalScore < 0 ? 0 : totalScore; //总分小于0分就是0分
 
       this.totalScore = totalScore;
-    },
-    selectedScore: function selectedScore(scoreItem) {
-      console.log($('.' + scoreItem + ' ')); //已评分项的得分
+      score.score = totalScore;
+      score.data_id = this.data_to_score.id;
+      score.project_id = this.project_id;
+      var url = "/project/score",
+          args = score;
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+      var parent = this.$parent,
+          pickScoreBtn = 'pickScoreBtn' + score.data_id;
+      var vm = this;
+      $.post(url, args, function (data) {
+        vm.msg = data.msg;
+
+        if (data.result === "success") {
+          //@TODO:show the new score when changed.    
+          parent.$refs[pickScoreBtn].score = data.score;
+        }
+      }, 'json');
     }
   },
   computed: {
@@ -2231,6 +2248,130 @@ __webpack_require__.r(__webpack_exports__);
     },
     score: function score() {
       return this.$parent.score;
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ScoreDataSearch.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ScoreDataSearch.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['project_id', 'query_string'],
+  computed: {
+    keyword: {
+      set: function set(val) {
+        var regResult = /\[.+?\]/g.exec(val);
+
+        if (!regResult) {
+          this.contract_number = val;
+          return;
+        }
+
+        this.contract_number = /\[contract_no:(.+?)\]/g.exec(val) ? /\[contract_no:(.+?)\]/g.exec(val)[1] : null;
+        this.checked = /\[checked:(.+?)\]/g.exec(val) ? /\[checked:(.+?)\]/g.exec(val)[1] : null;
+        var regRange = /\[range\:(\d{4}\-\d{2}\-\d{2})\s(\d{4}\-\d{2}\-\d{2})\]/g;
+        var rangeResult = regRange.exec(val);
+        this.range_start = rangeResult ? rangeResult[1] : null;
+        this.range_end = rangeResult ? rangeResult[2] : null;
+        this.owner = /\[owner:(.+?)\]/g.exec(val) ? /\[owner:(.+?)\]/g.exec(val)[1] : null;
+      },
+      get: function get() {
+        var combine = '';
+
+        if (this.owner) {
+          combine += "[owner:" + this.owner + "]";
+        }
+
+        if (this.range_start && this.range_end) {
+          combine += "[range:" + this.range_start + " " + this.range_end + "]";
+        }
+
+        if (this.contract_number) {
+          combine += "[contract_no:" + this.contract_number + "]";
+        }
+
+        if (this.checked) {
+          combine += "[checked:" + Number(this.checked) + "]";
+        }
+
+        return combine;
+      }
+    }
+  },
+  mounted: function mounted() {
+    this.keyword = this.query_string;
+  },
+  data: function data() {
+    return {
+      range_start: null,
+      range_end: null,
+      defaultKeyword: null,
+      owner: null,
+      checked: null,
+      contract_number: null
+    };
+  },
+  methods: {
+    submit: function submit() {
+      window.location = '?s=' + encodeURIComponent(this.keyword);
     }
   }
 });
@@ -79503,7 +79644,7 @@ var render = function() {
     _c(
       "button",
       { class: "btn btn-sm " + _vm.btnClass, on: { click: _vm.execute } },
-      [_vm._v(_vm._s(_vm.pickOrScore))]
+      [_vm._v(_vm._s(_vm.pickOrScore) + _vm._s(_vm.pickResult))]
     )
   ])
 }
@@ -79690,8 +79831,8 @@ var render = function() {
                 }
               },
               [
-                _c("span", { staticClass: "badge badge-success" }, [
-                  _vm._v(_vm._s(key) + ": " + _vm._s(item))
+                _c("span", { staticClass: "badge badge-info" }, [
+                  _vm._v(_vm._s(key) + ": " + _vm._s(item) + " ")
                 ])
               ]
             )
@@ -79763,6 +79904,21 @@ var render = function() {
     _vm._v(" "),
     _c("div", { staticClass: "modal-footer text-center" }, [
       _c(
+        "span",
+        {
+          staticClass: "float-right",
+          model: {
+            value: _vm.msg,
+            callback: function($$v) {
+              _vm.msg = $$v
+            },
+            expression: "msg"
+          }
+        },
+        [_vm._v(_vm._s(_vm.msg))]
+      ),
+      _vm._v(" "),
+      _c(
         "button",
         {
           staticClass: "btn btn-secondary float-left",
@@ -79772,12 +79928,12 @@ var render = function() {
             "aria-label": "Close"
           }
         },
-        [_vm._v("\n            取消\n        ")]
+        [_vm._v("\n            关闭\n        ")]
       ),
       _vm._v(" "),
       _c("input", {
         staticClass: "btn btn-primary",
-        attrs: { type: "button", value: "确定" },
+        attrs: { type: "button", value: "保存" },
         on: { click: _vm.submitResult }
       })
     ])
@@ -79790,6 +79946,297 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "modal-header" }, [
       _vm._v("Score Card            \n        "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ScoreDataSearch.vue?vue&type=template&id=ec777eee&":
+/*!******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ScoreDataSearch.vue?vue&type=template&id=ec777eee& ***!
+  \******************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _vm._v(
+      "        \n    " +
+        _vm._s(_vm.owner ? "owner:" + _vm.owner : "") +
+        "        \n    " +
+        _vm._s(
+          _vm.range_start
+            ? "range:" + _vm.range_start + " " + _vm.range_end
+            : ""
+        ) +
+        "        \n    " +
+        _vm._s(_vm.checked ? "checked" : "") +
+        "\n    "
+    ),
+    _c("div", { staticClass: "input-group" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.contract_number,
+            expression: "contract_number"
+          }
+        ],
+        staticClass: "form-control",
+        attrs: { type: "text", name: "s", placeholder: "Contract Number" },
+        domProps: { value: _vm.contract_number },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.contract_number = $event.target.value
+          }
+        }
+      }),
+      _vm._v(" "),
+      _c("span", { staticClass: "input-group-append" }, [
+        _c("input", {
+          staticClass: "btn btn-primary",
+          attrs: { type: "button", value: "Search" },
+          on: { click: _vm.submit }
+        })
+      ])
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade bs-search-modal",
+        attrs: {
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "mySmallModalLabel"
+        }
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "modal-dialog", attrs: { role: "document" } },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _vm._m(1),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body" }, [
+                _c("div", { staticClass: "form-group" }, [
+                  _vm._v(
+                    "\n                        Range\n                        "
+                  ),
+                  _c("div", { staticClass: "form-group form-inline" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.range_start,
+                          expression: "range_start"
+                        }
+                      ],
+                      staticClass: "form-control form-group",
+                      attrs: { type: "date" },
+                      domProps: { value: _vm.range_start },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.range_start = $event.target.value
+                        }
+                      }
+                    }),
+                    _vm._v("-"),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.range_end,
+                          expression: "range_end"
+                        }
+                      ],
+                      staticClass: "form-control form-group",
+                      attrs: { type: "date" },
+                      domProps: { value: _vm.range_end },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.range_end = $event.target.value
+                        }
+                      }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _vm._v(
+                    "\n                        Owner\n                        "
+                  ),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.owner,
+                        expression: "owner"
+                      }
+                    ],
+                    attrs: { type: "text" },
+                    domProps: { value: _vm.owner },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.owner = $event.target.value
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _vm._v(
+                    "\n                        Checked\n                        "
+                  ),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.checked,
+                        expression: "checked"
+                      }
+                    ],
+                    attrs: { type: "checkbox", value: "0" },
+                    domProps: {
+                      checked: Array.isArray(_vm.checked)
+                        ? _vm._i(_vm.checked, "0") > -1
+                        : _vm.checked
+                    },
+                    on: {
+                      change: function($event) {
+                        var $$a = _vm.checked,
+                          $$el = $event.target,
+                          $$c = $$el.checked ? true : false
+                        if (Array.isArray($$a)) {
+                          var $$v = "0",
+                            $$i = _vm._i($$a, $$v)
+                          if ($$el.checked) {
+                            $$i < 0 && (_vm.checked = $$a.concat([$$v]))
+                          } else {
+                            $$i > -1 &&
+                              (_vm.checked = $$a
+                                .slice(0, $$i)
+                                .concat($$a.slice($$i + 1)))
+                          }
+                        } else {
+                          _vm.checked = $$c
+                        }
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _vm._v(
+                    "\n                        Contract No.\n                        "
+                  ),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.contract_number,
+                        expression: "contract_number"
+                      }
+                    ],
+                    attrs: { type: "text" },
+                    domProps: { value: _vm.contract_number },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.contract_number = $event.target.value
+                      }
+                    }
+                  })
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c("input", {
+                  staticClass: "btn btn-primary",
+                  attrs: { type: "button", value: "Search" },
+                  on: { click: _vm.submit }
+                })
+              ])
+            ])
+          ]
+        )
+      ]
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-secondary",
+          attrs: {
+            type: "button",
+            "data-toggle": "modal",
+            "data-target": ".bs-search-modal"
+          }
+        },
+        [_vm._v("+")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c("h4", { staticClass: "modal-title" }, [_vm._v("多项搜索")]),
+      _vm._v(" "),
       _c(
         "button",
         {
@@ -109927,6 +110374,7 @@ var map = {
 	"./components/Issues.vue": "./resources/js/components/Issues.vue",
 	"./components/OnlineTest.vue": "./resources/js/components/OnlineTest.vue",
 	"./components/ScoreCard.vue": "./resources/js/components/ScoreCard.vue",
+	"./components/ScoreDataSearch.vue": "./resources/js/components/ScoreDataSearch.vue",
 	"./components/SearchBox.vue": "./resources/js/components/SearchBox.vue",
 	"./components/SingleSelectScoreItem.vue": "./resources/js/components/SingleSelectScoreItem.vue",
 	"./components/TextScoreItem.vue": "./resources/js/components/TextScoreItem.vue",
@@ -110034,11 +110482,9 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_3___default.a({
   methods: {
     setData: function setData(value) {
       this.data_to_score = value;
-      console.log('app fired!');
     },
     setScore: function setScore(value) {
       this.score = value;
-      console.log('app fired setScore');
     },
     searchViolation: function searchViolation() {
       if (this.channel !== '') {
@@ -110345,15 +110791,14 @@ __webpack_require__.r(__webpack_exports__);
 /*!****************************************************!*\
   !*** ./resources/js/components/DataPickButton.vue ***!
   \****************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _DataPickButton_vue_vue_type_template_id_2685cab0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DataPickButton.vue?vue&type=template&id=2685cab0& */ "./resources/js/components/DataPickButton.vue?vue&type=template&id=2685cab0&");
 /* harmony import */ var _DataPickButton_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DataPickButton.vue?vue&type=script&lang=js& */ "./resources/js/components/DataPickButton.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _DataPickButton_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _DataPickButton_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -110383,7 +110828,7 @@ component.options.__file = "resources/js/components/DataPickButton.vue"
 /*!*****************************************************************************!*\
   !*** ./resources/js/components/DataPickButton.vue?vue&type=script&lang=js& ***!
   \*****************************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -110553,15 +110998,14 @@ __webpack_require__.r(__webpack_exports__);
 /*!***********************************************!*\
   !*** ./resources/js/components/ScoreCard.vue ***!
   \***********************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ScoreCard_vue_vue_type_template_id_26840de7___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ScoreCard.vue?vue&type=template&id=26840de7& */ "./resources/js/components/ScoreCard.vue?vue&type=template&id=26840de7&");
 /* harmony import */ var _ScoreCard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ScoreCard.vue?vue&type=script&lang=js& */ "./resources/js/components/ScoreCard.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _ScoreCard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _ScoreCard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -110591,7 +111035,7 @@ component.options.__file = "resources/js/components/ScoreCard.vue"
 /*!************************************************************************!*\
   !*** ./resources/js/components/ScoreCard.vue?vue&type=script&lang=js& ***!
   \************************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -110614,6 +111058,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ScoreCard_vue_vue_type_template_id_26840de7___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ScoreCard_vue_vue_type_template_id_26840de7___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/ScoreDataSearch.vue":
+/*!*****************************************************!*\
+  !*** ./resources/js/components/ScoreDataSearch.vue ***!
+  \*****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _ScoreDataSearch_vue_vue_type_template_id_ec777eee___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ScoreDataSearch.vue?vue&type=template&id=ec777eee& */ "./resources/js/components/ScoreDataSearch.vue?vue&type=template&id=ec777eee&");
+/* harmony import */ var _ScoreDataSearch_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ScoreDataSearch.vue?vue&type=script&lang=js& */ "./resources/js/components/ScoreDataSearch.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _ScoreDataSearch_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ScoreDataSearch_vue_vue_type_template_id_ec777eee___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _ScoreDataSearch_vue_vue_type_template_id_ec777eee___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/ScoreDataSearch.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/ScoreDataSearch.vue?vue&type=script&lang=js&":
+/*!******************************************************************************!*\
+  !*** ./resources/js/components/ScoreDataSearch.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ScoreDataSearch_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./ScoreDataSearch.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ScoreDataSearch.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ScoreDataSearch_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/ScoreDataSearch.vue?vue&type=template&id=ec777eee&":
+/*!************************************************************************************!*\
+  !*** ./resources/js/components/ScoreDataSearch.vue?vue&type=template&id=ec777eee& ***!
+  \************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ScoreDataSearch_vue_vue_type_template_id_ec777eee___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./ScoreDataSearch.vue?vue&type=template&id=ec777eee& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ScoreDataSearch.vue?vue&type=template&id=ec777eee&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ScoreDataSearch_vue_vue_type_template_id_ec777eee___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ScoreDataSearch_vue_vue_type_template_id_ec777eee___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

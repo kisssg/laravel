@@ -34,6 +34,10 @@ class Score extends Model
         $this->data_id=$id;
         return $this;
     }
+    public function setFillable($fillable){
+        $this->fillable($fillable);
+        return $this;
+    }
     
     public function data(ScoreProject $project){
         //return $this->belongsTo("App\ScoreCard\DataToScore");

@@ -54,11 +54,9 @@ const app = new Vue({
     methods: {
         setData(value) {
             this.data_to_score = value;
-            console.log('app fired!');
         },
         setScore(value) {
             this.score = value;
-            console.log('app fired setScore');
         },
         searchViolation() {
             if (this.channel !== '') {

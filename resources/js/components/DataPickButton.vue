@@ -1,6 +1,6 @@
 <template>
     <div>
-        <button :class='"btn btn-sm " +btnClass' v-on:click='execute'>{{pickOrScore}}</button>
+        <button :class='"btn btn-sm " +btnClass' v-on:click='execute'>{{pickOrScore}}{{pickResult}}</button>
     </div>
 </template>
 <script>
@@ -30,27 +30,29 @@
             return {
                 owner: '',
                 data: null,
-                score:null,
+                score: null,
                 dataFetched: false,
+                pickResult: null
             };
         },
         methods: {
             execute() {
                 if (this.pickOrScore === "Pick") {
-                    console.log('pick');
-                    this.owner = 'Roug.Zhang';
+                    this.pickData(this.project, this.id, this);
                 } else {
-                    this.$parent.scoreCardKey++;
-                    $(".bs-score-card").modal('show');
-                    if (!this.dataFetched) {                        
+                    if (!this.dataFetched) {
                         this.$emit("set-data", null);//send null data in case ajax fethch nothing and score card show the previous
-                        this.$emit("set-score",null);
+                        this.$emit("set-score", null);
+                        console.log('null data and score sent to app');
                         this.getData(this.id, this.project, this);
-                        this.getScore(this.id,this.project,this);
+                        this.getScore(this.id, this.project, this);
                         return;
                     }
                     this.$emit("set-data", this.data);
                     this.$emit("set-score", this.score);
+                    this.$parent.scoreCardKey++;
+                    console.log('card key++');
+                    $(".bs-score-card").modal('show');
                 }
             },
             getData: _.debounce(function (id, project, vm) {
@@ -58,7 +60,7 @@
                     vm.data = res.data;
                     this.dataFetched = true;
                     this.$emit("set-data", vm.data);
-                    console.log(id);
+                    console.log('ajax got data and sent to app');
                 }, error => {
                     if (error.response.status !== 200) {
                         vm.issues = "error";
@@ -66,19 +68,36 @@
                     return error;
                 });
             }, 50),
-            getScore:_.debounce(function(data_id,project,vm){
-                axios.get('score/'+data_id+'?project='+project).then(res=>{
-                    vm.score=res.data;
-                    this.scoreFetched=true;
-                    this.$emit("set-score",vm.score);
-                    console.log(data_id);
-                },error=>{
-                    if(error.response.status!==200){
+            getScore: _.debounce(function (data_id, project, vm) {
+                axios.get('score/' + data_id + '?project=' + project).then(res => {
+                    vm.score = res.data;
+                    this.scoreFetched = true;
+                    this.$emit("set-score", vm.score);
+                    console.log('ajax got score and sent to app');
+                    this.$parent.scoreCardKey++;
+                    console.log('card key++');
+                    console.log(this);
+                    $(".bs-score-card").modal('show');
+                }, error => {
+                    if (error.response.status !== 200) {
                         console.log('error triggered');
                     }
                     return false;
                 });
-            },50)
+            }, 50),
+            pickData: _.debounce(function (project_id, data_id, vm) {
+                axios.get('data/pick/' + data_id + '?project_id=' + project_id).then(
+                        res => {
+                            if (res.data.result === "failed") {
+                                vm.pickResult = 'ed by ' + res.data.owner;
+                                return;
+                            }
+                            vm.owner = res.data.owner;
+                        }, error => {
+                    return false;
+                }
+                );
+            }, 50)
         }
     }
 </script>
