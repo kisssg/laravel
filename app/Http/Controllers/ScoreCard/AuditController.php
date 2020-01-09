@@ -18,7 +18,7 @@ use Illuminate\Http\Request;
  *
  * @author Sucre.xu
  */
-class ScoreController extends Controller
+class AuditController extends Controller
 {
     public function index(){
         return 'index';
