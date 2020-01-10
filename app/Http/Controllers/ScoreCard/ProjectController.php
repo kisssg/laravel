@@ -52,7 +52,7 @@ class ProjectController extends Controller
                     {
                         $query->where($project->contract_no_field, $matches3[1]);
                     }
-                })->paginate(50);
+                })->paginate(50)->appends(['s' => $key]);
         return view('score.project.show')->withProject($project)->withData($result);
     }
 
