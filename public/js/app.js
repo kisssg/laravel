@@ -2178,6 +2178,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['project_id'],
   mounted: function mounted() {
@@ -79822,17 +79826,42 @@ var render = function() {
         [
           _vm._l(_vm.data_to_score, function(item, key, index) {
             return _c(
-              "span",
+              "div",
               {
+                staticClass: "d-inline-block",
                 staticStyle: {
-                  padding: "5px 5px 5px 5px",
+                  padding: "0 20px 3px 0",
                   "font-family": "sans-serif",
                   "font-size": "16px"
                 }
               },
               [
-                _c("span", { staticClass: "badge badge-info" }, [
-                  _vm._v(_vm._s(key) + ": " + _vm._s(item) + " ")
+                _c("span", { staticStyle: { border: "1px solid #515151" } }, [
+                  _c(
+                    "span",
+                    {
+                      staticStyle: {
+                        "background-color": "#515151",
+                        color: "white",
+                        "align-content": "center"
+                      }
+                    },
+                    [
+                      _c(
+                        "span",
+                        {
+                          staticStyle: { "font-size": "12px", padding: "2px" }
+                        },
+                        [_vm._v(_vm._s(key))]
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "span",
+                    { staticStyle: { "font-size": "12px", padding: "2px" } },
+                    [_vm._v(_vm._s(item))]
+                  )
                 ])
               ]
             )
@@ -80576,7 +80605,7 @@ var render = function() {
       [_vm._v(_vm._s(_vm.item.sub_title))]
     ),
     _vm._v(" "),
-    _c("span", { staticClass: "float-right" }, [
+    _c("span", { staticClass: "float-right", staticStyle: { width: "100%" } }, [
       _c(
         "textarea",
         {

@@ -7,9 +7,13 @@
         </div>
         <div class='modal-body'>
             <table class="table-bordered table-condensed">             
-                <span v-for="(item,key,index) in data_to_score" style="padding:5px 5px 5px 5px;font-family: sans-serif;font-size: 16px;">
-                    <span class='badge badge-info'>{{key}}: {{item}} </span>             
-                </span>
+                <div v-for="(item,key,index) in data_to_score" class="d-inline-block" style="padding:0 20px 3px 0;font-family: sans-serif;font-size: 16px;">
+                    <span style="border: 1px solid #515151;"><span style="background-color:#515151;color: white;align-content: center">
+                            <span style="font-size: 12px;padding:2px;">{{key}}</span>
+                        </span>
+                        <span style="font-size: 12px;padding:2px;">{{item}}</span>
+                    </span>        
+                </div>
                 <tr v-for="(item,key,index) in items">
                     <td v-if="item.option_type==='text'">
                 <text-score-item :item="item" :savedAnswer="score?score[item.score_field]:null" :ref="item.score_field"></text-score-item>
