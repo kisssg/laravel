@@ -49,7 +49,7 @@
                 <input type="hidden" name="project_id" value="{{\Request::get('project')}}"/>
                 <button type='submit' class='float-right btn btn-primary'>Save</button>
                 <span class=" alert-success">{{old('msg')}}</span>
-                <button onclick='history.back();' class='float-left btn btn-secondary'>Back</button>
+                <a href='{{url('project/item/?project='.\Request::get('project'))}}' class='float-left btn btn-secondary'>Back</a>
             </div>
         </div>
     </form>

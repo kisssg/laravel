@@ -50,7 +50,7 @@
                 <input type="hidden" name="project_id" value="{{$item->project_id}}"/>
                 <button type='submit' class='float-right btn btn-primary'>Save</button>
                 <span>{{old('msg')}}</span>
-                <button onclick='history.back();' class='float-left btn btn-secondary'>Back</button>
+                <a href='{{url('project/item/?project='.$item->project_id)}}' class='float-left btn btn-secondary'>Back</a>
             </div>
         </div>
     </form>

@@ -91,9 +91,10 @@ class ScoreItemController extends Controller
         return redirect()->back()->withInput()->withErrors('Failed saving updates');
     }
 
-    public function destroy()
+    public function destroy($id)
     {
-        return 'destroy...';
+        ScoreItem::findOrFail($id)->delete();
+        return redirect()->back()->withInput(['msg' => 'Item #'.$id.' removed!']);
     }
 
 }
