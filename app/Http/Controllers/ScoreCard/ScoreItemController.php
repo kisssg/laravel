@@ -40,7 +40,11 @@ class ScoreItemController extends Controller
     }
 
     public function store(Request $request)
-    {
+    {        
+        if (!$request->user()->can('edit project'.$request->get('project_id')))
+        {
+            return "Have no permission";
+        }
         $request->flash();
         $rules = [
             "title" => "required|min:3",
@@ -63,7 +67,11 @@ class ScoreItemController extends Controller
     }
 
     public function update($id, Request $request)
-    {
+    {        
+        if (!$request->user()->can('edit project'.$request->get('project_id')))
+        {
+            return "Have no permission";
+        }
         $request->flash();
         $rules = [
             "title" => "required|min:3",

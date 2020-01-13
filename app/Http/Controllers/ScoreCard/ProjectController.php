@@ -67,6 +67,11 @@ class ProjectController extends Controller
 
     public function store(Request $request)
     {
+        
+        if (!$request->user()->can('create projects'))
+        {
+            return "Have no permission";
+        }
         $request->flash();
         $rules = ['name' => 'required|min:3',
             'description' => 'required',
@@ -93,7 +98,11 @@ class ProjectController extends Controller
     }
 
     public function update($id, Request $request)
-    {
+    {        
+        if (!$request->user()->can('edit project'.$id))
+        {
+            return "Have no permission";
+        }
         $request->flash();
         $rules = ['name' => 'required|min:3',
             'description' => 'required',

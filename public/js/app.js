@@ -2317,9 +2317,48 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['project_id', 'query_string'],
   computed: {
+    uncheck: {
+      set: function set(val) {
+        if (val) {
+          this.checked = "0";
+          return;
+        }
+
+        if (!this.check) {
+          this.checked = null;
+        }
+      },
+      get: function get() {
+        if (this.checked === "0") {
+          return true;
+        }
+
+        return false;
+      }
+    },
+    check: {
+      set: function set(val) {
+        if (val) {
+          this.checked = "1";
+          return;
+        }
+
+        if (!this.uncheck) {
+          this.checked = null;
+        }
+      },
+      get: function get() {
+        if (this.checked === "1") {
+          return true;
+        }
+
+        return false;
+      }
+    },
     keyword: {
       set: function set(val) {
         var regResult = /\[.+?\]/g.exec(val);
@@ -2353,7 +2392,7 @@ __webpack_require__.r(__webpack_exports__);
         }
 
         if (this.checked) {
-          combine += "[checked:" + Number(this.checked) + "]";
+          combine += "[checked:" + this.checked + "]";
         }
 
         return combine;
@@ -80022,7 +80061,7 @@ var render = function() {
             : ""
         ) +
         "        \n    " +
-        _vm._s(_vm.checked ? "checked" : "") +
+        _vm._s(_vm.checked ? "check or not:" + _vm.checked : "") +
         "\n    "
     ),
     _c("div", { staticClass: "input-group" }, [
@@ -80157,41 +80196,79 @@ var render = function() {
                 _vm._v(" "),
                 _c("div", { staticClass: "form-group" }, [
                   _vm._v(
-                    "\n                        Checked\n                        "
+                    "\n                        Status\n                        checked"
                   ),
                   _c("input", {
                     directives: [
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.checked,
-                        expression: "checked"
+                        value: _vm.check,
+                        expression: "check"
                       }
                     ],
                     attrs: { type: "checkbox", value: "0" },
                     domProps: {
-                      checked: Array.isArray(_vm.checked)
-                        ? _vm._i(_vm.checked, "0") > -1
-                        : _vm.checked
+                      checked: Array.isArray(_vm.check)
+                        ? _vm._i(_vm.check, "0") > -1
+                        : _vm.check
                     },
                     on: {
                       change: function($event) {
-                        var $$a = _vm.checked,
+                        var $$a = _vm.check,
                           $$el = $event.target,
                           $$c = $$el.checked ? true : false
                         if (Array.isArray($$a)) {
                           var $$v = "0",
                             $$i = _vm._i($$a, $$v)
                           if ($$el.checked) {
-                            $$i < 0 && (_vm.checked = $$a.concat([$$v]))
+                            $$i < 0 && (_vm.check = $$a.concat([$$v]))
                           } else {
                             $$i > -1 &&
-                              (_vm.checked = $$a
+                              (_vm.check = $$a
                                 .slice(0, $$i)
                                 .concat($$a.slice($$i + 1)))
                           }
                         } else {
-                          _vm.checked = $$c
+                          _vm.check = $$c
+                        }
+                      }
+                    }
+                  }),
+                  _vm._v("\n                        uncheck"),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.uncheck,
+                        expression: "uncheck"
+                      }
+                    ],
+                    attrs: { type: "checkbox", value: "0" },
+                    domProps: {
+                      checked: Array.isArray(_vm.uncheck)
+                        ? _vm._i(_vm.uncheck, "0") > -1
+                        : _vm.uncheck
+                    },
+                    on: {
+                      change: function($event) {
+                        var $$a = _vm.uncheck,
+                          $$el = $event.target,
+                          $$c = $$el.checked ? true : false
+                        if (Array.isArray($$a)) {
+                          var $$v = "0",
+                            $$i = _vm._i($$a, $$v)
+                          if ($$el.checked) {
+                            $$i < 0 && (_vm.uncheck = $$a.concat([$$v]))
+                          } else {
+                            $$i > -1 &&
+                              (_vm.uncheck = $$a
+                                .slice(0, $$i)
+                                .concat($$a.slice($$i + 1)))
+                          }
+                        } else {
+                          _vm.uncheck = $$c
                         }
                       }
                     }

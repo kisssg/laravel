@@ -2,7 +2,7 @@
     <div>        
         {{owner?'owner:'+owner:''}}        
         {{range_start?'range:'+range_start+' '+range_end:''}}        
-        {{checked?'checked':''}}
+        {{checked?'check or not:'+checked:''}}
         <div class="input-group">
             <div class="input-group-prepend">
                 <button class="btn btn-secondary" type="button" data-toggle="modal" data-target=".bs-search-modal">+</button>
@@ -33,8 +33,9 @@
                             <input type="text"v-model="owner"/>
                         </div>
                         <div class="form-group">
-                            Checked
-                            <input type="checkbox" value="0" v-model="checked"/>
+                            Status
+                            checked<input type="checkbox" value="0" v-model="check"/>
+                            uncheck<input type="checkbox" value="0" v-model="uncheck"/>
                         </div>
                         <div class="form-group">
                             Contract No.
@@ -52,9 +53,44 @@
     export default {
         props: ['project_id', 'query_string'],
         computed: {
+            uncheck: {
+                set(val) {
+                    if (val) {
+                        this.checked = "0";
+                        return;
+                    }
+                    if(!this.check){
+                        this.checked=null;
+                    }
+                    
+                },
+                get() {
+                    if (this.checked === "0") {
+                        return true;
+                    }
+                    return false;
+                }
+            },
+            check: {
+                set(val) {
+                    if (val) {
+                        this.checked = "1";
+                        return;
+                    }
+                    if(!this.uncheck){
+                        this.checked=null;
+                    }
+                },
+                get() {
+                    if (this.checked === "1") {
+                        return true;
+                    }
+                    return false;
+                }
+            },
             keyword: {
                 set(val) {
-                    let regResult = /\[.+?\]/g.exec(val);                    
+                    let regResult = /\[.+?\]/g.exec(val);
                     if (!regResult) {
                         this.contract_number = val;
                         return;
@@ -79,7 +115,7 @@
                         combine += "[contract_no:" + this.contract_number + "]";
                     }
                     if (this.checked) {
-                        combine += "[checked:" + Number(this.checked) + "]";
+                        combine += "[checked:" + this.checked + "]";
                     }
                     return combine;
                 }
