@@ -5,7 +5,8 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <a href='{{url("project")}}'>{{$project->name}}</a> -> Items
+                    <a href='{{url("project")}}'>{{$project->name}}</a> -> Items 
+                    <span class="alert-success">{{old('msg')}}</span>
                     <a class="btn btn-primary float-right" href="{{url('project/item/create?project='.$project->id)}}">New</a>
                 </div>
                 <div id="content" class="card-deck" style="margin:15px auto;">
@@ -34,7 +35,18 @@
                         </div>
                         <div class="card-footer text-center">
                             <a class=" btn btn-primary float-left" href="{{url('project/item/'.$item->id."/edit")}}">Edit</a>
-                            <button class="float-right btn btn-secondary" aria-label="Remove"><span class="glyphicon glyphicon-trash" aria-hidden="true">&times;</span></button></div>
+                            <a class="float-right btn btn-secondary" href="{{ url('project/item/'.$item->id) }}"
+                                       onclick="event.preventDefault();
+                                                    if(confirm('Remove item?')){
+                                                     document.getElementById('delete-form').submit();}">
+                                        <span class="glyphicon glyphicon-trash" aria-hidden="true">&times;</span>
+                                    </a>
+
+                                    <form id="delete-form" action="{{ url('project/item/'.$item->id) }}" method="POST" style="display: none;">
+                                        @csrf
+                                        {{ method_field('DELETE') }}
+                                    </form>
+                        </div>
                     </div>
                     @endforeach
                 </div>

@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class ScoreItem extends Model
 {
+    use \Illuminate\Database\Eloquent\SoftDeletes;
     protected $fillable=['project_id','title','sub_title','score_field','order','option_type','options','scores'];
     public function project(){
         return $this->belongsTo('App\ScoreCard\ScoreProject','project_id');
