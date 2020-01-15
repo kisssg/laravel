@@ -34,8 +34,9 @@ class ProjectController extends Controller
             return "Not authorized!"; //permission controll,permission will be 'use project+project ID'
         }
         $data = new \App\ScoreCard\DataToScore;
+        $searchItems=explode(",",$project->search_columns);//,,,CNT_VIDEO_RECORDS
         $key = $request->get('s') ?: "[owner:" . $request->user()->name . "]";
-        $result = $data->setProject($project)->where(function($query) use ($key, $project) {
+        $result = $data->setProject($project)->where(function($query) use ($key, $project,$searchItems) {
                     if (preg_match('/\[range\:(\d{4}\-\d{2}\-\d{2})\s(\d{4}\-\d{2}\-\d{2})\]/', $key, $matches))
                     {
                         $query->whereBetween($project->date_field, [$matches[1], $matches[2]]);
@@ -51,6 +52,11 @@ class ProjectController extends Controller
                     if (preg_match('/\[contract_no\:(.+?)\]/', $key, $matches3))
                     {
                         $query->where($project->contract_no_field, $matches3[1]);
+                    }
+                    foreach($searchItems as $item){
+                        if(preg_match('/\[diy:'.$item.'\:(.+?)\]/',$key,$match)){
+                            $query->where($item,$match[1]);
+                        }
                     }
                 })->paginate(50)->appends(['s' => $key]);
         return view('score.project.show')->withProject($project)->withData($result);
@@ -82,7 +88,8 @@ class ProjectController extends Controller
             'audit_fillable' => 'required',
             'score_fillable' => 'required',
             'date_field' => 'required',
-            'contract_no_field' => 'required'
+            'contract_no_field' => 'required',
+            'search_columns'=>'required'
         ];
         $this->validate($request, $rules);
         if (ScoreProject::create($request->only(ScoreProject::fillables())))
@@ -113,7 +120,8 @@ class ProjectController extends Controller
             'audit_fillable' => 'required',
             'score_fillable' => 'required',
             'date_field' => 'required',
-            'contract_no_field' => 'required'
+            'contract_no_field' => 'required',
+            'search_columns'=>'required'
         ];
         $this->validate($request, $rules);
         $result = ScoreProject::findOrFail($id)
@@ -131,6 +139,9 @@ class ProjectController extends Controller
     public function remove()
     {
         
+    }
+    public function getDiySearchColumns($project_id){
+        return explode(",",ScoreProject::findOrFail($project_id)->search_columns);
     }
 
 }

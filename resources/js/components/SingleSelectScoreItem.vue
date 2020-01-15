@@ -11,22 +11,26 @@
 </template>
 <script>
     export default{
-        props: ['item','savedAnswer'],
+        props: ['item', 'savedAnswer'],
         mounted() {
-            this.answer=this.savedAnswer;
+            if (this.savedAnswer) {
+                this.answer = this.savedAnswer;
+                return;
+            }
+            this.answer='-';//default answer
         },
         data() {
             return{
-                answer:null
+                answer: null
             };
         },
         methods: {
         },
         computed: {
-            score(){
-                let options=this.item.options.split(',');
-                for(let i=0;i<options.length;i++){
-                    if(options[i]===this.answer){
+            score() {
+                let options = this.item.options.split(',');
+                for (let i = 0; i < options.length; i++) {
+                    if (options[i] === this.answer) {
                         return this.item.scores.split(',')[i];
                     }
                 }

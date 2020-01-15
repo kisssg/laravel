@@ -29,4 +29,17 @@ class Audit extends Model
         $this->project_id=$project->id;
         return $this;
     }
+    public function setData($id){
+        $this->data_id=$id;
+        return $this;
+    }
+    public function setFillable($fillable){
+        $this->fillable($fillable);
+        return $this;
+    }
+    
+    public function data(ScoreProject $project){
+        $data=new DataToScore();
+        return $data->setProject($project)->find($this->data_id);        
+    }
 }

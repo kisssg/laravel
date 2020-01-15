@@ -48,6 +48,10 @@
                         <td><input name='contract_no_field' class='form-control' type='text' value='{{$project->contract_no_field}}'/></td>
                     </tr>
                     <tr>
+                        <td class="text-right">DIY search columns:</td>
+                        <td><input name='search_columns' class='form-control' type='text' value='{{$project->search_columns}}'/></td>
+                    </tr>
+                    <tr>
                         <td class="text-right">Score save to:</td>
                         <td><input name='score_save_to' class='form-control' type='text' value='{{$project->score_save_to}}'/></td>
                     </tr>

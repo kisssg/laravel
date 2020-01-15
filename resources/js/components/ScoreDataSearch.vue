@@ -2,7 +2,8 @@
     <div>        
         {{owner?'owner:'+owner:''}}        
         {{range_start?'range:'+range_start+' '+range_end:''}}        
-        {{checked?'check or not:'+checked:''}}
+        {{checked?'checked?:'+checked:''}}
+        {{diySearchValue?diySearchItem+':'+diySearchValue:''}}
         <div class="input-group">
             <div class="input-group-prepend">
                 <button class="btn btn-secondary" type="button" data-toggle="modal" data-target=".bs-search-modal">+</button>
@@ -40,6 +41,12 @@
                         <div class="form-group">
                             Contract No.
                             <input type="text" v-model="contract_number"/>
+                        </div>
+                        <div class="form-group">
+                            <select v-model="diySearchItem">
+                                <option v-for="item in diySearchItems">{{item}}</option>
+                            </select>
+                                <input type="text" v-model="diySearchValue"/>
                         </div>
                     </div>     
                     <div class="modal-footer">
@@ -102,6 +109,8 @@
                     this.range_start = rangeResult ? rangeResult[1] : null;
                     this.range_end = rangeResult ? rangeResult[2] : null;
                     this.owner = /\[owner:(.+?)\]/g.exec(val) ? /\[owner:(.+?)\]/g.exec(val)[1] : null;
+                    this.diySearchItem = /\[diy:(.+?):(.+?)\]/g.exec(val) ? /\[diy:(.+?):(.+?)\]/g.exec(val)[1] : null;
+                    this.diySearchValue = /\[diy:(.+?):(.+?)\]/g.exec(val) ? /\[diy:(.+?):(.+?)\]/g.exec(val)[2] : null;
                 },
                 get() {
                     let combine = '';
@@ -117,12 +126,16 @@
                     if (this.checked) {
                         combine += "[checked:" + this.checked + "]";
                     }
+                    if(this.diySearchValue){
+                        combine += "[diy:"+this.diySearchItem+":"+this.diySearchValue+"]";
+                    }
                     return combine;
                 }
             }
         },
         mounted() {
             this.keyword = this.query_string;
+            this.getDiySearchItems(this.project_id);
         },
         data() {
             return{
@@ -131,12 +144,21 @@
                 defaultKeyword: null,
                 owner: null,
                 checked: null,
-                contract_number: null
+                contract_number: null,
+                diySearchItems:null,
+                diySearchItem:null,
+                diySearchValue:null
             };
         },
         methods: {
             submit: function () {
                 window.location = '?s=' + encodeURIComponent(this.keyword);
+            },
+            getDiySearchItems:function(project_id){
+                axios.get('/project/search_columns/'+project_id).then(res=>{
+                    this.diySearchItems=res.data;
+                    console.log(res.data);
+                });
             }
         }
     }

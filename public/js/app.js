@@ -2222,8 +2222,8 @@ __webpack_require__.r(__webpack_exports__);
 
       totalScore = totalScore < 0 ? 0 : totalScore; //总分小于0分就是0分
 
-      this.totalScore = totalScore;
-      score.score = totalScore;
+      this.totalScore = totalScore.toFixed(2);
+      score.score = totalScore.toFixed(2);
       score.data_id = this.data_to_score.id;
       score.project_id = this.project_id;
       var url = "/project/score",
@@ -2267,6 +2267,13 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2375,6 +2382,8 @@ __webpack_require__.r(__webpack_exports__);
         this.range_start = rangeResult ? rangeResult[1] : null;
         this.range_end = rangeResult ? rangeResult[2] : null;
         this.owner = /\[owner:(.+?)\]/g.exec(val) ? /\[owner:(.+?)\]/g.exec(val)[1] : null;
+        this.diySearchItem = /\[diy:(.+?):(.+?)\]/g.exec(val) ? /\[diy:(.+?):(.+?)\]/g.exec(val)[1] : null;
+        this.diySearchValue = /\[diy:(.+?):(.+?)\]/g.exec(val) ? /\[diy:(.+?):(.+?)\]/g.exec(val)[2] : null;
       },
       get: function get() {
         var combine = '';
@@ -2395,12 +2404,17 @@ __webpack_require__.r(__webpack_exports__);
           combine += "[checked:" + this.checked + "]";
         }
 
+        if (this.diySearchValue) {
+          combine += "[diy:" + this.diySearchItem + ":" + this.diySearchValue + "]";
+        }
+
         return combine;
       }
     }
   },
   mounted: function mounted() {
     this.keyword = this.query_string;
+    this.getDiySearchItems(this.project_id);
   },
   data: function data() {
     return {
@@ -2409,12 +2423,23 @@ __webpack_require__.r(__webpack_exports__);
       defaultKeyword: null,
       owner: null,
       checked: null,
-      contract_number: null
+      contract_number: null,
+      diySearchItems: null,
+      diySearchItem: null,
+      diySearchValue: null
     };
   },
   methods: {
     submit: function submit() {
       window.location = '?s=' + encodeURIComponent(this.keyword);
+    },
+    getDiySearchItems: function getDiySearchItems(project_id) {
+      var _this = this;
+
+      axios.get('/project/search_columns/' + project_id).then(function (res) {
+        _this.diySearchItems = res.data;
+        console.log(res.data);
+      });
     }
   }
 });
@@ -2546,7 +2571,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['item', 'savedAnswer'],
   mounted: function mounted() {
-    this.answer = this.savedAnswer;
+    if (this.savedAnswer) {
+      this.answer = this.savedAnswer;
+      return;
+    }
+
+    this.answer = '-'; //default answer
   },
   data: function data() {
     return {
@@ -80061,7 +80091,11 @@ var render = function() {
             : ""
         ) +
         "        \n    " +
-        _vm._s(_vm.checked ? "check or not:" + _vm.checked : "") +
+        _vm._s(_vm.checked ? "checked?:" + _vm.checked : "") +
+        "\n    " +
+        _vm._s(
+          _vm.diySearchValue ? _vm.diySearchItem + ":" + _vm.diySearchValue : ""
+        ) +
         "\n    "
     ),
     _c("div", { staticClass: "input-group" }, [
@@ -80296,6 +80330,62 @@ var render = function() {
                           return
                         }
                         _vm.contract_number = $event.target.value
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.diySearchItem,
+                          expression: "diySearchItem"
+                        }
+                      ],
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.diySearchItem = $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        }
+                      }
+                    },
+                    _vm._l(_vm.diySearchItems, function(item) {
+                      return _c("option", [_vm._v(_vm._s(item))])
+                    }),
+                    0
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.diySearchValue,
+                        expression: "diySearchValue"
+                      }
+                    ],
+                    attrs: { type: "text" },
+                    domProps: { value: _vm.diySearchValue },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.diySearchValue = $event.target.value
                       }
                     }
                   })

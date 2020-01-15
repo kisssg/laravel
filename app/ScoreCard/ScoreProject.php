@@ -19,7 +19,7 @@ class ScoreProject extends Model
 {
     use \Illuminate\Database\Eloquent\SoftDeletes;
     protected $fillable=['name', 'description', 'data_to_score', 'score_save_to','audit_save_to','data_fillable',
-        'audit_fillable','score_fillable','data_list_columns','data_to_score_columns','date_field','contract_no_field'];
+        'audit_fillable','score_fillable','data_list_columns','data_to_score_columns','date_field','contract_no_field','search_columns'];
     public function items(){
         return $this->hasMany('App\ScoreCard\ScoreItem','project_id')->orderBy('order');
     }

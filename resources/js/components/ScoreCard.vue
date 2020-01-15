@@ -77,8 +77,8 @@
                 }
                 totalScore = totalScore > 100 ? 100 : totalScore;//总分大于100分就是100分
                 totalScore = totalScore < 0 ? 0 : totalScore;//总分小于0分就是0分
-                this.totalScore=totalScore;
-                score.score=totalScore;
+                this.totalScore=totalScore.toFixed(2);
+                score.score=totalScore.toFixed(2);
                 score.data_id = this.data_to_score.id;
                 score.project_id = this.project_id;
                 let url = "/project/score", args = score;

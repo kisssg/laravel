@@ -67,6 +67,7 @@ Route::resource('project/item','ScoreCard\ScoreItemController')->middleware('aut
 Route::resource('project/score','ScoreCard\ScoreController')->middleware('auth');
 Route::get('project/data/pick/{id}','ScoreCard\DataToScoreController@pick')->middleware('auth');
 Route::resource('project/data','ScoreCard\DataToScoreController')->middleware('auth');
+Route::get("project/search_columns/{id}","ScoreCard\ProjectController@getDiySearchColumns")->middleware('auth');
 Route::resource('project','ScoreCard\ProjectController')->middleware('auth');
 Route::get('concentration',"ConcentrationController@index")->middleware('auth');
 Route::get('training-test',"OnlineTestController@getTraingTestResults");
