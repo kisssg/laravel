@@ -43,7 +43,7 @@ class DataToScoreController extends Controller
             $project = Project::findOrFail($request->get('project_id'));
             $dataInstance = new Data;
             $data = $dataInstance->setProject($project)->findOrFail($id);
-            if ($data->owner !== null)
+            if ($data->owner !== null && $data->owner!=='')
             {
                 throw new \Exception($data->owner);
             }
