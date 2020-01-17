@@ -10,45 +10,34 @@
                     <a class="btn btn-primary float-right" href="{{url('project/item/create?project='.$project->id)}}">New</a>
                 </div>
                 <div id="content" class="card-deck" style="margin:15px auto;">
-                    @foreach($project->items as $item)
-                    <div class="card" style="max-width: 15rem; min-width: 15rem; position:relative;">
-                        <div class="card-header">{{$item->title}}</div>
-                        <div class="card-body">{{$item->sub_title}}
-                            <table class="table table-borderless">
-                            <tr>
-                                <td>Order:</td>
-                                <td>{{$item->order}}</td>
-                            </tr>
-                            <tr>
-                                <td>Field:</td>
-                                <td>{{$item->score_field}}</td>
-                            </tr>
-                            <tr>
-                                <td>Type:</td>
-                                <td>{{$item->option_type}}</td>
-                            </tr>
-                            <tr>
-                                <td>Options:</td>
-                                <td>{{$item->options}}</td>
-                            </tr>
-                            </table>
-                        </div>
-                        <div class="card-footer text-center">
-                            <a class=" btn btn-primary float-left" href="{{url('project/item/'.$item->id."/edit")}}">Edit</a>
-                            <a class="float-right btn btn-secondary" href="{{ url('project/item/'.$item->id) }}"
-                                       onclick="event.preventDefault();
-                                                    if(confirm('Remove item?')){
-                                                     document.getElementById('delete-form').submit();}">
-                                        <span class="glyphicon glyphicon-trash" aria-hidden="true">&times;</span>
-                                    </a>
+                    <table class="table table-responsive-lg">
+                        <thead>
+                        <th>Item</th><th>Order</th><th>Field</th><th>Type</th><th>Options/scores</th><th>Action</th>
+                        </thead>
+                        @foreach($project->items as $item)
+                        <tr>
+                            <td title='{{$item->sub_title}}'>{{$item->title}}</td>                           
+                            <td>{{$item->order}}</td>   
+                            <td>{{$item->score_field}}</td>
+                            <td>{{$item->option_type}}</td>   
+                            <td>{{$item->options}}<br/>
+                                {{$item->scores}}</td>   
+                            <td><a  href="{{url('project/item/'.$item->id."/edit")}}" class="btn btn-info btn-xs">Edit</a>
+                                <a  href="{{ url('project/item/'.$item->id) }}"  class="btn btn-danger btn-xs"
+                                    onclick="event.preventDefault();
+                                            if (confirm('Remove item?')) {
+                                                document.getElementById('delete-form').submit();
+                                            }">
+                                    <span class="glyphicon glyphicon-trash" aria-hidden="true">&times;</span>
+                                </a></td>
 
-                                    <form id="delete-form" action="{{ url('project/item/'.$item->id) }}" method="POST" style="display: none;">
-                                        @csrf
-                                        {{ method_field('DELETE') }}
-                                    </form>
-                        </div>
-                    </div>
-                    @endforeach
+                        <form id="delete-form" action="{{ url('project/item/'.$item->id) }}" method="POST" style="display: none;">
+                            @csrf
+                            {{ method_field('DELETE') }}
+                        </form>
+                        </tr>
+                        @endforeach                    
+                    </table>
                 </div>
                 <div class='card-footer'></div>
             </div>
