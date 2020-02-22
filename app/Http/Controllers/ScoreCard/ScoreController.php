@@ -24,23 +24,7 @@ class ScoreController extends Controller
 
     public function index()
     {
-        try {
-            $project = ScoreProject::findOrFail(1);
-            $score = new Score;
-            $result = $score->setProject($project);
-            if (count($result->where("data_id", 201)->get()))
-            {
-                $record = $result->firstOrCreate(["data_id" => 20], []);
-                $record->fillable(["data_id", "project_id", "col1"]);
-                $record->update(["col1" => "0-2"]);
-                return $record;
-            }
-            $result->fill(["data_id" => 201, "project_id" => 1, "col1" => "0-3"]);
-            $result->save();
-            return $result;
-        } catch (Exception $e) {
-            return json_encode($e->getMessage());
-        }
+        return false;
     }
 
     public function create(Request $request)
