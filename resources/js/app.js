@@ -49,6 +49,7 @@ const app = new Vue({
         combine: '',
         data_to_score: null,
         score: null,
+        audit:null,
         scoreCardKey:10
     },
     methods: {
@@ -57,6 +58,9 @@ const app = new Vue({
         },
         setScore(value) {
             this.score = value;
+        },
+        setAudit(value){
+          this.audit=value;  
         },
         searchViolation() {
             if (this.channel !== '') {

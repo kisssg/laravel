@@ -58,7 +58,7 @@ class AuditController extends Controller {
         $audit->setProject($project);
         $audit->fill(["1" => '1', "4" => '2', '3' => '3']);
         $audit->save();
-        return $score->fillable;
+        return $audit->fillable;
     }
 
     public function show(Request $req, $id) {
@@ -68,8 +68,34 @@ class AuditController extends Controller {
         return $result;
     }
 
-    public function store() {
-        
+    public function store(Request $request) {
+        try {
+            $project = ScoreProject::findOrFail($request->project_id);
+            $audit = new Audit;
+            $result = $audit->setProject($project);
+            $now = date('Y-m-d H:i:s');
+            if (count($result->where("data_id", $request->data_id)->get())) {
+                /**
+                 * if record exists, update it; why firstOrCreate? actually the 'Create' part will never be triggered here,
+                 * we only need the 'first-' part, only this way can the fillable() work.
+                 * I don't know why this works, don't ask!
+                 */
+                $record = $result->firstOrCreate(["data_id" => $request->data_id], []);
+                //@todo:check if submittor is the one created it.
+                if($record->auditor!=$request->user()->name){
+                    throw new \Exception('You can\'t change audit not created by you.');
+                }
+                $record->fillable(explode(",", $project->audit_fillable));
+                $record->update($request->all());
+                return '{"result":"success","audit":' . $record . ',"msg":"Audit updated at ' . $now . '"}';
+            }
+            $result->fill($request->all());
+            $result->auditor=$request->user()->name;
+            $result->save();
+            return '{"result":"success","audit":' . $result . ',"msg":"Audit added at ' . $now . '"}';
+        } catch (\Exception $e) {
+            return '{"result":"failed","msg":"' . $e->getMessage() . '","audit":null}';
+        }        
     }
 
     public function edit() {
