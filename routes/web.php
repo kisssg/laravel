@@ -11,6 +11,9 @@
  * |
  */
 Auth::routes(['register' => false]);
+Route::resource('roles','Permission\RolesController');
+Route::resource('permissions','Permission\PermissionsController');
+Route::resource('users','Permission\UsersController');
 Route::get('/', 'HomeController@index')->middleware('auth');
 Route::get('/home', 'HomeController@index')->middleware('auth');
 Route::group([
