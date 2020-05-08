@@ -21,7 +21,8 @@
                     @endforeach
                     <td>
                 <data-pick-button id='{{$d->id}}' user='{{$d->owner}}' project='{{$project->id}}' @set-data='setData' @set-score='setScore' ref="pickScoreBtn{{$d->id}}"></data-pick-button>
-                </td>
+                <audit-button id='{{$d->id}}' user='{{$d->owner}}' project='{{$project->id}}' @set-data='setData' @set-score='setScore' @set-audit='setAudit' ref="auditBtn{{$d->id}}">Audit</audit-button>
+            </td>
                 </tr>
                 @endforeach
             </table>

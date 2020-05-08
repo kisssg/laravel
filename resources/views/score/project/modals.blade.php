@@ -5,3 +5,8 @@
     </div>
 </div>
 <!--end of score card-->
+<div class="modal fade bs-audit-card" data-backdrop="static"  tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog modal-lg" role="document">        
+        <audit-card project_id='{{ $project->id}}' ref='scoreCard' :key="scoreCardKey"></audit-card>
+    </div>
+</div>

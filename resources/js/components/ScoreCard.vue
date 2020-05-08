@@ -89,6 +89,7 @@
                 });
                 let parent = this.$parent, pickScoreBtn = 'pickScoreBtn' + score.data_id;
                 let vm = this;
+                vm.msg='Result submitting...';
                 $.post(url, args, function (data) {
                     vm.msg = (data.msg);
                     if (data.result === "success") {

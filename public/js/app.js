@@ -1710,6 +1710,131 @@ module.exports = function isBuffer (obj) {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AuditButton.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/AuditButton.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {},
+  props: ['id', 'user', 'project'],
+  computed: {
+    isAuditable: function isAuditable() {
+      if (this.owner === '') {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    btnClass: function btnClass() {
+      return 'btn-default';
+    }
+  },
+  mounted: function mounted() {
+    this.owner = this.user;
+  },
+  data: function data() {
+    return {
+      owner: '',
+      data: null,
+      score: null,
+      audit: null,
+      dataFetched: false,
+      auditFetched: false,
+      pickResult: null
+    };
+  },
+  methods: {
+    execute: function execute() {
+      if (!this.dataFetched || !this.auditFetched) {
+        this.$emit("set-data", null); //send null data in case ajax fethch nothing and score card show the previous
+
+        this.$emit("set-score", null);
+        this.$emit("set-audit", null);
+        console.log('null data and score sent to app');
+        this.getData(this.id, this.project, this);
+        this.getScore(this.id, this.project, this);
+        return;
+      }
+
+      this.$emit("set-data", this.data);
+      this.$emit("set-score", this.score);
+      this.$emit("set-audit", this.audit);
+      this.$parent.scoreCardKey++;
+      console.log('card key++');
+      $(".bs-audit-card").modal('show');
+    },
+    getData: _.debounce(function (id, project, vm) {
+      var _this = this;
+
+      axios.get('data/' + id + '?project=' + project).then(function (res) {
+        vm.data = res.data;
+        _this.dataFetched = true;
+
+        _this.$emit("set-data", vm.data);
+
+        console.log('ajax got data and sent to app');
+      }, function (error) {
+        if (error.response.status !== 200) {
+          vm.issues = "error";
+        }
+
+        return error;
+      });
+    }, 50),
+    getScore: _.debounce(function (data_id, project, vm) {
+      var _this2 = this;
+
+      axios.get('score/' + data_id + '?project=' + project).then(function (res) {
+        vm.score = res.data;
+        _this2.scoreFetched = true;
+
+        _this2.$emit("set-score", vm.score);
+
+        console.log('ajax got score and sent to app');
+
+        _this2.getAudit(data_id, project, vm);
+      }, function (error) {
+        if (error.response.status !== 200) {
+          console.log('error triggered');
+        }
+
+        return false;
+      });
+    }, 50),
+    getAudit: _.debounce(function (data_id, project, vm) {
+      var _this3 = this;
+
+      axios.get('audit/' + data_id + '?project=' + project).then(function (res) {
+        vm.audit = res.data; //fetch audit and set this.audit
+
+        _this3.auditFetched = true; //set flag
+
+        _this3.$emit('set-audit', vm.audit); //sent to parent app.js for auditCard to fetch,set audit card computed audit
+
+
+        console.log('audit got and sent to app');
+        console.log(vm.audit);
+        _this3.$parent.scoreCardKey++;
+        console.log('card key++');
+        console.log(_this3);
+        $(".bs-audit-card").modal('show');
+      });
+    }, 50)
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AuditCard.vue?vue&type=script&lang=js&":
 /*!********************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/AuditCard.vue?vue&type=script&lang=js& ***!
@@ -1762,18 +1887,43 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['project_id'],
   mounted: function mounted() {
-    console.log('score card mounted');
+    console.log('audit card mounted');
     this.getItems(this.project_id, this);
     this.totalScore = this.$parent.score ? this.$parent.score.score : null;
+
+    if (this.audit) {
+      this.result = this.audit.result;
+      this.remark = this.audit.remark;
+    }
   },
   data: function data() {
     return {
       "items": null,
       "totalScore": 0,
-      'msg': ''
+      'msg': '',
+      'result': null,
+      'remark': null
     };
   },
   methods: {
@@ -1788,6 +1938,33 @@ __webpack_require__.r(__webpack_exports__);
         return false;
       });
     }, 50),
+    submitAudit: function submitAudit() {
+      this.msg = 'Audit submiting...';
+      var audit = {};
+      audit.result = this.result;
+      audit.remark = this.remark;
+      audit.data_id = this.data_to_score.id;
+      audit.project_id = this.project_id;
+      var url = "/project/audit",
+          args = audit;
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+      var parent = this.$parent,
+          auditBtn = 'auditBtn' + audit.data_id; //when audit saved OK, set local audit equals the saved one
+
+      var vm = this;
+      $.post(url, args, function (data) {
+        vm.msg = data.msg;
+
+        if (data.result === "success") {
+          //@TODO:show the new score when changed.    
+          parent.$refs[auditBtn].audit = data.audit;
+        }
+      }, 'json');
+    },
     submitResult: function submitResult() {
       var score = {};
       var scoreData = this.$refs,
@@ -1832,6 +2009,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     score: function score() {
       return this.$parent.score;
+    },
+    audit: function audit() {
+      return this.$parent.audit;
     }
   }
 });
@@ -2364,6 +2544,7 @@ __webpack_require__.r(__webpack_exports__);
       var parent = this.$parent,
           pickScoreBtn = 'pickScoreBtn' + score.data_id;
       var vm = this;
+      vm.msg = 'Result submitting...';
       $.post(url, args, function (data) {
         vm.msg = data.msg;
 
@@ -80687,6 +80868,40 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AuditButton.vue?vue&type=template&id=f00e495c&":
+/*!**************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/AuditButton.vue?vue&type=template&id=f00e495c& ***!
+  \**************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "button",
+      {
+        class: "btn btn-sm " + _vm.btnClass,
+        attrs: { hidden: _vm.isAuditable },
+        on: { click: _vm.execute }
+      },
+      [_vm._v("Audit")]
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AuditCard.vue?vue&type=template&id=c135dba0&":
 /*!************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/AuditCard.vue?vue&type=template&id=c135dba0& ***!
@@ -80811,7 +81026,92 @@ var render = function() {
                 _vm._v(_vm._s(_vm.totalScore))
               ])
             ])
-          ])
+          ]),
+          _vm._v(" "),
+          _c(
+            "tr",
+            {
+              staticStyle: { "background-color": "lightblue", color: "white" }
+            },
+            [
+              _c("td", [
+                _vm._v(
+                  "\n                    Audit Result: \n                    "
+                ),
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.result,
+                        expression: "result"
+                      }
+                    ],
+                    on: {
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.result = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      }
+                    }
+                  },
+                  [
+                    _c("option", [_vm._v("Y")]),
+                    _vm._v(" "),
+                    _c("option", [_vm._v("N")]),
+                    _vm._v(" "),
+                    _c("option")
+                  ]
+                )
+              ])
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "tr",
+            {
+              staticStyle: { "background-color": "lightblue", color: "white" }
+            },
+            [
+              _c("td", [
+                _c("div", [
+                  _c("span", [_vm._v("Remark:")]),
+                  _vm._v(" "),
+                  _c("textarea", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.remark,
+                        expression: "remark"
+                      }
+                    ],
+                    staticClass: "form-group",
+                    staticStyle: { width: "100%" },
+                    domProps: { value: _vm.remark },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.remark = $event.target.value
+                      }
+                    }
+                  })
+                ])
+              ])
+            ]
+          )
         ],
         2
       )
@@ -80849,7 +81149,7 @@ var render = function() {
       _c("input", {
         staticClass: "btn btn-primary",
         attrs: { type: "button", value: "保存" },
-        on: { click: _vm.submitResult }
+        on: { click: _vm.submitAudit }
       })
     ])
   ])
@@ -80859,21 +81159,28 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-header" }, [
-      _vm._v("Score Card            \n        "),
-      _c(
-        "button",
-        {
-          staticClass: "close",
-          attrs: {
-            type: "button",
-            "data-dismiss": "modal",
-            "aria-label": "Close"
-          }
-        },
-        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-      )
-    ])
+    return _c(
+      "div",
+      {
+        staticClass: "modal-header",
+        staticStyle: { color: "white", "background-color": "lightblue" }
+      },
+      [
+        _vm._v("Audit Card            \n        "),
+        _c(
+          "button",
+          {
+            staticClass: "close",
+            attrs: {
+              type: "button",
+              "data-dismiss": "modal",
+              "aria-label": "Close"
+            }
+          },
+          [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+        )
+      ]
+    )
   }
 ]
 render._withStripped = true
@@ -112153,6 +112460,7 @@ exports.registerPainter = registerPainter;
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
+	"./components/AuditButton.vue": "./resources/js/components/AuditButton.vue",
 	"./components/AuditCard.vue": "./resources/js/components/AuditCard.vue",
 	"./components/Callback.vue": "./resources/js/components/Callback.vue",
 	"./components/CameraRecords.vue": "./resources/js/components/CameraRecords.vue",
@@ -112263,6 +112571,7 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_3___default.a({
     combine: '',
     data_to_score: null,
     score: null,
+    audit: null,
     scoreCardKey: 10
   },
   methods: {
@@ -112271,6 +112580,9 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_3___default.a({
     },
     setScore: function setScore(value) {
       this.score = value;
+    },
+    setAudit: function setAudit(value) {
+      this.audit = value;
     },
     searchViolation: function searchViolation() {
       if (this.channel !== '') {
@@ -112414,6 +112726,75 @@ if (token) {
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/components/AuditButton.vue":
+/*!*************************************************!*\
+  !*** ./resources/js/components/AuditButton.vue ***!
+  \*************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _AuditButton_vue_vue_type_template_id_f00e495c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AuditButton.vue?vue&type=template&id=f00e495c& */ "./resources/js/components/AuditButton.vue?vue&type=template&id=f00e495c&");
+/* harmony import */ var _AuditButton_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AuditButton.vue?vue&type=script&lang=js& */ "./resources/js/components/AuditButton.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _AuditButton_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _AuditButton_vue_vue_type_template_id_f00e495c___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _AuditButton_vue_vue_type_template_id_f00e495c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/AuditButton.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/AuditButton.vue?vue&type=script&lang=js&":
+/*!**************************************************************************!*\
+  !*** ./resources/js/components/AuditButton.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AuditButton_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./AuditButton.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AuditButton.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AuditButton_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/AuditButton.vue?vue&type=template&id=f00e495c&":
+/*!********************************************************************************!*\
+  !*** ./resources/js/components/AuditButton.vue?vue&type=template&id=f00e495c& ***!
+  \********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AuditButton_vue_vue_type_template_id_f00e495c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./AuditButton.vue?vue&type=template&id=f00e495c& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AuditButton.vue?vue&type=template&id=f00e495c&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AuditButton_vue_vue_type_template_id_f00e495c___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AuditButton_vue_vue_type_template_id_f00e495c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
 
 /***/ }),
 
