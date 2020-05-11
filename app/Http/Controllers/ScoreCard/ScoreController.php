@@ -52,7 +52,7 @@ class ScoreController extends Controller
             $project = ScoreProject::findOrFail($request->project_id);
             $dataInstance = new Data;
             $data = $dataInstance->setProject($project)->findOrFail($request->data_id);
-            if($data->owner!=$request->user()->name && !$request->user()->can('edit score of others in project'.$project->id)){
+            if( strtolower($data->owner)!= strtolower($request->user()->name) && !$request->user()->can('edit score of others in project'.$project->id)){
                 throw new \Exception('You can\'t update data owned by '.$data->owner);
             }
             $score = new Score;
