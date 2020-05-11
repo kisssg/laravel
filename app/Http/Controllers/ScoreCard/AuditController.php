@@ -25,7 +25,7 @@ class AuditController extends Controller {
             $project = ScoreProject::findOrFail($request->project_id);
             $dataInstance = new Data;
             $data = $dataInstance->setProject($project)->findOrFail($request->data_id);
-            if ($data->owner != $request->user()->name) {
+            if (strtolower($data->owner) != strtolower($request->user()->name)) {
                 throw new \Exception('You can\'t update data owned by ' . $data->owner);
             }
             $score = new Score;
