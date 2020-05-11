@@ -26,7 +26,7 @@
                                 <form id="{{'delete-form'.$item->id}}" action="{{ url('project/item/'.$item->id) }}" method="POST" style="display: inline;">
                                     {{ method_field('DELETE') }}
                                     {{ csrf_field() }}
-                                    <button type="submit" class="btn btn-danger">&times;</button>
+                                    <button type="submit" class="btn btn-danger">Remove</button>
                                 </form></td>
 
                         </tr>
