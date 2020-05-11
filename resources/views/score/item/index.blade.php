@@ -23,18 +23,12 @@
                             <td>{{$item->options}}<br/>
                                 {{$item->scores}}</td>   
                             <td><a  href="{{url('project/item/'.$item->id."/edit")}}" class="btn btn-info btn-xs">Edit</a>
-                                <a  href="{{ url('project/item/'.$item->id) }}"  class="btn btn-danger btn-xs"
-                                    onclick="event.preventDefault();
-                                            if (confirm('Remove item?')) {
-                                                document.getElementById('delete-form').submit();
-                                            }">
-                                    <span class="glyphicon glyphicon-trash" aria-hidden="true">&times;</span>
-                                </a></td>
+                                <form id="{{'delete-form'.$item->id}}" action="{{ url('project/item/'.$item->id) }}" method="POST" style="display: inline;">
+                                    {{ method_field('DELETE') }}
+                                    {{ csrf_field() }}
+                                    <button type="submit" class="btn btn-danger">&times;</button>
+                                </form></td>
 
-                        <form id="delete-form" action="{{ url('project/item/'.$item->id) }}" method="POST" style="display: none;">
-                            @csrf
-                            {{ method_field('DELETE') }}
-                        </form>
                         </tr>
                         @endforeach                    
                     </table>
