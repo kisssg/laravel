@@ -1,15 +1,14 @@
 @extends('layouts.app') 
 @section('content')
-<div class="container">
     <div class="card">
         <div class="card-header">
             {{$project->name}} data list
         </div>
         <div id="content" class="card-body" >
             <score-data-search project_id="{{$project->id}}" query_string="{{\Request::get('s')}}"></score-data-search>
-            <table class='table-condensed table-bordered'>
+            <table class='table table-striped  table-hover table-responsive-md'>
                 <thead>
-                    @foreach(explode(",",$project->data_list_columns) as $title)
+                    @foreach(explode(",",$project->data_list_column_alias) as $title)
                 <th>{{$title}}</th>                    
                 @endforeach
                 <th>Action</th>
@@ -29,6 +28,5 @@
         </div>
         <div class='card-footer'>{{$data->links()}}</div>
     </div>
-</div>
 @include('score.project.modals')
 @endsection

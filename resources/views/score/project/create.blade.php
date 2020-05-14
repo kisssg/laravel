@@ -34,6 +34,10 @@
                         <td><input name='data_list_columns' class='form-control' type='text' value='{{old('data_list_columns')}}'/></td>
                     </tr>
                     <tr>
+                        <td class="text-right">Data list column alias(titles showing):</td>
+                        <td><input name='data_list_column_alias' class='form-control' type='text' value='{{old('data_list_column_alias')}}'/></td>
+                    </tr>
+                    <tr>
                         <td class="text-right">Data columns on score card:</td>
                         <td><input name='data_to_score_columns' class='form-control' type='text' value='{{old('data_to_score_columns')}}'/></td>
                     </tr>
