@@ -2,9 +2,9 @@
 @section('content')
     <div class="card">
         <div class="card-header">
-            {{$project->name}} data list
+            {{$project->name}} data list {{$data->total()}}
         </div>
-        <div id="content" class="card-body" >
+        <div id="content" class="card-body" >            
             <score-data-search project_id="{{$project->id}}" query_string="{{\Request::get('s')}}"></score-data-search>
             <table class='table table-striped  table-hover table-responsive-md'>
                 <thead>

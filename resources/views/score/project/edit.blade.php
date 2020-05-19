@@ -44,6 +44,10 @@
                         <td><input name='data_to_score_columns' class='form-control' type='text' value='{{$project->data_to_score_columns}}'/></td>
                     </tr>
                     <tr>
+                        <td class="text-right">Data columns to order by:</td>
+                        <td><input name='order_by_columns' class='form-control' type='text' value='{{$project->order_by_columns}}'/></td>
+                    </tr>
+                    <tr>
                         <td class="text-right">Data field of date:</td>
                         <td><input name='date_field' class='form-control' type='text' value='{{$project->date_field}}'/></td>
                     </tr>
