@@ -58,7 +58,7 @@ class ProjectController extends Controller
                             $query->where($item,$match[1]);
                         }
                     }
-                })->paginate(50)->appends(['s' => $key]);
+                })->orderByRaw($project->order_by_columns)->paginate(50)->appends(['s' => $key]);
         return view('score.project.show')->withProject($project)->withData($result);
     }
 
@@ -89,7 +89,8 @@ class ProjectController extends Controller
             'score_fillable' => 'required',
             'date_field' => 'required',
             'contract_no_field' => 'required',
-            'search_columns'=>'required'
+            'search_columns'=>'required',
+            'order_by_columns'=>'required'
         ];
         $this->validate($request, $rules);
         if (ScoreProject::create($request->only(ScoreProject::fillables())))
@@ -121,7 +122,8 @@ class ProjectController extends Controller
             'score_fillable' => 'required',
             'date_field' => 'required',
             'contract_no_field' => 'required',
-            'search_columns'=>'required'
+            'search_columns'=>'required',
+            'order_by_columns'=>'required'
         ];
         $this->validate($request, $rules);
         $result = ScoreProject::findOrFail($id)
