@@ -98,7 +98,7 @@
                 audit.remark=this.remark;
                 audit.data_id=this.data_to_score.id;
                 audit.project_id=this.project_id;
-                
+                console.log(audit);
                 let url = "/project/audit", args = audit;
                 $.ajaxSetup({
                     headers: {
