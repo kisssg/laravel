@@ -1945,6 +1945,7 @@ __webpack_require__.r(__webpack_exports__);
       audit.remark = this.remark;
       audit.data_id = this.data_to_score.id;
       audit.project_id = this.project_id;
+      console.log(audit);
       var url = "/project/audit",
           args = audit;
       $.ajaxSetup({
