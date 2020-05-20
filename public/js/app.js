@@ -1905,6 +1905,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['project_id'],
   mounted: function mounted() {
@@ -2448,6 +2450,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
 //
 //
 //
@@ -80921,238 +80925,275 @@ var render = function() {
   return _c("div", { staticClass: "modal-content" }, [
     _vm._m(0),
     _vm._v(" "),
-    _c("div", { staticClass: "modal-body" }, [
-      _c(
-        "table",
-        { staticClass: "table-bordered table-condensed" },
-        [
-          _vm._l(_vm.data_to_score, function(item, key, index) {
-            return _c(
-              "div",
-              {
-                staticClass: "d-inline-block",
-                staticStyle: {
-                  padding: "0 20px 3px 0",
-                  "font-family": "sans-serif",
-                  "font-size": "16px"
-                }
-              },
+    _c(
+      "div",
+      {
+        staticClass: "modal-body",
+        staticStyle: { "background-color": "#cce8cf" }
+      },
+      [
+        _c(
+          "table",
+          { staticClass: "table-bordered table-condensed table-hover" },
+          [
+            _c(
+              "tbody",
               [
-                _c("span", { staticStyle: { border: "1px solid #515151" } }, [
-                  _c(
-                    "span",
+                _vm._l(_vm.data_to_score, function(item, key, index) {
+                  return _c(
+                    "div",
                     {
+                      staticClass: "d-inline-block",
                       staticStyle: {
-                        "background-color": "#515151",
-                        color: "white",
-                        "align-content": "center"
+                        padding: "0 20px 3px 0",
+                        "font-family": "sans-serif",
+                        "font-size": "16px"
                       }
                     },
                     [
                       _c(
                         "span",
-                        {
-                          staticStyle: { "font-size": "12px", padding: "2px" }
-                        },
-                        [_vm._v(_vm._s(key))]
+                        { staticStyle: { border: "1px solid #515151" } },
+                        [
+                          _c(
+                            "span",
+                            {
+                              staticStyle: {
+                                "background-color": "#515151",
+                                color: "white",
+                                "align-content": "center"
+                              }
+                            },
+                            [
+                              _c(
+                                "span",
+                                {
+                                  staticStyle: {
+                                    "font-size": "12px",
+                                    padding: "2px"
+                                  }
+                                },
+                                [_vm._v(_vm._s(key))]
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "span",
+                            {
+                              staticStyle: {
+                                "font-size": "12px",
+                                padding: "2px"
+                              }
+                            },
+                            [_vm._v(_vm._s(item))]
+                          )
+                        ]
                       )
                     ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "span",
-                    { staticStyle: { "font-size": "12px", padding: "2px" } },
-                    [_vm._v(_vm._s(item))]
                   )
-                ])
-              ]
-            )
-          }),
-          _vm._v(" "),
-          _vm._l(_vm.items, function(item, key, index) {
-            return _c("tr", [
-              item.option_type === "text"
-                ? _c(
-                    "td",
-                    [
-                      _c("text-score-item", {
-                        ref: item.score_field,
-                        refInFor: true,
-                        attrs: {
-                          item: item,
-                          savedAnswer: _vm.score
-                            ? _vm.score[item.score_field]
-                            : null
-                        }
-                      })
-                    ],
-                    1
-                  )
-                : item.option_type === "remark"
-                ? _c("td")
-                : _c(
-                    "td",
-                    [
-                      _c("single-select-score-item", {
-                        ref: item.score_field,
-                        refInFor: true,
-                        attrs: {
-                          item: item,
-                          savedAnswer: _vm.score
-                            ? _vm.score[item.score_field]
-                            : null
-                        }
-                      })
-                    ],
-                    1
-                  )
-            ])
-          }),
-          _vm._v(" "),
-          _c("tr", [
-            _c("td", [
-              _c(
-                "span",
-                {
-                  staticStyle: {
-                    "font-family": "Verdana",
-                    "font-size": "18px",
-                    "font-weight": "bold"
-                  }
-                },
-                [_vm._v("Total Score:")]
-              ),
-              _vm._v(" "),
-              _c("span", { staticClass: "float-right" }, [
-                _vm._v(_vm._s(_vm.totalScore))
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c(
-            "tr",
-            {
-              staticStyle: { "background-color": "lightblue", color: "white" }
-            },
-            [
-              _c("td", [
-                _vm._v(
-                  "\n                    Audit Result: \n                    "
-                ),
-                _c(
-                  "select",
-                  {
-                    directives: [
+                }),
+                _vm._v(" "),
+                _vm._l(_vm.items, function(item, key, index) {
+                  return _c("tr", [
+                    item.option_type === "text"
+                      ? _c(
+                          "td",
+                          [
+                            _c("text-score-item", {
+                              ref: item.score_field,
+                              refInFor: true,
+                              attrs: {
+                                item: item,
+                                savedAnswer: _vm.score
+                                  ? _vm.score[item.score_field]
+                                  : null
+                              }
+                            })
+                          ],
+                          1
+                        )
+                      : item.option_type === "remark"
+                      ? _c("td")
+                      : _c(
+                          "td",
+                          [
+                            _c("single-select-score-item", {
+                              ref: item.score_field,
+                              refInFor: true,
+                              attrs: {
+                                item: item,
+                                savedAnswer: _vm.score
+                                  ? _vm.score[item.score_field]
+                                  : null
+                              }
+                            })
+                          ],
+                          1
+                        )
+                  ])
+                }),
+                _vm._v(" "),
+                _c("tr", [
+                  _c("td", [
+                    _c(
+                      "span",
                       {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.result,
-                        expression: "result"
-                      }
-                    ],
-                    on: {
-                      change: function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.result = $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      }
+                        staticStyle: {
+                          "font-family": "Verdana",
+                          "font-size": "18px",
+                          "font-weight": "bold"
+                        }
+                      },
+                      [_vm._v("Total Score:")]
+                    ),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "float-right" }, [
+                      _vm._v(_vm._s(_vm.totalScore))
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c(
+                  "tr",
+                  {
+                    staticStyle: {
+                      "background-color": "lightblue",
+                      color: "white"
                     }
                   },
                   [
-                    _c("option", [_vm._v("Y")]),
-                    _vm._v(" "),
-                    _c("option", [_vm._v("N")]),
-                    _vm._v(" "),
-                    _c("option")
+                    _c("td", [
+                      _vm._v(
+                        "\n                    Audit Result: \n                    "
+                      ),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.result,
+                              expression: "result"
+                            }
+                          ],
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.result = $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            }
+                          }
+                        },
+                        [
+                          _c("option", [_vm._v("Y")]),
+                          _vm._v(" "),
+                          _c("option", [_vm._v("N")]),
+                          _vm._v(" "),
+                          _c("option")
+                        ]
+                      )
+                    ])
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "tr",
+                  {
+                    staticStyle: {
+                      "background-color": "lightblue",
+                      color: "white"
+                    }
+                  },
+                  [
+                    _c("td", [
+                      _c("div", [
+                        _c("span", [_vm._v("Remark:")]),
+                        _vm._v(" "),
+                        _c("textarea", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.remark,
+                              expression: "remark"
+                            }
+                          ],
+                          staticClass: "form-group",
+                          staticStyle: { width: "100%" },
+                          domProps: { value: _vm.remark },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.remark = $event.target.value
+                            }
+                          }
+                        })
+                      ])
+                    ])
                   ]
                 )
-              ])
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "tr",
-            {
-              staticStyle: { "background-color": "lightblue", color: "white" }
-            },
-            [
-              _c("td", [
-                _c("div", [
-                  _c("span", [_vm._v("Remark:")]),
-                  _vm._v(" "),
-                  _c("textarea", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.remark,
-                        expression: "remark"
-                      }
-                    ],
-                    staticClass: "form-group",
-                    staticStyle: { width: "100%" },
-                    domProps: { value: _vm.remark },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.remark = $event.target.value
-                      }
-                    }
-                  })
-                ])
-              ])
-            ]
-          )
-        ],
-        2
-      )
-    ]),
+              ],
+              2
+            )
+          ]
+        )
+      ]
+    ),
     _vm._v(" "),
-    _c("div", { staticClass: "modal-footer text-center" }, [
-      _c(
-        "span",
-        {
-          staticClass: "float-right",
-          model: {
-            value: _vm.msg,
-            callback: function($$v) {
-              _vm.msg = $$v
-            },
-            expression: "msg"
-          }
-        },
-        [_vm._v(_vm._s(_vm.msg))]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-secondary float-left",
-          attrs: {
-            type: "button",
-            "data-dismiss": "modal",
-            "aria-label": "Close"
-          }
-        },
-        [_vm._v("\n            关闭\n        ")]
-      ),
-      _vm._v(" "),
-      _c("input", {
-        staticClass: "btn btn-primary",
-        attrs: { type: "button", value: "保存" },
-        on: { click: _vm.submitAudit }
-      })
-    ])
+    _c(
+      "div",
+      {
+        staticClass: "modal-footer text-center",
+        staticStyle: { "background-color": "#cce8cf" }
+      },
+      [
+        _c(
+          "span",
+          {
+            staticClass: "float-right",
+            model: {
+              value: _vm.msg,
+              callback: function($$v) {
+                _vm.msg = $$v
+              },
+              expression: "msg"
+            }
+          },
+          [_vm._v(_vm._s(_vm.msg))]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-secondary float-left",
+            attrs: {
+              type: "button",
+              "data-dismiss": "modal",
+              "aria-label": "Close"
+            }
+          },
+          [_vm._v("\n            关闭\n        ")]
+        ),
+        _vm._v(" "),
+        _c("input", {
+          staticClass: "btn btn-primary",
+          attrs: { type: "button", value: "保存" },
+          on: { click: _vm.submitAudit }
+        })
+      ]
+    )
   ])
 }
 var staticRenderFns = [
@@ -81438,157 +81479,174 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "modal-content" }, [
-    _vm._m(0),
-    _vm._v(" "),
-    _c("div", { staticClass: "modal-body" }, [
-      _c(
-        "table",
-        { staticClass: "table-bordered table-condensed" },
-        [
-          _vm._l(_vm.data_to_score, function(item, key, index) {
-            return _c(
-              "div",
-              {
-                staticClass: "d-inline-block",
-                staticStyle: {
-                  padding: "0 20px 3px 0",
-                  "font-family": "sans-serif",
-                  "font-size": "16px"
-                }
-              },
-              [
-                _c("span", { staticStyle: { border: "1px solid #515151" } }, [
+  return _c(
+    "div",
+    {
+      staticClass: "modal-content",
+      staticStyle: { "background-color": "#cce8cf" }
+    },
+    [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", { staticClass: "modal-body" }, [
+        _c("table", { staticClass: "table table-bordered table-hover" }, [
+          _c(
+            "tbody",
+            [
+              _vm._l(_vm.data_to_score, function(item, key, index) {
+                return _c(
+                  "div",
+                  {
+                    staticClass: "d-inline-block",
+                    staticStyle: {
+                      padding: "0 20px 3px 0",
+                      "font-family": "sans-serif",
+                      "font-size": "16px"
+                    }
+                  },
+                  [
+                    _c(
+                      "span",
+                      { staticStyle: { border: "1px solid #515151" } },
+                      [
+                        _c(
+                          "span",
+                          {
+                            staticStyle: {
+                              "background-color": "#515151",
+                              color: "white",
+                              "align-content": "center"
+                            }
+                          },
+                          [
+                            _c(
+                              "span",
+                              {
+                                staticStyle: {
+                                  "font-size": "12px",
+                                  padding: "2px"
+                                }
+                              },
+                              [_vm._v(_vm._s(key))]
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "span",
+                          {
+                            staticStyle: { "font-size": "12px", padding: "2px" }
+                          },
+                          [_vm._v(_vm._s(item))]
+                        )
+                      ]
+                    )
+                  ]
+                )
+              }),
+              _vm._v(" "),
+              _vm._l(_vm.items, function(item, key, index) {
+                return _c("tr", [
+                  item.option_type === "text"
+                    ? _c(
+                        "td",
+                        [
+                          _c("text-score-item", {
+                            ref: item.score_field,
+                            refInFor: true,
+                            attrs: {
+                              item: item,
+                              savedAnswer: _vm.score
+                                ? _vm.score[item.score_field]
+                                : null
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    : item.option_type === "remark"
+                    ? _c("td")
+                    : _c(
+                        "td",
+                        [
+                          _c("single-select-score-item", {
+                            ref: item.score_field,
+                            refInFor: true,
+                            attrs: {
+                              item: item,
+                              savedAnswer: _vm.score
+                                ? _vm.score[item.score_field]
+                                : null
+                            }
+                          })
+                        ],
+                        1
+                      )
+                ])
+              }),
+              _vm._v(" "),
+              _c("tr", [
+                _c("td", [
                   _c(
                     "span",
                     {
                       staticStyle: {
-                        "background-color": "#515151",
-                        color: "white",
-                        "align-content": "center"
+                        "font-family": "Verdana",
+                        "font-size": "18px",
+                        "font-weight": "bold"
                       }
                     },
-                    [
-                      _c(
-                        "span",
-                        {
-                          staticStyle: { "font-size": "12px", padding: "2px" }
-                        },
-                        [_vm._v(_vm._s(key))]
-                      )
-                    ]
+                    [_vm._v("Total Score:")]
                   ),
                   _vm._v(" "),
-                  _c(
-                    "span",
-                    { staticStyle: { "font-size": "12px", padding: "2px" } },
-                    [_vm._v(_vm._s(item))]
-                  )
+                  _c("span", { staticClass: "float-right" }, [
+                    _vm._v(_vm._s(_vm.totalScore))
+                  ])
                 ])
-              ]
-            )
-          }),
-          _vm._v(" "),
-          _vm._l(_vm.items, function(item, key, index) {
-            return _c("tr", [
-              item.option_type === "text"
-                ? _c(
-                    "td",
-                    [
-                      _c("text-score-item", {
-                        ref: item.score_field,
-                        refInFor: true,
-                        attrs: {
-                          item: item,
-                          savedAnswer: _vm.score
-                            ? _vm.score[item.score_field]
-                            : null
-                        }
-                      })
-                    ],
-                    1
-                  )
-                : item.option_type === "remark"
-                ? _c("td")
-                : _c(
-                    "td",
-                    [
-                      _c("single-select-score-item", {
-                        ref: item.score_field,
-                        refInFor: true,
-                        attrs: {
-                          item: item,
-                          savedAnswer: _vm.score
-                            ? _vm.score[item.score_field]
-                            : null
-                        }
-                      })
-                    ],
-                    1
-                  )
-            ])
-          }),
-          _vm._v(" "),
-          _c("tr", [
-            _c("td", [
-              _c(
-                "span",
-                {
-                  staticStyle: {
-                    "font-family": "Verdana",
-                    "font-size": "18px",
-                    "font-weight": "bold"
-                  }
-                },
-                [_vm._v("Total Score:")]
-              ),
-              _vm._v(" "),
-              _c("span", { staticClass: "float-right" }, [
-                _vm._v(_vm._s(_vm.totalScore))
               ])
-            ])
-          ])
-        ],
-        2
-      )
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "modal-footer text-center" }, [
-      _c(
-        "span",
-        {
-          staticClass: "float-right",
-          model: {
-            value: _vm.msg,
-            callback: function($$v) {
-              _vm.msg = $$v
-            },
-            expression: "msg"
-          }
-        },
-        [_vm._v(_vm._s(_vm.msg))]
-      ),
+            ],
+            2
+          )
+        ])
+      ]),
       _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-secondary float-left",
-          attrs: {
-            type: "button",
-            "data-dismiss": "modal",
-            "aria-label": "Close"
-          }
-        },
-        [_vm._v("\n            关闭\n        ")]
-      ),
-      _vm._v(" "),
-      _c("input", {
-        staticClass: "btn btn-primary",
-        attrs: { type: "button", value: "保存" },
-        on: { click: _vm.submitResult }
-      })
-    ])
-  ])
+      _c("div", { staticClass: "modal-footer text-center" }, [
+        _c(
+          "span",
+          {
+            staticClass: "float-right",
+            model: {
+              value: _vm.msg,
+              callback: function($$v) {
+                _vm.msg = $$v
+              },
+              expression: "msg"
+            }
+          },
+          [_vm._v(_vm._s(_vm.msg))]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-secondary float-left",
+            attrs: {
+              type: "button",
+              "data-dismiss": "modal",
+              "aria-label": "Close"
+            }
+          },
+          [_vm._v("\n            关闭\n        ")]
+        ),
+        _vm._v(" "),
+        _c("input", {
+          staticClass: "btn btn-primary",
+          attrs: { type: "button", value: "保存" },
+          on: { click: _vm.submitResult }
+        })
+      ])
+    ]
+  )
 }
 var staticRenderFns = [
   function() {
@@ -82224,7 +82282,7 @@ var render = function() {
         staticStyle: {
           "font-family": "Verdana",
           "font-size": "18px",
-          "font-weight": "bold"
+          "font-weight": "normal"
         }
       },
       [_vm._v(_vm._s(_vm.item.order + "." + _vm.item.title))]
@@ -82309,7 +82367,7 @@ var render = function() {
         staticStyle: {
           "font-family": "Verdana",
           "font-size": "18px",
-          "font-weight": "bold"
+          "font-weight": "normal"
         }
       },
       [_vm._v(_vm._s(_vm.item.order + "." + _vm.item.title))]

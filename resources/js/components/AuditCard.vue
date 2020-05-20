@@ -5,8 +5,9 @@
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
-        <div class='modal-body'>
-            <table class="table-bordered table-condensed">             
+        <div class='modal-body' style="background-color:#cce8cf">
+            <table class="table-bordered table-condensed table-hover">  
+                <tbody>
                 <div v-for="(item,key,index) in data_to_score" class="d-inline-block" style="padding:0 20px 3px 0;font-family: sans-serif;font-size: 16px;">
                     <span style="border: 1px solid #515151;"><span style="background-color:#515151;color: white;align-content: center">
                             <span style="font-size: 12px;padding:2px;">{{key}}</span>
@@ -48,9 +49,10 @@
                         </div>
                     </td>                    
                 </tr>
+                </tbody>
             </table>
         </div>     
-        <div class="modal-footer text-center">
+        <div class="modal-footer text-center"  style="background-color:#cce8cf">
             <span v-model="msg" class="float-right">{{msg}}</span>
             <button type="button" class="btn btn-secondary float-left" data-dismiss="modal" aria-label="Close">
                 关闭
