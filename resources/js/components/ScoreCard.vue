@@ -1,12 +1,13 @@
 <template>
-    <div class="modal-content">
+    <div class="modal-content" style="background-color:#cce8cf">
         <div class='modal-header'>Score Card            
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
         <div class='modal-body'>
-            <table class="table-bordered table-condensed">             
+            <table class="table table-bordered table-hover">
+                <tbody>
                 <div v-for="(item,key,index) in data_to_score" class="d-inline-block" style="padding:0 20px 3px 0;font-family: sans-serif;font-size: 16px;">
                     <span style="border: 1px solid #515151;"><span style="background-color:#515151;color: white;align-content: center">
                             <span style="font-size: 12px;padding:2px;">{{key}}</span>
@@ -30,6 +31,7 @@
                         <span class="float-right">{{totalScore}}</span>
                     </td>
                 </tr>
+                </tbody>
             </table>
         </div>     
         <div class="modal-footer text-center">
