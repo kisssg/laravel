@@ -36,6 +36,7 @@ class Issue extends Model
         'employeeID',
         'issue_type',
         'issue',
+        'issue_detail',
         'remark',
         'responsible_person',
         'feedback',
