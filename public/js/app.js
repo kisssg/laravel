@@ -1736,7 +1736,11 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     btnClass: function btnClass() {
-      return 'btn-default';
+      if (this.clicked) {
+        return "btn-warning";
+      }
+
+      return 'btn-secondary';
     }
   },
   mounted: function mounted() {
@@ -1750,11 +1754,14 @@ __webpack_require__.r(__webpack_exports__);
       audit: null,
       dataFetched: false,
       auditFetched: false,
-      pickResult: null
+      pickResult: null,
+      clicked: false
     };
   },
   methods: {
     execute: function execute() {
+      this.clicked = true;
+
       if (!this.dataFetched || !this.auditFetched) {
         this.$emit("set-data", null); //send null data in case ajax fethch nothing and score card show the previous
 
@@ -2243,6 +2250,10 @@ __webpack_require__.r(__webpack_exports__);
       if (this.pickOrScore === 'Pick') {
         return 'btn-secondary';
       } else {
+        if (this.clicked) {
+          return "btn-success";
+        }
+
         return 'btn-primary';
       }
     }
@@ -2256,7 +2267,8 @@ __webpack_require__.r(__webpack_exports__);
       data: null,
       score: null,
       dataFetched: false,
-      pickResult: null
+      pickResult: null,
+      clicked: false
     };
   },
   methods: {
@@ -2264,6 +2276,9 @@ __webpack_require__.r(__webpack_exports__);
       if (this.pickOrScore === "Pick") {
         this.pickData(this.project, this.id, this);
       } else {
+        this.clicked = true;
+        console.log(this.clicked);
+
         if (!this.dataFetched) {
           this.$emit("set-data", null); //send null data in case ajax fethch nothing and score card show the previous
 
@@ -2556,6 +2571,7 @@ __webpack_require__.r(__webpack_exports__);
         if (data.result === "success") {
           //@TODO:show the new score when changed.    
           parent.$refs[pickScoreBtn].score = data.score;
+          $(".bs-score-card").modal('hide');
         }
       }, 'json');
     }

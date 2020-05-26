@@ -15,8 +15,9 @@
                     return false;
                 }
             },
-            btnClass() {
-                    return 'btn-default';
+            btnClass() {                 
+                    if(this.clicked){return "btn-warning"}
+                    return 'btn-secondary';
             }
         },
         mounted() {
@@ -30,11 +31,13 @@
                 audit:null,
                 dataFetched: false,
                 auditFetched:false,
-                pickResult: null
+                pickResult: null,
+                clicked:false
             };
         },
         methods: {
             execute() {
+                this.clicked=true;
                     if (!this.dataFetched||!this.auditFetched) {
                         this.$emit("set-data", null);//send null data in case ajax fethch nothing and score card show the previous
                         this.$emit("set-score", null);

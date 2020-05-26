@@ -68,7 +68,7 @@ class ScoreController extends Controller
                 $record = $result->firstOrCreate(["data_id" => $request->data_id], []);
                 $record->fillable(explode(",", $project->score_fillable));
                 $record->update($request->all());
-                return '{"result":"success","score":' . $record . ',"msg":"score updated at ' . $now . '"}';
+                return '{"result":"success","score":' . $record . ',"msg":"score updated at ' . $now."created at ".$record->created_at . '"}';
             }
             $result->fill($request->all());
             $result->save();
