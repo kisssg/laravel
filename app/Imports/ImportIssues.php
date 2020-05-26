@@ -33,6 +33,7 @@ class ImportIssues implements ToModel, WithHeadingRow, WithValidation
             'employeeID' => $row['employeeid'],
             'issue_type' => $row['issue_type'],
             'issue' => $row['issue'],
+            'issue_detail' => $row['issue_detail'],
             'remark' => $row['remark'],
             'responsible_person' => $row['responsible_person'],
             'feedback' => $row['feedback'],
