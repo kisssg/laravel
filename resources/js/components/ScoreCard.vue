@@ -97,6 +97,7 @@
                     if (data.result === "success") {
                         //@TODO:show the new score when changed.    
                         parent.$refs[pickScoreBtn].score = data.score;
+                        $(".bs-score-card").modal('hide');
                     }
                 }, 'json');
             }

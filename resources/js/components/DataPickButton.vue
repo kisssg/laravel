@@ -19,6 +19,7 @@
                 if (this.pickOrScore === 'Pick') {
                     return 'btn-secondary';
                 } else {
+                    if(this.clicked){return "btn-success"}
                     return 'btn-primary';
                 }
             }
@@ -32,7 +33,8 @@
                 data: null,
                 score: null,
                 dataFetched: false,
-                pickResult: null
+                pickResult: null,
+                clicked:false
             };
         },
         methods: {
@@ -40,6 +42,8 @@
                 if (this.pickOrScore === "Pick") {
                     this.pickData(this.project, this.id, this);
                 } else {
+                    this.clicked= true;
+                    console.log(this.clicked);
                     if (!this.dataFetched) {
                         this.$emit("set-data", null);//send null data in case ajax fethch nothing and score card show the previous
                         this.$emit("set-score", null);
