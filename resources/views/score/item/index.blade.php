@@ -23,12 +23,11 @@
                             <td>{{$item->options}}<br/>
                                 {{$item->scores}}</td>   
                             <td><a  href="{{url('project/item/'.$item->id."/edit")}}" class="btn btn-info btn-xs">Edit</a>
-                                <form id="{{'delete-form'.$item->id}}" action="{{ url('project/item/'.$item->id) }}" method="POST" style="display: inline;">
+                                <form action="{{ url('project/item/'.$item->id) }}" method="POST" onsubmit="return confirm('Really want to remove this item?');" style="display: inline;">
                                     {{ method_field('DELETE') }}
                                     {{ csrf_field() }}
-                                    <button type="submit" class="btn btn-danger">Remove</button>
+                                    <input type="submit" class="btn btn-danger btn-xs"  value="&times;"/>
                                 </form></td>
-
                         </tr>
                         @endforeach                    
                     </table>
