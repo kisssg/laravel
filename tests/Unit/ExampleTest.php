@@ -17,7 +17,7 @@ class ExampleTest extends TestCase
      */
     public function testBasicTest()
     {    	
-    	$issue=Issue::all();
+        $issue='{"key":"I am json"}';
     	$this->assertJson($issue,"hahahdsafss");
     }
 }
