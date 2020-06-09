@@ -75,8 +75,9 @@
                     </tr>
                 </table>
             </div>
-            <div class="card-footer"><button type='submit' class='float-right btn btn-primary'>Save</button>
-                <button onclick='history.back();' class='float-left btn btn-secondary'>Back</button>
+            <div class="card-footer">
+                <button type='submit' class='float-right btn btn-primary'>Save</button>
+                <a href="{{url("project")}}" class='float-left btn btn-secondary'>Back</a>
             </div>
     </form>
 </div>
