@@ -123,7 +123,8 @@ class ProjectController extends Controller
             'date_field' => 'required',
             'contract_no_field' => 'required',
             'search_columns'=>'required',
-            'order_by_columns'=>'required'
+            'order_by_columns'=>'required',
+            'minutes_allow_edit_in'=>'required|int'
         ];
         $this->validate($request, $rules);
         $result = ScoreProject::findOrFail($id)

@@ -13,7 +13,7 @@ use App\ScoreCard\ScoreProject;
 use App\ScoreCard\Score;
 use Illuminate\Http\Request;
 use App\ScoreCard\DataToScore as Data;
-
+use Carbon\Carbon;
 /**
  * Description of ScoreController
  *
@@ -68,6 +68,11 @@ class ScoreController extends Controller
                 $record = $result->firstOrCreate(["data_id" => $request->data_id], []);
                 $record->fillable(explode(",", $project->score_fillable));
                 $record->update($request->all());
+                $carbon= Carbon::parse($record->created_at);
+                $diff=(new Carbon)->diffInMinutes($carbon,true);
+                if($diff > $project->minutes_allow_edit_in && !$request->user()->can('edit score of others in project'.$project->id)){                  
+                    throw new \Exception("You can only edit the record in ".$project->minutes_allow_edit_in." minutes after you created it.");
+                }
                 return '{"result":"success","score":' . $record . ',"msg":"score updated at ' . $now."created at ".$record->created_at . '"}';
             }
             $result->fill($request->all());

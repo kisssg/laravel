@@ -68,6 +68,10 @@
                         <td><input name='score_fillable' class='form-control' type='text' value='{{$project->score_fillable}}'/></td>
                     </tr>
                     <tr>
+                        <td class="text-right">Minutes allow edit in:</td>
+                        <td><input name='minutes_allow_edit_in' class='form-control' type='text' value='{{$project->minutes_allow_edit_in}}'/></td>
+                    </tr>
+                    <tr>
                         <td class="text-right">Audit save to:</td>
                         <td><input name='audit_save_to' class='form-control' type='text' value='{{$project->audit_save_to}}'/></td>
                     </tr>
