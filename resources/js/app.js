@@ -7,7 +7,7 @@ import "babel-polyfill";
 import vSelect from 'vue-select';
 import 'vue-select/dist/vue-select.css';
 import Vue from 'vue';
-import ECharts from 'vue-echarts';
+//import ECharts from 'vue-echarts';
 
 require('./bootstrap');
 window.Vue = require('vue');
@@ -22,7 +22,7 @@ window.Vue = require('vue');
 const files = require.context('./', true, /\.vue$/i);
 files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 Vue.component('v-select', vSelect);
-Vue.component('v-chart', ECharts);
+//Vue.component('v-chart', ECharts);
 //Vue.component('search-box', require('./components/SearchBox.vue').default);
 //Vue.component('issues', issues);
 /**
