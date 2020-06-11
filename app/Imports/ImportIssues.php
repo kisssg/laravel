@@ -13,6 +13,7 @@ class ImportIssues implements ToModel, WithHeadingRow, WithValidation
 {
 
     use Importable;
+    use \Illuminate\Database\Eloquent\SoftDeletes;
 
     /**
      * @param array $row

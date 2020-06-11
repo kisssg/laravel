@@ -66,6 +66,8 @@ Route::get('collector/get','CollectorController@getCollector');
 Route::resource('collector', 'CollectorController')->middleware('auth');
 Route::get('overview/{id}', 'CollectorController@overview')->middleware('auth');
 Route::get('confirm-violation/{id}/{token}', 'Violation\ViolationController@feedback');
+Route::get('project/progress','ScoreCard\ProjectController@progress')->middleware('auth');
+Route::get('project/chartdata','ScoreCard\ProjectController@chartdata')->middleware('auth');
 Route::resource('project/item','ScoreCard\ScoreItemController')->middleware('auth');
 Route::resource('project/score','ScoreCard\ScoreController')->middleware('auth');
 Route::get('project/data/pick/{id}','ScoreCard\DataToScoreController@pick')->middleware('auth');

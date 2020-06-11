@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\ScoreCard\ScoreProject;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\Charts\SampleChart;
 
 /**
  * Description of ProjectController
@@ -34,9 +35,9 @@ class ProjectController extends Controller
             return "Not authorized!"; //permission controll,permission will be 'use project+project ID'
         }
         $data = new \App\ScoreCard\DataToScore;
-        $searchItems=explode(",",$project->search_columns);//,,,CNT_VIDEO_RECORDS
+        $searchItems = explode(",", $project->search_columns); //,,,CNT_VIDEO_RECORDS
         $key = $request->get('s') ?: "[owner:" . $request->user()->name . "]";
-        $result = $data->setProject($project)->where(function($query) use ($key, $project,$searchItems) {
+        $result = $data->setProject($project)->where(function($query) use ($key, $project, $searchItems) {
                     if (preg_match('/\[range\:(\d{4}\-\d{2}\-\d{2})\s(\d{4}\-\d{2}\-\d{2})\]/', $key, $matches))
                     {
                         $query->whereBetween($project->date_field, [$matches[1], $matches[2]]);
@@ -53,9 +54,11 @@ class ProjectController extends Controller
                     {
                         $query->where($project->contract_no_field, $matches3[1]);
                     }
-                    foreach($searchItems as $item){
-                        if(preg_match('/\[diy:'.$item.'\:(.+?)\]/',$key,$match)){
-                            $query->where($item,$match[1]);
+                    foreach ($searchItems as $item)
+                    {
+                        if (preg_match('/\[diy:' . $item . '\:(.+?)\]/', $key, $match))
+                        {
+                            $query->where($item, $match[1]);
                         }
                     }
                 })->orderByRaw($project->order_by_columns)->paginate(50)->appends(['s' => $key]);
@@ -73,7 +76,7 @@ class ProjectController extends Controller
 
     public function store(Request $request)
     {
-        
+
         if (!$request->user()->can('create projects'))
         {
             return "Have no permission";
@@ -89,8 +92,8 @@ class ProjectController extends Controller
             'score_fillable' => 'required',
             'date_field' => 'required',
             'contract_no_field' => 'required',
-            'search_columns'=>'required',
-            'order_by_columns'=>'required'
+            'search_columns' => 'required',
+            'order_by_columns' => 'required'
         ];
         $this->validate($request, $rules);
         if (ScoreProject::create($request->only(ScoreProject::fillables())))
@@ -106,8 +109,8 @@ class ProjectController extends Controller
     }
 
     public function update($id, Request $request)
-    {        
-        if (!$request->user()->can('edit project'.$id))
+    {
+        if (!$request->user()->can('edit project' . $id))
         {
             return "Have no permission";
         }
@@ -122,9 +125,9 @@ class ProjectController extends Controller
             'score_fillable' => 'required',
             'date_field' => 'required',
             'contract_no_field' => 'required',
-            'search_columns'=>'required',
-            'order_by_columns'=>'required',
-            'minutes_allow_edit_in'=>'required|int'
+            'search_columns' => 'required',
+            'order_by_columns' => 'required',
+            'minutes_allow_edit_in' => 'required|int'
         ];
         $this->validate($request, $rules);
         $result = ScoreProject::findOrFail($id)
@@ -143,8 +146,34 @@ class ProjectController extends Controller
     {
         
     }
-    public function getDiySearchColumns($project_id){
-        return explode(",",ScoreProject::findOrFail($project_id)->search_columns);
+
+    public function getDiySearchColumns($project_id)
+    {
+        return explode(",", ScoreProject::findOrFail($project_id)->search_columns);
+    }
+
+    public function progress()
+    {
+        return view('score.project.progress');
+    }
+
+    public function chartdata()
+    {
+        $chartdata = [
+            "labels" => ['shirou', 'may','sijia'],
+            "datasets" => [[
+                "label" => 'checked',
+                "data" => [40, 20,50],
+                "stack"=>"stack 1",
+                "backgroundColor"=> 'light-blue',
+            ],
+                [
+                "label" => 'uncheck',
+                "data" => [40, 20,50],
+                "stack"=>"stack 1"
+            ]]
+        ];
+        return response()->json($chartdata);
     }
 
 }
