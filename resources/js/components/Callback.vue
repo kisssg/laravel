@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-chart ref="callChart" :options="options" width="1000px" height="800"/>
-<!--        <img src="picture/loading.gif" v-if="callRecords===null" alt="Loading...">
+        <img src="picture/loading.gif" v-if="callRecords===null" alt="Loading...">
         <span v-else-if="callRecords.length===0">-----</span>
         <table class="table" v-else>
             <thead><th>类别</th><th>接通情况</th><th>详情</th><th>骚扰情况</th><th>回访时间</th><th>ＱＣ</th></thead>
@@ -12,7 +12,7 @@
                 <td>{{item.check_time}}</td>
                 <td>{{item.qc_name}}</td>
             </tr>
-        </table>-->
+        </table>
     </div>
 </template>
 <style>

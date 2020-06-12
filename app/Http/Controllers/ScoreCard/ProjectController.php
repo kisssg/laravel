@@ -157,22 +157,46 @@ class ProjectController extends Controller
         return view('score.project.progress');
     }
 
-    public function chartdata()
+    public function chartdata(Request $request)
     {
         $chartdata = [
-            "labels" => ['shirou', 'may','sijia'],
+            "labels" => ['shirou', 'may', 'sijia'],
             "datasets" => [[
-                "label" => 'checked',
-                "data" => [40, 20,50],
-                "stack"=>"stack 1",
-                "backgroundColor"=> 'light-blue',
-            ],
+            "label" => 'checked',
+            "data" => [40, 20, 50],
+            "stack" => "stack 1",
+            "backgroundColor" => 'light-blue',
+                ],
                 [
-                "label" => 'uncheck',
-                "data" => [40, 20,50],
-                "stack"=>"stack 1"
-            ]]
+                    "label" => 'uncheck',
+                    "data" => [40, 20, 50],
+                    "stack" => "stack 1"
+                ]]
         ];
+
+        if ($request->get('type') == 1)
+        {
+            $chartdata = [
+                "labels" => ['2020-06-01', '2020-06-02', '2020-06-03'],
+                "datasets" => [
+                    [
+                        "label" => 'checked',
+                        "data" => [40, 20, 50],
+                        "stack" => "stack 1",
+                        "barThickness" => 50,
+                        "maxBarThickness" => 200,
+                        "backgroundColor" => 'light-blue'
+                    ],
+                    [
+                        "label" => 'uncheck',
+                        "data" => [40, 20, 50],
+                        "stack" => "stack 1",
+                        "barThickness" => 5,
+                        "maxBarThickness" => 150
+                    ]
+                ]
+            ];
+        }
         return response()->json($chartdata);
     }
 

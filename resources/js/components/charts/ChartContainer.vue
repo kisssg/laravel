@@ -1,6 +1,8 @@
 <template>
     <div>
         <chart :chartdata="chartdata" :options="options"></chart>
+        <button v-on:click="showdata()">QC</button>
+        <button v-on:click="showdata(1)">Date</button>
     </div>
 </template>
 <script>
@@ -9,24 +11,24 @@
                 chartdata: null,
                 options: {
                     scales: {
-                        xAxes: [{
-                                ticks: {
-                                    beginAtZero: true
-                                }
-                            },
+                        xAxes: [
                             {stacked: true}
                         ]
                     }
                 }
             }),
         mounted() {
-            let uri = '/project/chartdata';
-            axios.get(uri).then((response) => {
-                console.log(response.data);
-                this.chartdata = response.data;
-            }).catch(error => {
-                console.log(error);
-            });
+        },
+        methods: {
+            showdata(type) {
+                let uri = '/project/chartdata?type='+type;
+                axios.get(uri).then((response) => {
+                    console.log(response.data);
+                    this.chartdata = response.data;
+                }).catch(error => {
+                    console.log(error);
+                });
+            }
         }
     }
 </script>
