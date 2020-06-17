@@ -13,7 +13,7 @@
     export default{
         props:['project'],
         data: () => ({
-                owner:null,
+                owner:"",
                 start:null,
                 end:null,
                 chartdata: null,
