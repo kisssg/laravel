@@ -64,7 +64,8 @@
                 <p class="card-text">{{$project->description}}</p>   
             </div>
             <div class='card-footer'>
-                <a href="{{url('project/'.$project->id)}}" class="btn btn-primary">Go</a>                    
+                <a href="{{url('project/'.$project->id)}}" class="btn btn-primary">Go</a>          
+                <a href="{{url('project/'.$project->id.'/progress')}}" class="btn btn-secondary">Progress</a>                    
             </div>
         </div>
         @endcan        
