@@ -25,4 +25,7 @@ class HomeController extends Controller
         $projects= \App\ScoreCard\ScoreProject::all();
         return view('welcome')->withProjects($projects);
     }
+    public function home(){
+        return view('home');
+    }
 }
