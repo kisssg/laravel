@@ -4,26 +4,11 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">Articles</div>
-
-                <div id="content">
-                    <ul>
-                        @foreach ($articles as $article)
-                        <li style="margin: 50px 0;">
-                            <div class="title">
-                                <a href="{{ url('article/'.$article->id) }}">
-                                    <h4>{{ $article->title }} -
-                                        {{$article->user->name}}</h4>
-                                </a>
-                            </div>
-                            <div class="body">
-                                <p>{{ $article->body }}</p>
-                            </div>
-                        </li> 
-                        @endforeach
-                    </ul>
+                <div class="card-header"></div>
+                <div class="card-body">
+                    <a href="{{env('QM_URL','lala')}}">Go to QM OA</a>
                 </div>
-                <div class='card-footer'>{{$articles->links()}}</div>
+                <div class='card-footer'></div>
             </div>
         </div>
     </div>

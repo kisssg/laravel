@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
+                <div class="card-header">{{ __('Login') }} <a href="{{env('QM_URL','lala')}}" class="float-right">Go to QM OA</a></div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">
