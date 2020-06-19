@@ -72,6 +72,9 @@
         </nav>
 
         <main class="py-4">
+            @if(env('APP_TEST',true))
+            <div class="sticky-top bg-info text-white">This server you're visiting is on testing, some function might be unexpected, please use below address:<br/>您当前所在服务器正在调试，可能存在功能异常的情况，请移步：<a href='http://10.65.77.76:81'>10.65.77.76:81</a></div>
+            @endif
             @yield('content')
         </main>
     </div>
