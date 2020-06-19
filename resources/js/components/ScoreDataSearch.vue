@@ -4,6 +4,8 @@
         {{range_start?'range:'+range_start+' '+range_end:''}}        
         {{checked?'checked?:'+checked:''}}
         {{diySearchValue?diySearchItem+':'+diySearchValue:''}}
+        {{diySearchValue1?diySearchItem1+':'+diySearchValue1:''}}
+        {{diySearchValue2?diySearchItem2+':'+diySearchValue2:''}}
         <div class="input-group">
             <div class="input-group-prepend">
                 <button class="btn btn-secondary" type="button" data-toggle="modal" data-target=".bs-search-modal">+</button>
@@ -42,11 +44,29 @@
                             Contract No.
                             <input type="text" v-model="contract_number"/>
                         </div>
-                        <div class="form-group">
-                            <select v-model="diySearchItem">
-                                <option v-for="item in diySearchItems">{{item}}</option>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                            <select v-model="diySearchItem"  class="custom-select">
+                                <option v-for="item in diySearchItems" class="form-control">{{item}}</option>
                             </select>
-                                <input type="text" v-model="diySearchValue"/>
+                            </div>
+                                <input type="text"  class="form-control input-group-append" v-model="diySearchValue"/>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                            <select v-model="diySearchItem1"  class="custom-select">
+                                <option v-for="item in diySearchItems" class="form-control">{{item}}</option>
+                            </select>
+                            </div>
+                                <input type="text"  class="form-control input-group-append" v-model="diySearchValue1"/>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                            <select v-model="diySearchItem2"  class="custom-select">
+                                <option v-for="item in diySearchItems" class="form-control">{{item}}</option>
+                            </select>
+                            </div>
+                                <input type="text"  class="form-control input-group-append" v-model="diySearchValue2"/>
                         </div>
                     </div>     
                     <div class="modal-footer">
@@ -111,6 +131,11 @@
                     this.owner = /\[owner:(.+?)\]/g.exec(val) ? /\[owner:(.+?)\]/g.exec(val)[1] : null;
                     this.diySearchItem = /\[diy:(.+?):(.+?)\]/g.exec(val) ? /\[diy:(.+?):(.+?)\]/g.exec(val)[1] : null;
                     this.diySearchValue = /\[diy:(.+?):(.+?)\]/g.exec(val) ? /\[diy:(.+?):(.+?)\]/g.exec(val)[2] : null;
+
+                    this.diySearchItem1 = [... val.matchAll(/\[diy:(.+?):(.+?)\]/g)].length>1?[... val.matchAll(/\[diy:(.+?):(.+?)\]/g)][1][1]:null;
+                    this.diySearchValue1 = [... val.matchAll(/\[diy:(.+?):(.+?)\]/g)].length>1?[... val.matchAll(/\[diy:(.+?):(.+?)\]/g)][1][2]:null;
+                    this.diySearchItem2 = [... val.matchAll(/\[diy:(.+?):(.+?)\]/g)].length>2?[... val.matchAll(/\[diy:(.+?):(.+?)\]/g)][2][1]:null;
+                    this.diySearchValue2 = [... val.matchAll(/\[diy:(.+?):(.+?)\]/g)].length>2?[... val.matchAll(/\[diy:(.+?):(.+?)\]/g)][2][2]:null;
                 },
                 get() {
                     let combine = '';
@@ -129,6 +154,12 @@
                     if(this.diySearchValue){
                         combine += "[diy:"+this.diySearchItem+":"+this.diySearchValue+"]";
                     }
+                    if(this.diySearchValue1){
+                        combine += "[diy:"+this.diySearchItem1+":"+this.diySearchValue1+"]";
+                    }
+                    if(this.diySearchValue2){
+                        combine += "[diy:"+this.diySearchItem2+":"+this.diySearchValue2+"]";
+                    }
                     return combine;
                 }
             }
@@ -136,6 +167,9 @@
         mounted() {
             this.keyword = this.query_string;
             this.getDiySearchItems(this.project_id);
+            //console.log([... this.query_string.matchAll(/\[diy:(.+?):(.+?)\]/g)][1]);
+            //console.log(this.query_string.matchAll(/\[diy:(.+?):(.+?)\]/g));
+            //console.log([.../\[diy:(.+?):(.+?)\]/g.exec(this.query_string)]);
         },
         data() {
             return{
@@ -147,7 +181,11 @@
                 contract_number: null,
                 diySearchItems:null,
                 diySearchItem:null,
-                diySearchValue:null
+                diySearchValue:null,
+                diySearchItem1:null,
+                diySearchValue1:null,
+                diySearchItem2:null,
+                diySearchValue2:null
             };
         },
         methods: {
