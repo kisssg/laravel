@@ -72,10 +72,18 @@
             submitResult() {
                 let score = {};
                 let scoreData = this.$refs,
-                        totalScore = 0;
+                        totalScore = 0,scoredCount=0;
                 for (let item in scoreData) {
                     score[item] = scoreData[item][0].answer;
+                    if(score[item]!=='-'){
+                        scoredCount++;
+                    }
                     totalScore += scoreData[item][0].answer===null?0:Number(scoreData[item][0].score);
+                }
+                console.log('scoredCount:'+scoredCount);
+                if(scoredCount<2){
+                    this.msg='At least 1 item must be scored';
+                    return;
                 }
                 totalScore = totalScore > 100 ? 100 : totalScore;//总分大于100分就是100分
                 totalScore = totalScore < 0 ? 0 : totalScore;//总分小于0分就是0分
