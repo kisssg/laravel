@@ -67,19 +67,21 @@ class ScoreController extends Controller
                  */
                 $record = $result->firstOrCreate(["data_id" => $request->data_id], []);
                 $record->fillable(explode(",", $project->score_fillable));
-                $record->update($request->all());
                 $carbon= Carbon::parse($record->created_at);
                 $diff=(new Carbon)->diffInMinutes($carbon,true);
                 if($diff > $project->minutes_allow_edit_in && !$request->user()->can('edit score of others in project'.$project->id)){                  
                     throw new \Exception("You can only edit the record in ".$project->minutes_allow_edit_in." minutes after you created it.");
                 }
+                $record->updated_by=$request->user()->name;
+                $record->update($request->all());
                 return '{"result":"success","score":' . $record . ',"msg":"score updated at ' . $now."created at ".$record->created_at . '"}';
             }
             $result->fill($request->all());
+            $result->created_by=$request->user()->name;
             $result->save();
             $data->checked=1;
             $data->save();
-            return '{"result":"success","score":' . $result . ',"msg":"score added at ' . $now . '"}';
+            return '{"result":"success","score":' . $result . ',"msg":"score created at ' . $now . 'by '.$result->created_by.'"}';
         } catch (\Exception $e) {
             return '{"result":"failed","msg":"' . $e->getMessage() . '","score":null}';
         }
