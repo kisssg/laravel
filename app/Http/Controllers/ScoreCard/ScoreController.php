@@ -71,6 +71,9 @@ class ScoreController extends Controller
                 $diff=(new Carbon)->diffInMinutes($carbon,true);
                 if($diff > $project->minutes_allow_edit_in && !$request->user()->can('edit score of others in project'.$project->id)){                  
                     throw new \Exception("You can only edit the record in ".$project->minutes_allow_edit_in." minutes after you created it.");
+                }                
+                if( strtolower($data->owner)!= strtolower($record->created_by) && !$request->user()->can('edit score of others in project'.$project->id)){                  
+                    throw new \Exception("You can't updated score created by ".$record->created_by);
                 }
                 $record->updated_by=$request->user()->name;
                 $record->update($request->all());
