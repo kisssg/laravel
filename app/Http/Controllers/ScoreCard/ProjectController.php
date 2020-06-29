@@ -138,21 +138,22 @@ class ProjectController extends Controller {
         $project = ScoreProject::findOrFail($projectID);
         $groupBy = $request->get("type") == 1 ? $project->date_field : 'owner';
         $owner = $request->get('owner');
-        if ($owner) {
+        $datatype=$request->get('datatype');
             $result = DB::table($project->data_to_score)
                             ->selectRaw("distinct $groupBy as label,count(nullif(checked,'0')) as checked,count(nullif(checked,'1')) as uncheck")
-                            ->orderBy('uncheck', 'desc')
-                            ->groupBy($groupBy)
-                            ->where("owner", "=", $owner)
-                            ->whereBetween($project->date_field, [$request->get('start'), $request->get('end')])->get();
-        } else {
-            $result = DB::table($project->data_to_score)
-                            ->selectRaw("distinct $groupBy as label,count(nullif(checked,'0')) as checked,count(nullif(checked,'1')) as uncheck")
+                            ->where(function($query) use ($owner,$datatype) {
+                                if($owner){
+                                    $query->where("owner",$owner);                                    
+                                }
+                                if($datatype){
+                                    $query->where("type",$datatype);   
+                                }
+                            })
                             ->orderBy('uncheck', 'desc')
                             ->groupBy($groupBy)
                             ->where("owner", "!=", "")
                             ->whereBetween($project->date_field, [$request->get('start'), $request->get('end')])->get();
-        }
+        
         $labels = [];
         $checked = [];
         $uncheck = [];

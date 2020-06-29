@@ -1,6 +1,8 @@
 <template>
     <div>
-        <button :class='"btn btn-sm " +btnClass' v-on:click='execute'>{{pickOrScore}}{{pickResult}}</button>
+        <span class="alert-warning">{{pickResult}}</span>
+        <button :class='"btn btn-sm " +btnClass' v-on:click='execute'>{{pickOrScore}}</button>
+        <button :class='"btn btn-sm " +btnClass' v-if="pickOrScore==='Pick'" v-on:click="pickAll">BatchPick</button>
     </div>
 </template>
 <script>
@@ -59,6 +61,22 @@
                     $(".bs-score-card").modal('show');
                 }
             },
+            pickAll(){
+                this.batchPick(this.project,this.id,this);
+            },
+            batchPick:_.debounce(function (project_id, data_id, vm) {
+                axios.get('data/batchpick/' + data_id + '?project_id=' + project_id).then(
+                        res => {                            
+                            vm.pickResult = res.data.msg;
+                            if (res.data.result === "failed") {
+                                return;
+                            }
+                            vm.owner = res.data.owner;
+                        }, error => {
+                    return false;
+                }
+                );
+            }, 50),
             getData: _.debounce(function (id, project, vm) {
                 axios.get('data/' + id + '?project=' + project).then(res => {
                     vm.data = res.data;
@@ -92,8 +110,8 @@
             pickData: _.debounce(function (project_id, data_id, vm) {
                 axios.get('data/pick/' + data_id + '?project_id=' + project_id).then(
                         res => {
+                            vm.pickResult =  res.data.msg;
                             if (res.data.result === "failed") {
-                                vm.pickResult = 'ed by ' + res.data.owner;
                                 return;
                             }
                             vm.owner = res.data.owner;

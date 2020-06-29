@@ -66,6 +66,14 @@
                         <td><input name='score_fillable' class='form-control' type='text' value='{{old('score_fillable')}}'/></td>
                     </tr>
                     <tr>
+                        <td class="text-right">Uncheck data limitation:</td>
+                        <td><input name='uncheck_ceiling' class='form-control' type='text' value='{{old('uncheck_ceiling')}}'/></td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">Batch pick depends on:</td>
+                        <td><input name='batchpick_depends_on' class='form-control' type='text' value='{{old('batchpick_depends_on')}}'/></td>
+                    </tr>
+                    <tr>
                         <td class="text-right">Audit save to:</td>
                         <td><input name='audit_save_to' class='form-control' type='text' value='{{old('audit_save_to')}}'/></td>
                     </tr>
