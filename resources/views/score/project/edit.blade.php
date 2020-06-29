@@ -72,6 +72,14 @@
                         <td><input name='minutes_allow_edit_in' class='form-control' type='text' value='{{$project->minutes_allow_edit_in}}'/></td>
                     </tr>
                     <tr>
+                        <td class="text-right">Uncheck data limitation:</td>
+                        <td><input name='uncheck_ceiling' class='form-control' type='text' value='{{$project->uncheck_ceiling}}'/></td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">Batch pick depends on:</td>
+                        <td><input name='batchpick_depends_on' class='form-control' type='text' value='{{$project->batchpick_depends_on}}'/></td>
+                    </tr>
+                    <tr>
                         <td class="text-right">Audit save to:</td>
                         <td><input name='audit_save_to' class='form-control' type='text' value='{{$project->audit_save_to}}'/></td>
                     </tr>

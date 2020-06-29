@@ -71,6 +71,7 @@ Route::get('project/{projectID}/chartdata','ScoreCard\ProjectController@chartdat
 Route::resource('project/item','ScoreCard\ScoreItemController')->middleware('auth');
 Route::resource('project/score','ScoreCard\ScoreController')->middleware('auth');
 Route::get('project/data/pick/{id}','ScoreCard\DataToScoreController@pick')->middleware('auth');
+Route::get('project/data/batchpick/{id}','ScoreCard\DataToScoreController@batchPick')->middleware('auth');//batchpick
 Route::resource('project/data','ScoreCard\DataToScoreController')->middleware('auth');
 Route::get("project/search_columns/{id}","ScoreCard\ProjectController@getDiySearchColumns")->middleware('auth');
 Route::resource('project','ScoreCard\ProjectController')->middleware('auth');

@@ -12,7 +12,7 @@
                     <span style="border: 1px solid #515151;"><span style="background-color:#515151;color: white;align-content: center">
                             <span style="font-size: 12px;padding:2px;">{{key}}</span>
                         </span>
-                        <span style="font-size: 12px;padding:2px;">{{item}}</span>
+                        <span class="user-select-all" style="font-size: 12px;padding:2px;">{{item}}</span>
                     </span>        
                 </div>
                 <tr v-for="(item,key,index) in items">
