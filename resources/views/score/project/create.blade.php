@@ -74,6 +74,10 @@
                         <td><input name='batchpick_depends_on' class='form-control' type='text' value='{{old('batchpick_depends_on')}}'/></td>
                     </tr>
                     <tr>
+                        <td class="text-right">Allow single pick(1/0):</td>
+                        <td><input name='allow_single_pick' class='form-control' type='text' value='{{old('allow_single_pick')}}'/></td>
+                    </tr>
+                    <tr>
                         <td class="text-right">Audit save to:</td>
                         <td><input name='audit_save_to' class='form-control' type='text' value='{{old('audit_save_to')}}'/></td>
                     </tr>
