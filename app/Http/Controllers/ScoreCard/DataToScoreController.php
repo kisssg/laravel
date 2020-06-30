@@ -38,6 +38,9 @@ class DataToScoreController extends Controller {
         try {
             $project = Project::findOrFail($request->get('project_id'));
             $ceil_uncheck = $project->uncheck_ceiling; //max count of data a person can leave uncheck;  
+            if($project->allow_single_pick===0){
+                throw new \Exception('Single pick not allowed now.');
+            }
 
             $dataInstance = new Data;
             $owner=$request->user()->name;

@@ -80,6 +80,10 @@
                         <td><input name='batchpick_depends_on' class='form-control' type='text' value='{{$project->batchpick_depends_on}}'/></td>
                     </tr>
                     <tr>
+                        <td class="text-right">Allow single pick(0/1):</td>
+                        <td><input name='allow_single_pick' class='form-control' type='text' value='{{$project->allow_single_pick}}'/></td>
+                    </tr>
+                    <tr>
                         <td class="text-right">Audit save to:</td>
                         <td><input name='audit_save_to' class='form-control' type='text' value='{{$project->audit_save_to}}'/></td>
                     </tr>
