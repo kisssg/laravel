@@ -38,22 +38,22 @@ class DataToScoreController extends Controller {
         try {
             $project = Project::findOrFail($request->get('project_id'));
             $ceil_uncheck = $project->uncheck_ceiling; //max count of data a person can leave uncheck;  
-            if($project->allow_single_pick===0){
+            if ($project->allow_single_pick === 0) {
                 throw new \Exception('Single pick not allowed now.');
             }
 
             $dataInstance = new Data;
-            $owner=$request->user()->name;
+            $owner = $request->user()->name;
             $uncheck = $dataInstance->setProject($project)->selectRaw('count(*) as count')->where("owner", $owner)->where('checked', 0)->count();
             if ($uncheck >= $ceil_uncheck) {
                 throw new \Exception("You can't pick more as you have data uncheck(" . $uncheck . ") reached ceil " . $ceil_uncheck);
             }
             $data = $dataInstance->setProject($project)->findOrFail($id);
             if ($data->owner !== null && $data->owner !== '') {
-                throw new \Exception('Already picked by '.$data->owner);
+                throw new \Exception('Already picked by ' . $data->owner);
             }
             $data->owner = $request->user()->name;
-            $data->picked_at=date("Y-m-d H:i:s");
+            $data->picked_at = date("Y-m-d H:i:s");
             $data->save();
             return '{"result":"success","owner":"' . $data->owner . '","msg":""}';
         } catch (\Exception $e) {
@@ -67,8 +67,8 @@ class DataToScoreController extends Controller {
          */
         try {
             $project = Project::findOrFail($request->get('project_id'));
-            
-            $criterias = explode(',',$project->batchpick_depends_on);//['upload_batch', 'AGENT_EMPLOYEE_ID']; //fields that will be checked if align with data clicked
+
+            $criterias = explode(',', $project->batchpick_depends_on); //['upload_batch', 'AGENT_EMPLOYEE_ID']; //fields that will be checked if align with data clicked
             $ceil_uncheck = $project->uncheck_ceiling; //max count of data a person can leave uncheck;  
             $dataInstance = new Data;
             $owner = $request->user()->name;
@@ -77,19 +77,23 @@ class DataToScoreController extends Controller {
                 throw new \Exception("You can't pick more as you have data uncheck(" . $uncheck . ") reached ceil " . $ceil_uncheck);
             }
             $data = $dataInstance->setProject($project)->findOrFail($id);
-            $result=$dataInstance->setProject($project)->where(function($query) use ($criterias, $data) {
+            $result = $dataInstance->setProject($project)->where(function($query) use ($criterias, $data) {
                         foreach ($criterias as $criteria) {
                             if ($data->$criteria === '' || $data->$criteria === null) {
                                 throw new \Exception($criteria . ' blank data can\'t be picked now. ');
                             }
                             $query->where($criteria, $data->$criteria);
                         }
-                    })->where('owner', '')
-                    ->update(['owner' => $owner, "picked_at" => date('Y-m-d H:i:s')]);
-                    if($result===0){
-                        throw new \Exception('You missed, try another.');
-                    }
-            return '{"result":"success","owner":"' . $owner . '","msg":"+'.$result.'"}';
+                    })->where('owner', '');
+            $count = $result->count();
+            if ($count > $ceil_uncheck * 1.5) {
+                throw new \Exception('You can\'t pick so much data, batch pick settings might be wrong. Please let the admin know.');
+            }
+            $update = $result->update(['owner' => $owner, "picked_at" => date('Y-m-d H:i:s')]);
+            if ($update === 0) {
+                throw new \Exception('You missed, try another.');
+            }
+            return '{"result":"success","owner":"' . $owner . '","msg":"+' . $update . '"}';
         } catch (\Exception $e) {
             return '{"result":"failed","owner":"","msg":"' . $e->getMessage() . '"}';
         }
