@@ -81,6 +81,6 @@ Route::get('training-test',"OnlineTestController@getTraingTestResults");
 Route::get('online-test',"OnlineTestController@getOnlineTestResults");
 Route::get('visit-records',"VisitRecordController@getVisitRecords")->middleware('auth');
 Route::get('visit/quality',"VisitRecordController@qualityInfo")->middleware('auth');
-Route::get('call-records',"CallbackController@getCallRecords")->middleware('auth');
+Route::get('callback/call-records',"CallbackController@getCallRecords")->middleware('auth');
 Route::get('callback/connect-info','CallbackController@connectInfo')->middleware('auth');
 Route::get('callback/harass-info','CallbackController@harassInfo')->middleware('auth');
