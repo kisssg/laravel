@@ -20,8 +20,10 @@
                 <input type="file" name="file" class="form-control">
                 <br>
                 <button type="submit" class="btn btn-success" id="submitBtn"  >上传</button>
-                <a href="{{url('collector/export?s=下载模板')}}">上传模板</a>
-                <a href="{{url('collector/del-on-job-lli')}}"　target="_blank" onclick="if(!confirm('确定要删除全部在职外催员？')){return false;}">删除在职</a>
+                <a href="{{url('collector/export?s=下载模板')}}">模板</a>
+                <span class="text-muted">
+                    将根据员工号更新数据，若员工号不存在则会添加对应新数据。
+                </span>
             </form>
             @endcan
         </div>

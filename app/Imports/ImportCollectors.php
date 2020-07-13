@@ -3,22 +3,50 @@
 namespace App\Imports;
 
 use App\Collector;
-use Maatwebsite\Excel\Concerns\ToModel;
+//use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 use Maatwebsite\Excel\Concerns\Importable;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Collection;
 
-class ImportCollectors implements ToModel, WithHeadingRow, WithValidation
+class ImportCollectors implements \Maatwebsite\Excel\Concerns\ToCollection, WithHeadingRow, WithValidation
 {
 
     use Importable;
 
-    /**
-     * @param array $row
-     *
-     * @return \Illuminate\Database\Eloquent\Model|null
-     */
+   /**
+    * update specific collector distinguished by employee ID, if not exist, create one.
+    * 
+    * @param \App\Imports\Collection $rows
+    */
+    public function collection(Collection $rows){
+        foreach($rows as $row){
+            Collector::updateOrCreate(['employee_id' => $row['employee_id']],['name_cn' => $row['name_cn'],
+            'area' => $row['area'],
+            'city' => $row['city'],
+            'position' => $row['position'],
+            'name_en' => $row['name_en'],            
+            'onboard_date' => $row['onboard_date'],
+            'email' => $row['email'],
+            'phone_number' => $row['phone_number'],
+            'cfc_hm_id' => $row['cfc_hm_id'],
+            'gc_hm_id' => $row['gc_hm_id'],
+            'person_id' => $row['person_id'],
+            'district' => $row['district'],
+            'province' => $row['province'],
+            'city_cn' => $row['city_cn'],
+            'tl' => $row['tl'],
+            'sv' => $row['sv'],
+            'manager' => $row['manager'],
+            'last_date' => $row['last_date'],
+            'action_type' => $row['action_type'],
+            'action_reason' => $row['action_reason'],
+            'type' => $row['type'],
+            'status' => $row['status'],
+        ]);
+        }
+    }
     public function model(array $row)
     {
         return new Collector(
