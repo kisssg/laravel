@@ -138,10 +138,7 @@ class CollectorController extends Controller
 
     public function deleteOnjobLLIs()
     {
-        if (Collector::where("status", "on-job")->where('type', 'lli')->forceDelete())
-        {
-            return "Deleted!";
-        }
+            return "Deleted nothing!";
     }
     
     public function overview($id)
