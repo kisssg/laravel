@@ -21,7 +21,7 @@ class CallbackController extends Controller
     //put your code here
     public function getCallRecords(Request $request){
         $id=$request->get('hmid');
-        return Callback::where("homer_id",$id)->where("qc_name","!=","已删除")->get();
+        return Callback::where("homer_id",$id)->where("qc_name","!=","已删除")->where("is_connected","接通")->get();
     }
     public function connectInfo(Request $request){
         $id=$request->get('hmid');

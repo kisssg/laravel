@@ -1,18 +1,16 @@
 <template>
     <div>
+        Date range:<input type='date' v-model='start'/>-<input v-model='end' type='date'/>
+        <button v-on:click='retry'>Search</button><br/>
         <img src="picture/loading.gif" v-if="issues===null" alt="Loading...">
         <span v-else-if="issues==='error'">获取数据失败，可能是登陆已过期。<button v-on:click='retry'>重试</button></span>
         <span v-else-if="issues.length===0">无相关数据</span>
         <table class="table" v-else>
-            <thead><th>异常类别</th><th>详情</th><th>调查反馈</th><th>发生日期</th><th>确认时间</th><th>登记ＱＣ</th><th>操作</th></thead>
+            <thead><th>异常类别</th><th>违规数量</th><th>操作</th></thead>
         <tr v-for="item in issues">
             <td>{{item.issue}}</td>
-            <td>{{item.remark}}</td>
-            <td>{{item.feedback}}</td>
-            <td>{{item.date}}</td>
-            <td>{{item.close_time}}</td>
-            <td>{{item.qc_name}}</td>
-            <td><a target="_blank" :href='"issue/"+item.id'>详情</a></td>
+            <td>{{item.count}}</td>
+            <td><a :href="'issue/search?s=[issue:'+item.issue+'][result:有效][employeeid:'+id+']'" target="_blank">Detail</a></td>
         </tr>
         </table>
     </div>
@@ -22,15 +20,18 @@
         props: ['id'],
         data() {  
                     return {
-                issues: null        
+                issues: null,
+                start:"",
+                 end:""        
                     }  
         },  
         mounted() {  
-                this.showIssues(this.id, this);
+                console.log(this.start +'-'+ this.end);
+                this.showIssues(this.id, this,this.start,this.end);  
         },
         methods: {
-            showIssues: _.debounce( function (id, vm) {
-                axios.get('/issue/get-by-eid?eid=' + id).then( res => {
+            showIssues: _.debounce( function (id, vm,start,end) {
+                    axios.get('/issue/get-by-eid?eid=' + id + '&start='+start+ '&end='+end ).then( res => {
                     vm.issues = res.data;
                 },error=>{
                     if(error.response.status!==200){
@@ -40,7 +41,8 @@
                 });
             },350),
             retry(){
-                this.showIssues(this.id, this);                
+                this.issues=null;
+                this.showIssues(this.id, this,this.start,this.end);                
             }
         }
     }

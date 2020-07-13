@@ -58,7 +58,7 @@ class ImportIssues implements ToModel, WithHeadingRow, WithValidation
         return [
             'date' => 'required|max:10|regex:/^\d{4}\-\d{2}\-\d{2}$/',
             'contract_no' => 'required|between:6,14',
-            'object' => Rule::in('外催员/法律调查员', '前期催收人员', '业务人员', '外包公司', '无法确定','债权公司'),
+            'object' => Rule::in('外催员/法律调查员', '前期催收人员','外催员/法律调查员组长','外催员/法律调查员主管', '业务人员', '外包公司', '无法确定','债权公司'),
             'add_time'=>'regex:/^\d{4}\-\d{2}\-\d{2} \d{2}\:\d{2}\:\d{2}$/',
             'close_time'=>'regex:/^\d{4}\-\d{2}\-\d{2} \d{2}\:\d{2}\:\d{2}$/',
             'uploader'=>'required|max:20',

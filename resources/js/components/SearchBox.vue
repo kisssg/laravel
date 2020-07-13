@@ -14,7 +14,10 @@
                     </tr>
                 </table>
             </tab>
-            <tab title="Test Results">
+            <tab title="Equipment status">
+                Camera device & Tablet status
+            </tab>
+            <tab title="Training and test">
                 <tabs>
                     <tab title='Training'>
                         <keep-alive><traing-test :id="employee_id"></traing-test></keep-alive>
@@ -24,20 +27,27 @@
                     </tab>
                 </tabs>
             </tab>
-            <tab id="oh-hi-mark" title="QC Records">
+            <tab title="Biz performance">
+                Recovery rate & Recovery amount
+            </tab>
+            <tab id="oh-hi-mark" title="Quality status:QC checking result">
                 <tabs>
+                    <tab title='Camera checking'>
+                        <keep-alive><camera-records :id="hm_id"></camera-records></keep-alive>
+                    </tab>
+                    <tab title='Visit validation'>
+                        Visit validation
+                        <keep-alive><visit-records :id="hm_id"></visit-records></keep-alive>                        
+                    </tab>
                     <tab title='Callback'>
                         <keep-alive><callback :id="hm_id"></callback></keep-alive>
                     </tab>
-                    <tab title='Dingtalk'>
-                        <keep-alive><visit-records :id="hm_id"></visit-records></keep-alive>
-                    </tab>
-                    <tab title='Camera'>
-                        <keep-alive><camera-records :id="hm_id"></camera-records></keep-alive>
+                    <tab title='Mystery checking'>
+                        count checked, average score
                     </tab>
                 </tabs>
             </tab>
-            <tab title="Issues">
+            <tab title="Misbehavior list">
                 <keep-alive><issues :id="employee_id"></issues></keep-alive>
             </tab>
         </tabs>

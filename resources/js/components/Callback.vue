@@ -81,13 +81,13 @@
         },
         mounted() {
             this.$refs.callChart.showLoading(); 
-            //this.showRecords(this.id, this);
+            this.showRecords(this.id, this);
             this.getConnectInfo(this.id, this);
             this.getHarassInfo(this.id, this);
         },
         methods: {
             showRecords: _.debounce(function (id, vm) {
-                axios.get('/call-records?hmid=' + id).then(res => {
+                axios.get('callback/call-records?hmid=' + id).then(res => {
                     vm.callRecords = res.data;
                 });
             }, 350),
