@@ -2,8 +2,8 @@
 @section('content')
 <div class="container">
     <div class="card mt-4">
-        <div class="card-header">
-            Collectors batch upload
+        <div class="card-header">            
+            <a href='/collector'>Collector</a> -> batch upload
         </div>
         <div class="card-body">
             @if (count($errors) > 0)

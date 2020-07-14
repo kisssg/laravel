@@ -7,7 +7,7 @@
                 <form action='{{url('collector/'.$collector['id'])}}' method="post">
                     {{ method_field('PATCH') }}
                     {!! csrf_field() !!}
-                    <div class="card-header">Collectors</div>
+                    <div class="card-header"><a href='/collector'>Collector</a> -> edit</div>
                     @if (count($errors) > 0)
                     <div class="alert alert-danger">
                         <strong>更新失败</strong> 输入不符合要求<br><br>

@@ -3,14 +3,14 @@
 namespace App\Imports;
 
 use App\Collector;
-//use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use Maatwebsite\Excel\Concerns\WithValidation;
 use Maatwebsite\Excel\Concerns\Importable;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Validator;
 
-class ImportCollectors implements \Maatwebsite\Excel\Concerns\ToCollection, WithHeadingRow, WithValidation
+class ImportCollectors implements ToCollection, WithHeadingRow
 {
 
     use Importable;
@@ -21,8 +21,9 @@ class ImportCollectors implements \Maatwebsite\Excel\Concerns\ToCollection, With
     * @param \App\Imports\Collection $rows
     */
     public function collection(Collection $rows){
+        Validator::make($rows->toArray(), $this->rules(),$this->customValidationMessages())->validate();
         foreach($rows as $row){
-            Collector::updateOrCreate(['employee_id' => $row['employee_id']],['name_cn' => $row['name_cn'],
+            return Collector::updateOrCreate(['employee_id' => $row['employee_id']],['name_cn' => $row['name_cn'],
             'area' => $row['area'],
             'city' => $row['city'],
             'position' => $row['position'],
@@ -79,9 +80,9 @@ class ImportCollectors implements \Maatwebsite\Excel\Concerns\ToCollection, With
     public function rules(): array
     {
         return [
-            'name_cn' => "required", 'area' => "required", 'city' => "required", 'position' => "required", 'name_en' => "required", 'employee_id' => "required",
-            'onboard_date' => "", 'email' => "email|required", 'province' => "", 'city_cn' => "", 'tl' => "", 'sv' => '', 'manager' => '', 'type' => Rule::in('lli', 'agency'),
-            'status' => Rule::in('intern', 'on-job', 'departured'), 'phone_number' => '', 'cfc_hm_id' => 'required|unique:fc_employees', 'gc_hm_id' => '', 'district' => '',
+            '*.name_cn' => "required", '*.area' => "required", '*.city' => "required", '*.position' => "required", '*.name_en' => "required", '*.employee_id' => "required|numeric",
+            '*.onboard_date' => "", '*.email' => "email|required", '*.province' => "", '*.city_cn' => "", '*.tl' => "", '*.sv' => '', '*.manager' => '', '*.type' => Rule::in('lli', 'agency'),
+            '*.status' => Rule::in('intern', 'on-job', 'departured'), '*.phone_number' => '', '*.cfc_hm_id' => 'required|numeric', '*.gc_hm_id' => '', '*.district' => '',
         ];
     }
 
@@ -92,6 +93,7 @@ class ImportCollectors implements \Maatwebsite\Excel\Concerns\ToCollection, With
             '*.unique' => ':attribute已存在',
             '*.max' => ':attribute长度不能超过:max',
             '*.in' => ':attribute不在可选项内：:values',
+            "*.numeric"=>":attribute需为数字格式",
             'month_belong.between' => '所属月份格式为:yyyymm 如:201906'
         ];
     }

@@ -6,7 +6,7 @@
             <div class="card">
                 <form action='{{url('collector')}}' method="POST">
                     {!! csrf_field() !!}
-                    <div class="card-header">Collectors</div>
+                    <div class="card-header"><a href='/collector'>Collector</a> -> create</div>
                     @if (count($errors) > 0)
                     <div class="alert alert-danger">
                         <strong>保存失败</strong> 输入不符合要求<br><br>

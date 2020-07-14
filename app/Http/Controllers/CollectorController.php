@@ -103,9 +103,8 @@ class CollectorController extends Controller
     {
         try {
             Excel::import(new ImportCollectors(), request()->file('file'));
-        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
-            $failures = $e->failures();
-            return back()->withErrors($failures);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return back()->withErrors($e->errors());
         } catch (\Illuminate\Http\Exceptions\PostTooLargeException $e) {
             return back()->withErrors('文件大小超限');
         } catch (\Exception $e) {
