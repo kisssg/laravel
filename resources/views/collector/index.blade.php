@@ -18,7 +18,7 @@
                     @if($collectors->count())
                     <table class='table'>
                         <thead>
-                        <th><input onclick='switch_check_all(this);' type='checkbox' />Name EN</th>
+                        <th><input onclick='switch_check_alli(this);' type='checkbox' />Name EN</th>
                         <th>Name CN</th>
                         <th>Area</th>
                         <th>City</th>
@@ -66,33 +66,4 @@
         </div>
     </div>
 </div>
-<script>
-    function switch_check_all(src) {
-        check_boxes = (document.getElementsByName('checkbox_lli'));
-        for (i = 0; i < check_boxes.length; i++) {
-            check_boxes[i].checked = src.checked;
-        }
-    }
-    function deleteCollector() {
-        check_boxes = document.getElementsByName('checkbox_lli');
-        checked = [];
-        for (i = 0; i < check_boxes.length; i++) {
-            if (check_boxes[i].checked) {
-                checked.push(check_boxes[i].value);
-            }
-        }
-        console.log(checked);
-        args = {
-            'ids': checked
-        };
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        $.post('collector/delete', args, function (data) {
-            console.log(data);
-        }, 'json');
-    }
-</script>
 @endsection

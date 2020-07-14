@@ -5,7 +5,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <a href='/collector'>Collector</a>
+                    <a href='/collector'>Collector</a> -> overview
                 </div>
                 <div class='card-body' id="content">
                     <table class="table">
