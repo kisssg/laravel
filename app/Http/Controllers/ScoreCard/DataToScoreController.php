@@ -44,6 +44,8 @@ class DataToScoreController extends Controller {
                 $rules[$k] = "numeric";
             } elseif ($k === "type") {
                 $rules[$k] = "in:" . $project->data_types_allowed;
+            } elseif (stripos($k, '_id') || stripos($k, 'id_')!== false) {
+                $rules[$k] = "required|numeric";
             } else {
                 $rules[$k] = "required";
             }
