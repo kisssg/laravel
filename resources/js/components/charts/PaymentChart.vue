@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <bar-chart :chartdata="chartdata" :options="options" class="height:300px;"></bar-chart>
+    <div class="height:100px;width:100%">
+        <bar-chart :chartdata="chartdata" :options="options" ></bar-chart>
     </div>
 </template>
 <script>
@@ -9,7 +9,8 @@
         data: () => ({
                 chartdata: null,
                 options: {
-                    responsive: true,
+                    responsive: true, //resize the chart canvas when its container does
+                    maintainAspectRatio:false, //maintain the original canvas aspect ratio when resizing(width/height)
 				tooltips: {
 					mode: 'index',
                                         position:"nearest"
