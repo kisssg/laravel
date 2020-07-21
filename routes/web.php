@@ -64,6 +64,9 @@ Route::get('collector/search', 'CollectorController@searchCollectors')->middlewa
 Route::get('collector/del-on-job-lli','CollectorController@deleteOnjobLLIs');
 Route::get('collector/get','CollectorController@getCollector');
 Route::resource('collector', 'CollectorController')->middleware('auth');
+Route::get('payment/upload','PaymentController@upload')->middleware('auth');
+Route::post('payment/import','PaymentController@import')->middleware('auth');
+Route::resource('payment','PaymentController')->middleware('auth');
 Route::get('overview/{id}', 'CollectorController@overview')->middleware('auth');
 Route::get('confirm-violation/{id}/{token}', 'Violation\ViolationController@feedback');
 Route::get('project/{projectID}/progress','ScoreCard\ProjectController@progress')->middleware('auth');

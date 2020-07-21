@@ -29,6 +29,7 @@
             </tab>
             <tab title="Biz performance">
                 Recovery rate & Recovery amount
+                <payment-chart :id="employee_id"></payment-chart>
             </tab>
             <tab id="oh-hi-mark" title="Quality status:QC checking result">
                 <tabs>
