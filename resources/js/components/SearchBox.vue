@@ -6,47 +6,32 @@
         </form>
         <tabs>
             <tab title="Collector's info" >
+                <keep-alive>
                 <img src="picture/loading.gif" v-if="collector===null" alt="Loading...">
                 <span v-else-if="collector===undefined">未找到相关数据</span>
                 <table class="table" v-else>
                     <tr v-for="(item, key, index) in collector" class="row">                        
-                        <td class="col-3">{{ key }} </td><td class="col-6">{{ item }} </td>
+                        <td class="col-3" v-if="item">{{ key }} </td><td class="col-6"  v-if="item">{{ item }} </td>
                     </tr>
                 </table>
+                </keep-alive>
             </tab>
             <tab title="Equipment status">
-                Camera device & Tablet status
+                <keep-alive><device :id="employee_id"></device></keep-alive>
             </tab>
             <tab title="Training and test">
-                <tabs>
-                    <tab title='Training'>
-                        <keep-alive><traing-test :id="employee_id"></traing-test></keep-alive>
-                    </tab>
-                    <tab title='Monthly'>
-                        <keep-alive><online-test :id="employee_id"></online-test></keep-alive>
-                    </tab>
-                </tabs>
+                <keep-alive>
+                    <training-records :id="empoloyee_id"></training-records>
+                </keep-alive>
             </tab>
             <tab title="Biz performance">
-                Recovery rate & Recovery amount
-                <payment-chart :id="employee_id"></payment-chart>
+                Click on legend to hide/show data.
+                <keep-alive><payment-chart :id="employee_id"></payment-chart></keep-alive>
             </tab>
             <tab id="oh-hi-mark" title="Quality status:QC checking result">
-                <tabs>
-                    <tab title='Camera checking'>
-                        <keep-alive><camera-records :id="hm_id"></camera-records></keep-alive>
-                    </tab>
-                    <tab title='Visit validation'>
-                        Visit validation
-                        <keep-alive><visit-records :id="hm_id"></visit-records></keep-alive>                        
-                    </tab>
-                    <tab title='Callback'>
-                        <keep-alive><callback :id="hm_id"></callback></keep-alive>
-                    </tab>
-                    <tab title='Mystery checking'>
-                        count checked, average score
-                    </tab>
-                </tabs>
+                <keep-alive>
+                    <quality-records :id="hm_id"></quality-records>
+                </keep-alive>
             </tab>
             <tab title="Misbehavior list">
                 <keep-alive><issues :id="employee_id"></issues></keep-alive>
