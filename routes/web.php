@@ -67,6 +67,10 @@ Route::resource('collector', 'CollectorController')->middleware('auth');
 Route::get('payment/upload','PaymentController@upload')->middleware('auth');
 Route::post('payment/import','PaymentController@import')->middleware('auth');
 Route::resource('payment','PaymentController')->middleware('auth');
+Route::get('device/upload','DeviceController@upload')->middleware('auth');
+Route::post('device/import',"DeviceController@import")->middleware('auth');
+Route::resource('device',"DeviceController")->middleware('auth');// vrd and tablet
+
 Route::get('overview/{id}', 'CollectorController@overview')->middleware('auth');
 Route::get('confirm-violation/{id}/{token}', 'Violation\ViolationController@feedback');
 Route::get('project/{projectID}/progress','ScoreCard\ProjectController@progress')->middleware('auth');

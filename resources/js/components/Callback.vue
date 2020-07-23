@@ -1,18 +1,6 @@
 <template>
     <div>
-        <v-chart ref="callChart" :options="options" width="1000px" height="800"/>
-        <img src="picture/loading.gif" v-if="callRecords===null" alt="Loading...">
-        <span v-else-if="callRecords.length===0">-----</span>
-        <table class="table" v-else>
-            <thead><th>类别</th><th>接通情况</th><th>详情</th><th>骚扰情况</th><th>回访时间</th><th>ＱＣ</th></thead>
-            <tr v-for="item in callRecords"><td>{{item.type}}</td>
-                <td>{{item.is_connected}}</td>
-                <td>{{item.remark}}</td>
-                <td>{{item.is_harassed}}</td>
-                <td>{{item.check_time}}</td>
-                <td>{{item.qc_name}}</td>
-            </tr>
-        </table>
+        <v-chart ref="callChart" :options="options" width="1000px" height="800"/>        
     </div>
 </template>
 <style>
@@ -81,7 +69,7 @@
         },
         mounted() {
             this.$refs.callChart.showLoading(); 
-            this.showRecords(this.id, this);
+            //this.showRecords(this.id, this);
             this.getConnectInfo(this.id, this);
             this.getHarassInfo(this.id, this);
         },

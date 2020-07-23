@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Validator;
 
 class ImportCollectors implements ToCollection, WithHeadingRow
 {
-
     use Importable;
 
    /**
@@ -23,7 +22,7 @@ class ImportCollectors implements ToCollection, WithHeadingRow
     public function collection(Collection $rows){
         Validator::make($rows->toArray(), $this->rules(),$this->customValidationMessages())->validate();
         foreach($rows as $row){
-            return Collector::updateOrCreate(['employee_id' => $row['employee_id']],['name_cn' => $row['name_cn'],
+             Collector::updateOrCreate(['employee_id' => $row['employee_id']],['name_cn' => $row['name_cn'],
             'area' => $row['area'],
             'city' => $row['city'],
             'position' => $row['position'],
