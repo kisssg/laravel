@@ -16,24 +16,24 @@
                 </table>
                 </keep-alive>
             </tab>
-            <tab title="Equipment status">
+            <tab title="Equipment status" v-if="ready">
                 <keep-alive><device :id="employee_id"></device></keep-alive>
             </tab>
-            <tab title="Training and test">
+            <tab title="Training and test" v-if="ready">
                 <keep-alive>
-                    <training-records :id="empoloyee_id"></training-records>
+                    <training-records :id="employee_id"></training-records>
                 </keep-alive>
             </tab>
-            <tab title="Biz performance">
+            <tab title="Biz performance" v-if="ready">
                 Click on legend to hide/show data.
                 <keep-alive><payment-chart :id="employee_id"></payment-chart></keep-alive>
             </tab>
-            <tab id="oh-hi-mark" title="Quality status:QC checking result">
+            <tab id="oh-hi-mark" title="Quality status:QC checking result" v-if="ready">
                 <keep-alive>
                     <quality-records :id="hm_id"></quality-records>
                 </keep-alive>
             </tab>
-            <tab title="Misbehavior list">
+            <tab title="Misbehavior list" v-if="ready">
                 <keep-alive><issues :id="employee_id"></issues></keep-alive>
             </tab>
         </tabs>
@@ -66,7 +66,8 @@
                 "collector_name": '999999999',
                 "wtfData": '',
                 "employee_id": '999999999',
-                "hm_id": "999999999"
+                "hm_id": "999999999",
+                "ready": false,
             };
         },
         methods: {
@@ -77,9 +78,16 @@
                         vm.collector_name = res.data[0].name_cn;
                         vm.employee_id = res.data[0].employee_id;
                         vm.hm_id = res.data[0].cfc_hm_id;
+                        vm.ready=true;
+                        vm.encryptID();
                     }
                 });
-            }, 1000)
+            }, 1000),
+            encryptID(){
+                if(this.collector){
+                    this.collector.person_id="***";
+                }
+            }
         }
     }
 </script>

@@ -1,7 +1,7 @@
 <template>
     <div>
-
-        <v-chart :options="polar" autosize="true"/>
+        <span v-if="!ready">Camera checking records coming soon...</span>
+        <v-chart :options="polar" v-if="ready" autosize="true"/>
     </div>
 </template>
 <script>
@@ -13,6 +13,7 @@
         props: ['id'],
         data() {
             return {
+                ready:false,
                 records: null,
                 polar: {
                     tooltip: {
