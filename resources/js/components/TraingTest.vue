@@ -1,9 +1,9 @@
 <template>
     <div>
         <img src="picture/loading.gif" v-if="results===null" alt="Loading...">
-        <span v-else-if="results.length===0">无相关数据</span>
+        <span v-else-if="results.length===0">No onboard training records found</span>
         <table class="table" v-else>
-            <thead><th>考试类型</th><th>考试地点</th><th>话术成绩</th><th>笔试成绩</th><th>ＣＯＣ成绩</th><th>月份</th><th>培训师</th><th>是否租用培训场地</th></thead>
+            <thead><th>Training type</th><th>Location</th><th>Oral score</th><th>Paper score</th><th>COC score</th><th>Month</th><th>Trainer</th><th>Rent training room?</th></thead>
         <tr v-for="item in results"><td>{{item.training_type}}</td>
             <td>{{item.training_location}}</td>
             <td>{{item.script_score}}</td>

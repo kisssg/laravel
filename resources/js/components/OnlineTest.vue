@@ -1,9 +1,9 @@
 <template>
     <div>
         <img src="picture/loading.gif" v-if="results===null" alt="Loading...">
-        <span v-else-if="results.length===0">无相关数据</span>
+        <span v-else-if="results.length===0">No other training test records</span>
         <table class="table" v-else>
-            <thead><th>考试类型</th><th>月度</th><th>结果</th><th>考试日期</th></thead>
+            <thead><th>Test type</th><th>Month</th><th>Result</th><th>Test date</th></thead>
         <tr v-for="item in results"><td>{{item.type}}</td>
             <td>{{item.month}}</td>
             <td>{{item.result}}</td>

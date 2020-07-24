@@ -3,10 +3,10 @@
         Date range:<input type='date' v-model='start'/>-<input v-model='end' type='date'/>
         <button v-on:click='retry'>Search</button><br/>
         <img src="picture/loading.gif" v-if="issues===null" alt="Loading...">
-        <span v-else-if="issues==='error'">获取数据失败，可能是登陆已过期。<button v-on:click='retry'>重试</button></span>
-        <span v-else-if="issues.length===0">无相关数据</span>
+        <span v-else-if="issues==='error'">Failed fetching data. If you see this notice again try refresh the page.<button v-on:click='retry'>Retry</button></span>
+        <span v-else-if="issues.length===0">No relevant data</span>
         <table class="table" v-else>
-            <thead><th>异常类别</th><th>违规数量</th><th>操作</th></thead>
+            <thead><th>Type</th><th>Count</th><th>Action</th></thead>
         <tr v-for="item in issues">
             <td>{{item.issue}}</td>
             <td>{{item.count}}</td>
