@@ -35,9 +35,9 @@ class ImportDevices implements ToCollection, WithHeadingRow {
 
     public function rules(): array {
         return [
-            '*.name' => "required", '*.employee_id' => "required|numeric",
-            '*.device' => Rule::in('tablet', 'vrd'), '*.remark' => "required",
-            '*.status' => 'required',
+            '*.name' => "required|64", '*.employee_id' => "required|numeric|max:11",
+            '*.device' => Rule::in('tablet', 'vrd'), '*.remark' => "required|max:512",
+            '*.status' => 'required|max:64',
         ];
     }
 
