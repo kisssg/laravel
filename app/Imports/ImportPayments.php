@@ -40,7 +40,7 @@ class ImportPayments implements ToCollection, WithHeadingRow {
             '*.payment' => "required|digits_between:1,11",
             '*.assign_amt' => "required|digits_between:1,11",
             '*.year'=>"required|digits:4",
-            '*.month'=>"required|digits_between:1,2"];
+            '*.month'=>"required|digits:6"];
     }
 
     public function customValidationMessages() {
@@ -52,7 +52,7 @@ class ImportPayments implements ToCollection, WithHeadingRow {
             "*.numeric" => ":attribute需为数字格式",
             '*.digits'=>":attribute需为:value位数字",
             '*.digits_between'=>":attribute需为:min到:max位数字",
-            'month_belong.between' => '所属月份格式为:yyyymm 如:201906'
+            'month.digits' => '月份格式需为:yyyymm 如:201906'
         ];
     }
 }

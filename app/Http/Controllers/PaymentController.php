@@ -7,6 +7,7 @@ use App\Payment;
 use App\Imports\ImportPayments;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Traits\ExcelHandle;
+use Illuminate\Support\Arr;
 
 class PaymentController extends Controller {
 
@@ -20,10 +21,10 @@ class PaymentController extends Controller {
     }
 
     public function show($id, Request $request) {
-
+        $yearMonth=Payment::select("year","month")->where("employee_id",$id);
+        $month=Arr::pluck($yearMonth->get(),"month");
         $collector = Payment::select("year", "month", "payment", "assign_amt")->selectRaw("payment/assign_amt as rate_recovery")->where('employee_id', $id)->orderBy('year', 'asc', 'month', 'asc')->groupBy('year', 'month', "payment", "assign_amt", "rate_recovery")->get();
-        $avg = Payment::selectRaw('year,month, avg(payment) as payment,avg(assign_amt) as assign_amt, avg(payment)/avg(assign_amt) as rate_recovery')->orderBy('year', 'asc', 'month', 'asc')->groupBy("year", "month")->get();
-
+        $avg = Payment::selectRaw('year,month, avg(payment) as payment,avg(assign_amt) as assign_amt, avg(payment)/avg(assign_amt) as rate_recovery')->whereIn("month",$month)->orderBy('year', 'asc', 'month', 'asc')->groupBy("year", "month")->get();
         $labels = [];
         $avg_assign_amt = [];
         $avg_payment = [];
@@ -33,7 +34,7 @@ class PaymentController extends Controller {
         $collector_rate_recovery = [];
 
         foreach ($collector as $item) {
-            array_push($labels, $item->year . $item->month);
+            array_push($labels, $item->month);
             array_push($collector_assign_amt, $item->assign_amt);
             array_push($collector_payment, $item->payment);
             array_push($collector_rate_recovery, $item->rate_recovery);
