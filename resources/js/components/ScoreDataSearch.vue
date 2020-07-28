@@ -144,7 +144,7 @@
                     }
                     if (this.range_start && this.range_end) {
                         combine += "[range:" + this.range_start + " " + this.range_end + "]";
-                    }else if(combine==='') {
+                    }else if(this.owner.trim() ==='') {
                         combine += "[range:" + this.monthFirst + " " + this.today + "]";                    
                     }
                     if (this.contract_number) {
