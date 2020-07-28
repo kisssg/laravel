@@ -19,10 +19,11 @@
                     <td v-if="item.option_type==='text'">
                 <text-score-item :item="item" :savedAnswer="score?score[item.score_field]:null" :ref="item.score_field"></text-score-item>
                 </td>    
-                <td v-else-if="item.option_type==='remark'">
+                <td v-else-if="item.option_type==='single'">
+                <single-select-score-item :item="item" :savedAnswer="score?score[item.score_field]:null" :ref="item.score_field"></single-select-score-item>
                 </td>
                 <td v-else>
-                <single-select-score-item :item="item" :savedAnswer="score?score[item.score_field]:null" :ref="item.score_field"></single-select-score-item>
+                Option type <b>{{item.option_type}}</b> not supported, please verify. 
                 </td>
                 </tr>
                 <tr>
@@ -72,21 +73,28 @@
             submitResult() {
                 let score = {};
                 let scoreData = this.$refs,
-                        totalScore = 0,scoredCount=0;
+                        totalScore = 0,scoredCount=0,scoreNumerator=0,scoreDenominator=0;
                 for (let item in scoreData) {
                     score[item] = scoreData[item][0].answer;
-                    if(score[item]!=='-'){
+                    if(score[item]!=='-' && scoreData[item][0].type==='single'){
                         scoredCount++;
+                    }                    
+                    if(score[item] !=="-" && scoreData[item][0].needScore){
+                        scoreDenominator++;
+                        if(score[item] ==="1")
+                            scoreNumerator++;
                     }
                     totalScore += scoreData[item][0].answer===null?0:Number(scoreData[item][0].score);
                 }
-                console.log('scoredCount:'+scoredCount);
-                if(scoredCount<2){
-                    this.msg='At least 1 item must be scored';
+                console.log('Denominator:'+scoreDenominator);
+                console.log('Numerator:'+scoreNumerator);
+                if(scoredCount<1){
+                    this.msg='At least 1 item must be scored.';
                     return;
                 }
                 totalScore = totalScore > 100 ? 100 : totalScore;//总分大于100分就是100分
                 totalScore = totalScore < 0 ? 0 : totalScore;//总分小于0分就是0分
+                totalScore= scoreNumerator / scoreDenominator * 100; // denominator is count of items need to be scored and scorable, numerator is score goal.
                 this.totalScore=totalScore.toFixed(2);
                 score.score=totalScore.toFixed(2);
                 score.data_id = this.data_to_score.id;
