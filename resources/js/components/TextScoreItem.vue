@@ -18,7 +18,9 @@
         data() {
             return {
                 "score": null,
-                "answer":null
+                "answer":null,
+                "type":"text",
+                "needScore":false
             };
         },
         methods: {

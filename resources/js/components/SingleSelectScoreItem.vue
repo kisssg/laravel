@@ -21,20 +21,26 @@
         },
         data() {
             return{
-                answer: null
+                "answer": null,
+                "type":"single"
             };
         },
         methods: {
         },
         computed: {
             score() {
+                if(this.needScore===false)
+                    return null;
                 let options = this.item.options.split(',');
                 for (let i = 0; i < options.length; i++) {
                     if (options[i] === this.answer) {
                         return this.item.scores.split(',')[i];
                     }
                 }
+                },
+                needScore(){
+                    return this.item.scores === "null" ? false:true;
+                }
             }
-        }
-    }
+        }    
 </script>
