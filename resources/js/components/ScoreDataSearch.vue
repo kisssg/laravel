@@ -116,7 +116,7 @@
                 }
             },
             keyword: {
-                set(val) {
+                set(val) {                    
                     let regResult = /\[.+?\]/g.exec(val);
                     if (!regResult) {
                         this.contract_number = val;
@@ -126,8 +126,8 @@
                     this.checked = /\[checked:(.+?)\]/g.exec(val) ? /\[checked:(.+?)\]/g.exec(val)[1] : null;
                     let regRange = /\[range\:(\d{4}\-\d{2}\-\d{2})\s(\d{4}\-\d{2}\-\d{2})\]/g;
                     let rangeResult = regRange.exec(val);
-                    this.range_start = rangeResult ? rangeResult[1] : null;
-                    this.range_end = rangeResult ? rangeResult[2] : null;
+                    this.range_start = rangeResult ? rangeResult[1] : this.monthFirst;
+                    this.range_end = rangeResult ? rangeResult[2] : this.today;
                     this.owner = /\[owner:(.+?)\]/g.exec(val) ? /\[owner:(.+?)\]/g.exec(val)[1] : null;
                     this.diySearchItem = /\[diy:(.+?):(.+?)\]/g.exec(val) ? /\[diy:(.+?):(.+?)\]/g.exec(val)[1] : null;
                     this.diySearchValue = /\[diy:(.+?):(.+?)\]/g.exec(val) ? /\[diy:(.+?):(.+?)\]/g.exec(val)[2] : null;
@@ -144,6 +144,8 @@
                     }
                     if (this.range_start && this.range_end) {
                         combine += "[range:" + this.range_start + " " + this.range_end + "]";
+                    }else if(combine==='') {
+                        combine += "[range:" + this.monthFirst + " " + this.today + "]";                    
                     }
                     if (this.contract_number) {
                         combine += "[contract_no:" + this.contract_number + "]";
@@ -167,9 +169,12 @@
         mounted() {
             this.keyword = this.query_string;
             this.getDiySearchItems(this.project_id);
-            //console.log([... this.query_string.matchAll(/\[diy:(.+?):(.+?)\]/g)][1]);
-            //console.log(this.query_string.matchAll(/\[diy:(.+?):(.+?)\]/g));
-            //console.log([.../\[diy:(.+?):(.+?)\]/g.exec(this.query_string)]);
+            let date=new Date();
+            let year=date.getFullYear();
+            let month=(date.getMonth()+1)>9?(date.getMonth()+1):0+""+(date.getMonth()+1)// getMonth() (0 ~ 11)
+            let day = (date.getDate())>9?(date.getDate()):0+""+(date.getDate());// getDate() (1 ~ 31)
+            this.today =(year+"-"+month+"-"+day);
+            this.monthFirst=(year+"-"+month+"-01");
         },
         data() {
             return{
@@ -185,7 +190,9 @@
                 diySearchItem1:null,
                 diySearchValue1:null,
                 diySearchItem2:null,
-                diySearchValue2:null
+                diySearchValue2:null,
+                today:null,
+                monthFirst:null,
             };
         },
         methods: {
