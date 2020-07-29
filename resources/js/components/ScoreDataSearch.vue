@@ -80,6 +80,14 @@
     export default {
         props: ['project_id', 'query_string'],
         computed: {
+            needRestrict(){
+                if(this.contract_number && this.contract_number.trim() !=="") {return false}
+                if(this.diySearchItem && this.diySearchValue && this.diySearchValue.trim() !=="" ){ return false}
+                if(this.diySearchItem1 && this.diySearchValue1 && this.diySearchValue1.trim() !==""){ return false}
+                if(this.diySearchItem2 && this.diySearchValue2 && this.diySearchValue2.trim() !==""){ return false}
+                if(this.owner && this.owner.trim() !==""){ return false}
+                return true;
+            },
             uncheck: {
                 set(val) {
                     if (val) {
@@ -126,8 +134,8 @@
                     this.checked = /\[checked:(.+?)\]/g.exec(val) ? /\[checked:(.+?)\]/g.exec(val)[1] : null;
                     let regRange = /\[range\:(\d{4}\-\d{2}\-\d{2})\s(\d{4}\-\d{2}\-\d{2})\]/g;
                     let rangeResult = regRange.exec(val);
-                    this.range_start = rangeResult ? rangeResult[1] : this.monthFirst;
-                    this.range_end = rangeResult ? rangeResult[2] : this.today;
+                    this.range_start = rangeResult ? rangeResult[1] : null;
+                    this.range_end = rangeResult ? rangeResult[2] : null;
                     this.owner = /\[owner:(.+?)\]/g.exec(val) ? /\[owner:(.+?)\]/g.exec(val)[1] : null;
                     this.diySearchItem = /\[diy:(.+?):(.+?)\]/g.exec(val) ? /\[diy:(.+?):(.+?)\]/g.exec(val)[1] : null;
                     this.diySearchValue = /\[diy:(.+?):(.+?)\]/g.exec(val) ? /\[diy:(.+?):(.+?)\]/g.exec(val)[2] : null;
@@ -144,7 +152,7 @@
                     }
                     if (this.range_start && this.range_end) {
                         combine += "[range:" + this.range_start + " " + this.range_end + "]";
-                    }else if(this.owner.trim() ==='') {
+                    }else if(this.needRestrict) {
                         combine += "[range:" + this.monthFirst + " " + this.today + "]";                    
                     }
                     if (this.contract_number) {
@@ -175,6 +183,7 @@
             let day = (date.getDate())>9?(date.getDate()):0+""+(date.getDate());// getDate() (1 ~ 31)
             this.today =(year+"-"+month+"-"+day);
             this.monthFirst=(year+"-"+month+"-01");
+            console.log(this.needRestrict);
         },
         data() {
             return{
