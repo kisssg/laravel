@@ -95,8 +95,8 @@
                 totalScore = totalScore > 100 ? 100 : totalScore;//总分大于100分就是100分
                 totalScore = totalScore < 0 ? 0 : totalScore;//总分小于0分就是0分
                 totalScore= scoreNumerator / scoreDenominator * 100; // denominator is count of items need to be scored and scorable, numerator is score goal.
-                this.totalScore=totalScore.toFixed(2);
-                score.score=totalScore.toFixed(2);
+                this.totalScore=isNaN(totalScore)?null:totalScore.toFixed(2);// if no items can be scored, score is null.
+                score.score=isNaN(totalScore)?null:totalScore.toFixed(2);
                 score.data_id = this.data_to_score.id;
                 score.project_id = this.project_id;
                 let url = "/project/score", args = score;

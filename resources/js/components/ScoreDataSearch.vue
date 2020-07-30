@@ -19,7 +19,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class='modal-header'>
-                        <h4 class=modal-title>多项搜索</h4>         
+                        <h4 class=modal-title>Advanced search</h4>         
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -72,7 +72,7 @@
                     <div class="modal-footer">
                         <input type="button" class="btn btn-primary"  v-on:click="submit" value="Search"/></div>
                 </div>
-            </div>
+            </div>  
         </div>
     </div>
 </template>
