@@ -6,15 +6,18 @@
         {{diySearchValue?diySearchItem+':'+diySearchValue:''}}
         {{diySearchValue1?diySearchItem1+':'+diySearchValue1:''}}
         {{diySearchValue2?diySearchItem2+':'+diySearchValue2:''}}
+        
+        <form onsubmit="event.preventDefault();">
         <div class="input-group">
             <div class="input-group-prepend">
                 <button class="btn btn-secondary" type="button" data-toggle="modal" data-target=".bs-search-modal">+</button>
             </div>
             <input type="text" name="s" class="form-control" v-model="contract_number" placeholder="Contract Number"/>
             <span class="input-group-append">
-                <input type="button" class="btn btn-primary"  value="Search" v-on:click="submit"/>
+                <input type="submit" class="btn btn-primary"  value="Search" v-on:click="submit"/>
             </span>
         </div>
+        </form>
         <div class="modal fade bs-search-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -24,6 +27,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
+                    <form onsubmit="event.preventDefault();">
                     <div class='modal-body'>
                         <div class="form-group">
                             Range
@@ -70,7 +74,8 @@
                         </div>
                     </div>     
                     <div class="modal-footer">
-                        <input type="button" class="btn btn-primary"  v-on:click="submit" value="Search"/></div>
+                        <input type="submit" class="btn btn-primary"  v-on:click="submit" value="Search"/></div>
+                    </form>
                 </div>
             </div>  
         </div>

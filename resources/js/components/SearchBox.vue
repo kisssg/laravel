@@ -30,7 +30,7 @@
             </tab>
             <tab id="oh-hi-mark" title="Quality status:QC checking result" v-if="ready">
                 <keep-alive>
-                    <quality-records :id="hm_id"></quality-records>
+                    <quality-records :id="hm_id" :eid="employee_id"></quality-records>
                 </keep-alive>
             </tab>
             <tab title="Misbehavior list" v-if="ready">
