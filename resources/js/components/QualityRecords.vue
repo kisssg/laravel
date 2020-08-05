@@ -1,16 +1,16 @@
 <template>
     <div>           
-        <button v-on:click="showCamera">Camera records</button>
-        <camera-records :id="id" v-if="cameraShow"></camera-records>
-        <button v-on:click="showDing">Dingtalk records</button>
+        <button v-on:click="showCamera">Camera checking score</button>
+        <camera-records :id="eid" v-if="cameraShow"></camera-records>
+        <button v-on:click="showDing">Dingtalk checking results</button>
         <visit-records :id="id" v-if="dingShow"></visit-records>
-        <button v-on:click="showCallback">Callback records</button>
+        <button v-on:click="showCallback">Call survey records</button>
         <callback :id="id" v-if="callbackShow"></callback>
     </div>
 </template>
 <script>
     export default {
-        props: ['id'],
+        props: ['id','eid'],
         data() {  
             return {
                 cameraShow:false,
