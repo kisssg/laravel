@@ -19,6 +19,9 @@
 </head>
 <body>
     <div id="app">
+            @if(env('APP_TEST',true))
+            <div class="sticky-top bg-danger text-white">This server you're visiting is on testing, there might be some malfunctions, please use below address:<br/>您当前所在服务器正在调试，可能存在功能异常的情况，请移步：<a href='http://10.65.77.76:81'>10.65.77.76:81</a></div>
+            @endif
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
@@ -72,9 +75,6 @@
         </nav>
 
         <main class="py-4">
-            @if(env('APP_TEST',true))
-            <div class="sticky-top bg-info text-white">This server you're visiting is on testing, some function might be unexpected, please use below address:<br/>您当前所在服务器正在调试，可能存在功能异常的情况，请移步：<a href='http://10.65.77.76:81'>10.65.77.76:81</a></div>
-            @endif
             @yield('content')
         </main>
     </div>

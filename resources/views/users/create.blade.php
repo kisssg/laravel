@@ -1,9 +1,5 @@
 @extends('layouts.app')
 
-@section('content_header')
-   {{ Breadcrumbs::render('users.create') }}
-@stop
-
 @section('content')
    <div class="container">
             <form method='POST' action="{{ route('users.store') }}">

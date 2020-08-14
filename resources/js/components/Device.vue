@@ -1,7 +1,7 @@
 <template>
     <div>
         <img src="picture/loading.gif" v-if="results===null" alt="Loading...">
-        <span v-else-if="results.length===0">无相关数据</span>
+        <span v-else-if="results.length===0">No relevant data found.</span>
         <table class="table" v-else>
             <thead><th>Device</th><th>Status</th><th>Remark</th><th>Updated at</th></thead>
         <tr v-for="item in results"><td>{{item.device}}</td>
