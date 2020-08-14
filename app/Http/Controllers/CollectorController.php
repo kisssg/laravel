@@ -21,8 +21,11 @@ class CollectorController extends Controller
         'type', 'status', 'created_at', 'updated_at', 'deleted_at',
     ];
 
-    public function index()
+    public function index(Request $request)
     {
+        if (!$request->user()->can('manage collectors')) {
+            return view('401');
+        }
         $key = \Request::get('s');
         return view('collector.index')->withCollectors(Collector::where("name_cn", "like", "%" . $key . "%")
                                 ->orWhere("name_en", "like", "%" . $key . "%")
@@ -35,8 +38,11 @@ class CollectorController extends Controller
         return view('collector.show')->withCollector(Collector::findOrFail($id)->toArray());
     }
 
-    public function create()
-    {
+    public function create(Request $request)
+    {        
+        if (!$request->user()->can('manage collectors')) {
+            return view('401');
+        }
         return view('collector.create')->withCollector(Collector::findOrFail(2603)->only(['name_cn', 'area', 'city', 'position', 'name_en', 'employee_id',
                             'onboard_date', 'email', 'province', 'city_cn', 'tl', 'sv', 'manager', 'type', 'status',
                             'phone_number', 'cfc_hm_id', 'gc_hm_id', 'person_id', 'district',
@@ -44,7 +50,10 @@ class CollectorController extends Controller
     }
 
     public function store(Request $request)
-    {
+    {        
+        if (!$request->user()->can('manage collectors')) {
+            return view('401');
+        }
         $request->flash();
         $rules = ['name_en' => 'required|min:3',
             'type' => Rule::in('lli', 'agency'),
@@ -64,13 +73,19 @@ class CollectorController extends Controller
         }
     }
 
-    public function edit($id)
+    public function edit(Request $request,$id)
     {
+        if (!$request->user()->can('manage collectors')) {
+            return view('401');
+        }
         return view('collector.edit')->withCollector(Collector::findOrFail($id)->toArray());
     }
 
     public function update($id, Request $request)
-    {
+    {        
+        if (!$request->user()->can('manage collectors')) {
+            return view('401');
+        }
         $request->flash();
         $rules = [
             'type' => 'required',
@@ -94,13 +109,19 @@ class CollectorController extends Controller
         }
     }
 
-    public function upload()
+    public function upload(Request $request)
     {
+        if (!$request->user()->can('manage collectors')) {
+            return view('401');
+        }
         return view('collector.upload');
     }
 
-    public function import()
+    public function import(Request $request)
     {
+        if (!$request->user()->can('manage collectors')) {
+            return view('401');
+        }
         try {
             Excel::import(new ImportCollectors(), request()->file('file'));
         } catch (\Illuminate\Validation\ValidationException $e) {
@@ -122,6 +143,9 @@ class CollectorController extends Controller
 
     public function delete(Request $request)
     {
+        if (!$request->user()->can('manage collectors')) {
+            return view('401');
+        }
         $ids = $request->input('ids');
         if ($ids == null)
         {
@@ -134,11 +158,6 @@ class CollectorController extends Controller
         }
         return json_encode($ids);
     }
-
-    public function deleteOnjobLLIs()
-    {
-            return "Deleted nothing!";
-    }
     
     public function overview($id)
     {
@@ -147,6 +166,9 @@ class CollectorController extends Controller
 
     public function searchCollectors(Request $request)
     {
+        if (!$request->user()->can('manage collectors')) {
+            return view('401');
+        }
         $key = $request->get('s');
         return Collector::select('name_en', 'employee_id')->where('name_en', 'like', '%' . $key . '%')->limit(20)->get();
     }

@@ -19,8 +19,10 @@ class UsersController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
-        //$this->check_permission('view_users');
+    public function index(Request $request) {
+        if (!$request->user()->can('view_users')) {
+            return view('401');
+        }
 
         $users = User::all();
         return view('users.index',compact('users'));
@@ -31,9 +33,10 @@ class UsersController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function create() {
-
-        $this->check_permission('create_users');
+    public function create(Request $request) {        
+        if (!$request->user()->can('create_users')) {
+            return view('401');
+        }
 
         $permissions = Permission::all();
         $roles = Role::all();
@@ -47,9 +50,10 @@ class UsersController extends Controller {
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) {
-
-        $this->check_permission('create_users');
+    public function store(Request $request) {       
+        if (!$request->user()->can('create_users')) {
+            return view('401');
+        }
 
         $this->validate($request, [
             'name' => 'bail|required|min:2',

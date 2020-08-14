@@ -2,6 +2,7 @@
 @section('content')
 <div class="container">
     <div class="card-deck">
+        @can('view issues')
         <div class="card" style="max-width: 15rem; min-width: 15rem;">
             <img class="card-img-top" src="picture/blank.png" >
             <div class="card-body">
@@ -15,6 +16,8 @@
                 @endcan
             </div>
         </div>
+        @endcan
+        @can('view violations')
         <div class="card" style="max-width: 15rem; min-width: 15rem;">
             <img class="card-img-top" src="picture/blank.png" >
             <div class="card-body">
@@ -29,6 +32,7 @@
                 @endcan
             </div>
         </div>
+        @endcan
         @can('view concentration')
         <div class="card" style="max-width: 15rem; min-width: 15rem;">
             <img class="card-img-top" src="picture/blank.png" >
@@ -70,7 +74,6 @@
         </div>
         @endcan        
         @endforeach
-
     </div>
 </div>
 @endsection
