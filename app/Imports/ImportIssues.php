@@ -22,6 +22,7 @@ class ImportIssues implements ToModel, WithHeadingRow, WithValidation
      */
     public function model(array $row)
     {
+        $user=Auth::user()->name;
         return new Issue([
             'date' => $row['date'],
             'contract_no' => $row['contract_no'],
@@ -49,7 +50,7 @@ class ImportIssues implements ToModel, WithHeadingRow, WithValidation
             'edit_log' => $row['edit_log'],
             'source' => $row['source'],
             'harassment_type' => $row['harassment_type'],
-            'uploader' => $row['uploader'],
+            'uploader' => $user,
         ]);
     }
 
@@ -61,13 +62,14 @@ class ImportIssues implements ToModel, WithHeadingRow, WithValidation
             'object' => Rule::in('外催员/法律调查员', '前期催收人员','外催员/法律调查员组长','外催员/法律调查员主管', '业务人员', '外包公司', '无法确定','债权公司'),
             'add_time'=>'regex:/^\d{4}\-\d{2}\-\d{2} \d{2}\:\d{2}\:\d{2}$/',
             'close_time'=>'regex:/^\d{4}\-\d{2}\-\d{2} \d{2}\:\d{2}\:\d{2}$/',
-            'uploader'=>'required|max:20',
+            'callback_id'=>'required|numeric',
         ];
     }
 
     public function customValidationMessages()
     {
         return [
+            '*.numeric'=>':attribute需为数字格式，若相关数据未要求填写请填充0',
             '*.required' => ':attribute不能为空',
             '*.max' => ':attribute长度不能超过:max',
             '*.regex'=>':attribute格式不符合要求',
