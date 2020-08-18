@@ -8,6 +8,7 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 use Maatwebsite\Excel\Concerns\Importable;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 
 class ImportIssues implements ToModel, WithHeadingRow, WithValidation
 {
