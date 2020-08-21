@@ -119,16 +119,5 @@ class PaymentController extends Controller {
         $data = collector::where("name_cn", "like", "%" . $key . "%")->get()->toArray();
         return $this->arrayToExcel($data, 'collectors', $this->excelTitle, "A2");
     }
-
-    public function delete(Request $request) {
-        $ids = $request->input('ids');
-        if ($ids == null) {
-            return json_encode($ids);
-        }
-        foreach ($ids as $id) {
-            $collector = collector::findOrFail($id);
-            $collector->delete();
-        }
-        return json_encode($ids);
-    }
+    
 }

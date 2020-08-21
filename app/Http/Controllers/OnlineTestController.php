@@ -9,27 +9,46 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\TrainingTestResult;
+use Maatwebsite\Excel\Facades\Excel;
 
 /**
  * Description of OnlineTestController
  *
  * @author Sucre.xu
  */
-class OnlineTestController extends Controller
-{
+class OnlineTestController extends Controller {
+
     //put your code here
-    public function index(){
-        
+    public function index(Request $request) {
+        $s = $request->get('s');
+        return view('training.index')->withTrainings(TrainingTestResult::where(function($query) use($s) {
+                            if ($s) {
+                                $query->where("employee_id", $s);
+                            }
+                        })->paginate(50));
     }
-    public function getTraingTestResults(Request $request){
-        $employee_id=$request->get('employee_id');
-        $results= \App\TrainingTestResult::where('employee_id',$employee_id)->get();
+
+    public function upload(Request $request) {
+        return view('training.upload');
+    }
+
+    public function import() {
+        try {
+            Excel::import(new \App\Imports\ImportTraingResults(), request()->file('file'));
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return back()->withErrors($e->errors());
+        } catch (\Illuminate\Http\Exceptions\PostTooLargeException $e) {
+            return back()->withErrors('文件大小超限');
+        } catch (\Exception $e) {
+            return back()->withErrors($e->getMessage());
+        }
+        return redirect('training');
+    }
+
+    public function show($id) {
+        $results = TrainingTestResult::where('employee_id', $id)->get();
         return $results;
     }
-    public function getOnlineTestResults(Request $request){
-        $employee_id=$request->get('employee_id');
-        $results= \App\OnlineTestResult::where('employee_id',$employee_id)->get();
-        return $results;        
-    }
-    
+
 }
