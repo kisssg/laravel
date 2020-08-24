@@ -33,7 +33,8 @@ class ImportTraingResults implements ToCollection, WithHeadingRow {
                         'phone_score'=>$row['phone_score'],
                         'general_score'=>$row['general_score'],
                         'oral_score'=>$row['oral_score'],
-                        'coc_score'=>$row['coc_score'],                        
+                        'coc_score'=>$row['coc_score'],          
+                        'remark'=>$row['remark'],
                         'updated_by'=>$user,
             ]);
         }
@@ -41,7 +42,7 @@ class ImportTraingResults implements ToCollection, WithHeadingRow {
 
     public function rules(): array {
         return [
-            '*.training_date' => "required|date", '*.employee_id' => "required|numeric|max:11",
+            '*.training_date' => "required|date", '*.employee_id' => "required|numeric|digits_between:5,11",
             '*.training_type' => "required",'*.general_score' => 'required|numeric',
         ];
     }

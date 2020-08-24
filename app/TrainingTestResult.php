@@ -18,5 +18,10 @@ use Illuminate\Database\Eloquent\Model;
 class TrainingTestResult extends Model
 {
     //put your code here
-    
+    protected $fillable=['employee_id',
+        'training_date','training_type',
+        'name_cn',
+        'region',
+        'business_score',
+        'much_score','vrd_score','phone_score','general_score','oral_score','coc_score','updated_by'];
 }

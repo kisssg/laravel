@@ -1,14 +1,15 @@
 <template>
     <div>
         <form action="" method="get">
-            <input class='form-group' type='text' placeholder='英文名、工号、Homer ID' name='s' v-model='wtfValue'>
-            <input class='btn btn-default btn-sm' type="submit" value="Search"/>
+            <input class='form-group' type='text' placeholder='Name/E_ID/Homer_ID' name='s' v-model='wtfValue'>
+            <input class='btn btn-primary btn-sm' type="submit" value="Search"/>
         </form>
         <tabs>
             <tab title="Collector's info" >
                 <keep-alive>
-                <img src="picture/loading.gif" v-if="collector===null" alt="Loading...">
-                <span v-else-if="collector===undefined">未找到相关数据</span>
+                <span v-if="wtf===''">Type in collector's name/employee ID/homer ID to search</span>
+                <img src="picture/loading.gif" v-else-if="collector===null" alt="Loading...">
+                <span v-else-if="collector===undefined">No data found</span>
                 <table class="table" v-else>
                     <tr v-for="(item, key, index) in collector" class="row">                        
                         <td class="col-3" v-if="item">{{ key }} </td><td class="col-6"  v-if="item">{{ item }} </td>
@@ -58,7 +59,9 @@
         },
         mounted() {
             this.wtfData = this.wtf;
-            this.searchLLI(this.wtf, this);
+            if(this.wtf){
+                this.searchLLI(this.wtf, this);
+            }
         },
         data() {
             return{
