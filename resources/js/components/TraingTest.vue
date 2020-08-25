@@ -34,6 +34,7 @@
             showTest: _.debounce(function (id, vm) {
                 axios.get('/training/' + id).then(res => {
                     vm.results = res.data;
+                    console.log(vm.results);
                 });
                 } , 1000)
         }
