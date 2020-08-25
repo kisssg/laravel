@@ -1,10 +1,10 @@
 <template>
-    <div>
+    <div class="overflow-auto">
         <span style="font-family: Verdana;font-size: 18px; font-weight: normal;">{{item.order+'.'+item.title}}</span><br>
         <span style="font-family: Verdana;font-size: 9px;" class="text-muted">{{item.sub_title}}</span>
         <span class="float-right">
-            <select v-model="answer">
-                <option  v-for="(option,index) in item.options.split(',')" :selected="option===answer">{{option}}</option>
+            <select v-model="answer" class="form-control" >
+                <option v-for="(option,index) in item.options.split(',')" :selected="option===answer">{{option}}</option>
             </select>                   
         </span>
     </div>
