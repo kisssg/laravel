@@ -38,7 +38,6 @@
             showdata(type) {
                 let uri = '/payment/' + this.id;
                 axios.get(uri).then((response) => {
-                    console.log(this.owner);
                     this.chartdata = response.data;
                 }).catch(error => {
                     console.log(error);

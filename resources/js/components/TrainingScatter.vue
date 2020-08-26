@@ -18,81 +18,70 @@
 // 引入提示框和标题组件
     require('echarts/lib/component/tooltip');
     require('echarts/lib/component/title');
+    require('echarts/lib/component/dataset');
     export default {
         props: ['id'],
         data() {  
             return {
-                records: null,
-                data:null  
+                data:[]  
                   };  
         },
         computed:{
             options(){
                 return {
-    xAxis: {
-        type: 'time',
-        name: 'Training date',
-        },
-    yAxis: {
-        name:'Score'
-    },
-    tooltip: {
-        padding: 10,
-        backgroundColor: '#222',
-        borderColor: '#777',
-        borderWidth: 1,
-        formatter: function (obj) {
-            var value = obj.value;
-            return '<div style="border-bottom: 1px solid rgba(255,255,255,.3); font-size: 18px;padding-bottom: 7px;margin-bottom: 7px">'
-                +  value[0]
-                + '</div>'
-                + "Test type" + '：' + value[2] + '<br>'
-                + "Test score" + '：' + value[1] + '<br>';
-        }
-    },
-    series: [{
-        symbolSize: 20,
-        emphasis: {
-            label: {
-                show: true,
-                formatter: function (param) {
-                    return param.data[2];
-                },
-                position: 'top'
+                    xAxis: {
+                        type: 'time',
+                        name: 'Training date',
+                        },
+                    yAxis: {
+                        name:'Score'
+                    },
+                    tooltip: {
+                        padding: 10,
+                        backgroundColor: '#222',
+                        borderColor: '#777',
+                        borderWidth: 1,
+                        formatter: function (obj) {
+                            var value = obj.value;
+                            return '<div style="border-bottom: 1px solid rgba(255,255,255,.3); font-size: 18px;padding-bottom: 7px;margin-bottom: 7px">'
+                                +  value.training_date
+                                + '</div>'
+                                + "Test type" + '：' + value.training_type + '<br>'
+                                + "Test score" + '：' + value.general_score + '<br>'
+                                + (value.remark===""?"":"Remark: "+value.remark);
+                        }
+                    },
+                    dataset:{
+                        dimensions: ['training_date','general_score','training_type'],
+                        source:this.data,
+                    },
+                    series: [{
+                        symbolSize: 20,
+                        emphasis: {
+                            label: {
+                                show: true,
+                                formatter: function (param) {
+                                    return param.data.training_type;
+                                },
+                                position: 'top'
+                            }
+                        },
+                        type: 'scatter'
+                    }]
+                }
             }
-        },
-        data: [
-            ['2020-08-01', 8.04,"COC"],
-            ["2020-08-02", 6.95,"COC"],
-            ["2020-08-02", 7.58,"COC"],
-            ["2020-08-03", 8.81,"COC"],
-            ["2020-08-05", 8.33,"COC"],
-        ],
-        type: 'scatter'
-    }]
-
-}
-}
-},      
+        },      
         mounted() {  
-                //this.showRecords(this.id, this);
                 this.$refs.trainingScatter.showLoading();
-                this.quality(this.id,this);
+                this.showTest(this.id,this);
         },
         methods: {
-            showRecords: _.debounce( function (id, vm) {
-                axios.get('/visit-records?id=' + id).then( res => {
-                    vm.records = res.data;
+            showTest: _.debounce(function (id, vm) {
+                axios.get('/training/' + id).then(res => {
+                    vm.data = res.data;
+                    vm.$refs.trainingScatter.hideLoading();
                 });
-            },350),
-            quality:_.debounce(function(id,vm){
-                axios.get('/visit/quality?id='+id).then(res=>{
-                    vm.data=res.data.sort(function(a,b){
-                        return(a.value-b.value);
-                    });
-                    this.$refs.trainingScatter.hideLoading();
-                });
-            },350)
+                } , 1000)
         }
     }
 </script>

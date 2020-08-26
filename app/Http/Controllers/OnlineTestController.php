@@ -11,6 +11,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\TrainingTestResult;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Arr;
 
 /**
  * Description of OnlineTestController
@@ -47,7 +48,7 @@ class OnlineTestController extends Controller {
     }
 
     public function show($id) {
-        $results = TrainingTestResult::where('employee_id', $id)->get();
+        $results = TrainingTestResult::where('employee_id', $id)->get()->toArray();
         return $results;
     }
 
