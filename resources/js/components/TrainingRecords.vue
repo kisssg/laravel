@@ -1,6 +1,6 @@
 <template>
     <div>        
-        <training-scatter v-if="abs"></training-scatter>
+        <training-scatter :id="id"></training-scatter>
         <button v-on:click="showTable">Show detail data</button>
         <traing-test :id="id" v-if="tableShow"></traing-test>                
     </div>

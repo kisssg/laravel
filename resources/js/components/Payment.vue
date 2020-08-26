@@ -16,7 +16,6 @@
         methods: {
             showTest: _.debounce(function (id, vm) {
                 axios.get('/payment/' + id).then(res => {
-                    console.log(res.data);
                     vm.results = res.data;
                 });
                 } , 1000)

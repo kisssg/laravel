@@ -31,7 +31,6 @@
             showdata(type) {
                 let uri = '/project/'+this.project+'/chartdata?type='+type+'&start='+this.start+'&end='+this.end+'&owner='+this.owner;
                 axios.get(uri).then((response) => {
-                    console.log(this.owner);
                     this.chartdata = response.data;
                 }).catch(error => {
                     console.log(error);

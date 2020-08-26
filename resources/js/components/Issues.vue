@@ -26,7 +26,6 @@
                     }  
         },  
         mounted() {  
-                console.log(this.start +'-'+ this.end);
                 this.showIssues(this.id, this,this.start,this.end);  
         },
         methods: {

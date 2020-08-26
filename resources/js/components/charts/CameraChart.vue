@@ -38,7 +38,6 @@
             showdata(type) {
                 let uri = '/concentration/camera/' + this.id;
                 axios.get(uri).then((response) => {
-                    console.log(uri);
                     this.chartdata = response.data;
                 }).catch(error => {
                     console.log(error);
