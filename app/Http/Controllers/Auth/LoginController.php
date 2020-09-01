@@ -37,7 +37,7 @@ use AuthenticatesUsers;
 
     //for ldap login
     public function username() {
-        return 'username';
+        return 'email';//was username
     }
 
 }

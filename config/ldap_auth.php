@@ -171,7 +171,7 @@ return [
             |
             */
 
-            'username_column' => 'username',//was email
+            'username_column' => 'email',//was username
 
         ],
 
