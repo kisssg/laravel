@@ -10,7 +10,8 @@
  * | contains the "web" middleware group. Now create something great!
  * |
  */
-Auth::routes(['register' => false]);
+Auth::routes(
+        ['register' => false]);
 Route::resource('roles','Permission\RolesController');
 Route::resource('permissions','Permission\PermissionsController');
 Route::resource('users','Permission\UsersController');
