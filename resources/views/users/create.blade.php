@@ -2,6 +2,13 @@
 
 @section('content')
    <div class="container">
+        
+            @if (count($errors) > 0)
+            <div class="alert alert-danger">
+                <strong>保存失败</strong> 输入不符合要求<br><br>
+                {!! implode('<br>', $errors->all()) !!}
+            </div>
+            @endif
             <form method='POST' action="{{ route('users.store') }}">
             @csrf
             <div class="form-group">

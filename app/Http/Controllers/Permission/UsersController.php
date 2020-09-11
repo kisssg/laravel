@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Http\Controllers\Controller;
-
+use Illuminate\Validation\Rule;
 class UsersController extends Controller {
 
     public function __construct() {
@@ -25,7 +25,7 @@ class UsersController extends Controller {
         }
 
         $users = User::all();
-        return view('users.index',compact('users'));
+        return view('users.index', compact('users'));
     }
 
     /**
@@ -33,7 +33,7 @@ class UsersController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request) {        
+    public function create(Request $request) {
         if (!$request->user()->can('create_users')) {
             return view('401');
         }
@@ -50,19 +50,20 @@ class UsersController extends Controller {
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) {       
+    public function store(Request $request) {
         if (!$request->user()->can('create_users')) {
             return view('401');
         }
 
         $this->validate($request, [
-            'name' => 'bail|required|min:2',
+            'name' => 'bail|required|min:2|unique:users',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6'
         ]);
 
         $user = new User;
         $user->name = $request->input('name');
+        $user->username = $request->input('name');
         $user->email = $request->input('email');
         $user->password = bcrypt($request->input('password'));
         $user->save();
@@ -118,10 +119,15 @@ class UsersController extends Controller {
         if (!$request->user()->can('edit_users')) {
             return view('401');
         }
+        $this->validate($request, [
+            'name' => ['bail','required','min:2',Rule::unique('users')->ignore($id)],
+            'email' => ['required','email',Rule::unique('users')->ignore($id)]
+        ]);
 
         $user = User::findOrFail($id);
 
         $user->name = $request->name;
+        $user->username = $request->name;
         $user->email = $request->email;
 
         // Handle the user roles

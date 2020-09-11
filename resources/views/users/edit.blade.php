@@ -1,6 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
+            @if (count($errors) > 0)
+            <div class="alert alert-danger">
+                <strong>保存失败</strong> 输入不符合要求<br><br>
+                {!! implode('<br>', $errors->all()) !!}
+            </div>
+            @endif
 	<form method='POST' action="{{route('users.update', $user->id)}}">
 		@csrf
 		@method('PUT')
