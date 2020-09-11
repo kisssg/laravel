@@ -3,7 +3,7 @@
 	<div class="container">
     @include('inc.messages')
 	@can('create_users')
-	 <div style="float:right;padding-right:20px;"><a href="{{ route('users.create') }}" title="Add New User"><i class="fa fa-plus-circle fa-2x"></i></a><br /><br /></div>
+	 <div style="float:right;padding-right:20px;"><a href="{{ route('users.create') }}" title="Add New User">New</a><br /><br /></div>
 	@endcan
 		<div class="card-body">
 			@if (count($users))
