@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-
+use Illuminate\Http\Request;
 class LoginController extends Controller {
     /*
       |--------------------------------------------------------------------------
@@ -34,7 +34,16 @@ use AuthenticatesUsers;
     public function __construct() {
         $this->middleware('guest')->except('logout');
     }
-
+    public function authenticated(Request $request){
+        $user=$request->user();
+        session(['valid_user'=>$user->username,
+            'level'=>$user->level,
+            'auth'=>["id"=>$user->id,
+                "name"=>$user->username,
+                "level"=>$user->level,
+                "role"=>$user->role]]);
+    }
+    
     //for ldap login
     public function username() {
         return 'email';//was username
