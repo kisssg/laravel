@@ -46,6 +46,7 @@ class ImportIssues implements ToModel, WithHeadingRow, WithValidation
             'callback_id' => $row['callback_id'],
             'add_time' => $row['add_time'],
             'feedback_person' => $row['feedback_person'],
+            'feedback_time' => $row['feedback_time'],
             'close_person' => $row['close_person'],
             'close_time' => $row['close_time'],
             'edit_log' => $row['edit_log'],
