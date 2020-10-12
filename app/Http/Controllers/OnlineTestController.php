@@ -36,7 +36,7 @@ class OnlineTestController extends Controller {
 
     public function import() {
         try {
-            Excel::import(new \App\Imports\ImportTraingResults(), request()->file('file'));
+            Excel::import(new \App\Imports\ImportTrainingResults(), request()->file('file'));
         } catch (\Illuminate\Validation\ValidationException $e) {
             return back()->withErrors($e->errors());
         } catch (\Illuminate\Http\Exceptions\PostTooLargeException $e) {

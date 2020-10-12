@@ -10,7 +10,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 
-class ImportTraingResults implements ToCollection, WithHeadingRow {
+class ImportTrainingResults implements ToCollection, WithHeadingRow {
 
     use Importable;
 
