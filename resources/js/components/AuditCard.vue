@@ -31,6 +31,13 @@
                         <span class="float-right">{{totalScore}}</span>
                     </td>
                 </tr>
+                <tr v-if="score">
+                    <td>
+                    <span>{{score.created_by+" created at "+score.created_at+". "}}</span>
+                    <span class="float-right" v-if="score.updated_by">{{score.updated_by+" updated at " + score.updated_at}}</span>
+                    </td>
+                </tr>
+                <hr/>
                 <tr style="background-color: lightblue;color:white">
                     <td>
                         Audit Result: 
@@ -48,6 +55,12 @@
                             <textarea class="form-group" style="width:100%" v-model="remark"></textarea>
                         </div>
                     </td>                    
+                </tr>
+                <tr v-if="audit" style="background-color: lightblue;color:white">
+                    <td>
+                    <span>{{audit.auditor+" audited at "+audit.created_at+". "}}</span>
+                    <span class="float-right" v-if="audit.updated_at">{{" updated at " + audit.updated_at}}</span>
+                    </td>
                 </tr>
                 </tbody>
             </table>

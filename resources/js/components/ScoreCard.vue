@@ -32,6 +32,12 @@
                         <span class="float-right">{{totalScore}}</span>
                     </td>
                 </tr>
+                <tr v-if="score">
+                    <td>
+                    <span>{{score.created_by+" created at "+score.created_at+". "}}</span>
+                    <span class="float-right" v-if="score.updated_by">{{score.updated_by+" updated at " + score.updated_at}}</span>
+                    </td>
+                </tr>
                 </tbody>
             </table>
         </div>     
@@ -49,6 +55,8 @@
         props: ['project_id'],
         mounted() {
             console.log('score card mounted');
+            console.log('data:');
+            console.log(this.data_to_score);
             this.getItems(this.project_id, this);
             this.totalScore=this.$parent.score?this.$parent.score.score:null;
         },
