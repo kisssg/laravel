@@ -20,7 +20,7 @@
     <body>
         <div id="app">
             @if(env('APP_TEST',true))
-            <div class="sticky-top bg-danger text-white">This server you're visiting is on testing, there might be some malfunctions, please use below address:<br/>您当前所在服务器正在调试，可能存在功能异常的情况，请移步：<a href='http://10.65.77.76:81'>10.65.77.76:81</a></div>
+            <div class="sticky-top bg-danger text-white">{{env('MAINTAIN_MSG','调试中，请转战:')}}<a href='{{ env('PRODUCTION_URL', '/') }}'>{{ env('PRODUCTION_URL', 'Not ready') }}</a></div>
             @endif
             <!--[if not IE]>
                 <div class="bg-danger text-white">Sorry! Internet Explorer is not supported yet. Please view via Google Chrome or Firefox.</div>
