@@ -3,9 +3,8 @@
 namespace App\Imports;
 
 use App\Issue;
-use Maatwebsite\Excel\Concerns\Tocollection;
+use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use Maatwebsite\Excel\Concerns\WithValidation;
 use Maatwebsite\Excel\Concerns\Importable;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
@@ -57,7 +56,7 @@ class ImportIssues implements ToCollection, WithHeadingRow
 
     /**
      * @param array $row
-     *
+     * @description savepoint not supported by engine ndbcluster so we can't use model here as it use transaction with save point.
      * @return \Illuminate\Database\Eloquent\Model|null
      */
     public function model(array $row)
