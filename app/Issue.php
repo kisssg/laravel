@@ -46,6 +46,7 @@ class Issue extends Model
         'callback_id',
         'add_time',
         'feedback_person',
+        'feedback_time',
         'close_person',
         'close_time',
         'edit_log',
