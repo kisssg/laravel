@@ -46,10 +46,10 @@ class IssueController extends Controller {
     }
 
     protected function searchMultiple($key) {
-        $matches=[];
+        $matches = [];
         preg_match_all('/\[(.+?)\:(.+?)\]/', $key, $matches);
         $data = \App\Issue::where(function($query) use($matches) {
-                    for ($i = 0; $i < count($matches[1]); $i++) {                        
+                    for ($i = 0; $i < count($matches[1]); $i++) {
                         if (Schema::hasColumn('fc_issue', $matches[1][$i])) {
                             $query->where($matches[1][$i], $matches[2][$i]);
                         }
@@ -79,9 +79,10 @@ class IssueController extends Controller {
     public function import() {
         try {
             Excel::import(new ImportIssues(), request()->file('file'));
-        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
-            $failures = $e->failures();
-            return back()->withErrors($failures);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return back()->withErrors($e->errors());
+        } catch (\Illuminate\Http\Exceptions\PostTooLargeException $e) {
+            return back()->withErrors('文件大小超限');
         } catch (\Exception $e) {
             return back()->withErrors($e->getMessage());
         }
@@ -158,7 +159,7 @@ class IssueController extends Controller {
                     if ($start && $end) {
                         $query->whereBetween("close_time", [$start, $end . " 23:59:59"]);
                     }
-                })->where('result', '=', '有效')->whereIn('object', ['外催员/法律调查员', '外包公司'])->orderBy('count','desc')->groupBy("issue")->get();
+                })->where('result', '=', '有效')->whereIn('object', ['外催员/法律调查员', '外包公司'])->orderBy('count', 'desc')->groupBy("issue")->get();
         return $issues;
     }
 
