@@ -20,7 +20,7 @@ class ImportIssues implements ToCollection, WithHeadingRow {
         Validator::make($rows->toArray(), $this->rules(), $this->customValidationMessages())->validate();
         $user = Auth::user()->name;
         foreach ($rows as $row) {
-            if ($row['id']) {
+            if (array_key_exists('id',$row) && $row['id']) {
                 $issue = Issue::findOrFail($row['id']);
                 $issue->update([
                     'date' => $row['date'],
