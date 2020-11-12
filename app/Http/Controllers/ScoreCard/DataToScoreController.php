@@ -139,6 +139,7 @@ class DataToScoreController extends Controller {
         $onCard = Arr::add(explode(",", $project->data_to_score_columns), '', 'id');
         $data = new Data;
         $result = $data->setProject($project)->findOrFail($id)->only($onCard);
+        $result['score_method']=$project->score_method;
         return $result; //->only(explode(",",$project->data_fillable));//->score($project,$id);
     }
 

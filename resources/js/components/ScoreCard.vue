@@ -55,8 +55,8 @@
         props: ['project_id'],
         mounted() {
             console.log('score card mounted');
-            console.log('data:');
-            console.log(this.data_to_score);
+            //console.log('data:');
+            //console.log(this.data_to_score);
             this.getItems(this.project_id, this);
             this.totalScore=this.$parent.score?this.$parent.score.score:null;
         },
@@ -92,7 +92,8 @@
                         if(score[item] ==="1")
                             scoreNumerator++;
                     }
-                    totalScore += scoreData[item][0].answer===null?0:Number(scoreData[item][0].score);
+                    if(scoreData[item][0].needScore)
+                        totalScore += scoreData[item][0].answer===null?0:Number(scoreData[item][0].score);
                 }
                 console.log('Denominator:'+scoreDenominator);
                 console.log('Numerator:'+scoreNumerator);
@@ -100,11 +101,13 @@
                     this.msg='At least 1 item must be scored.';
                     return;
                 }
-                totalScore = totalScore > 100 ? 100 : totalScore;//总分大于100分就是100分
-                totalScore = totalScore < 0 ? 0 : totalScore;//总分小于0分就是0分
-                totalScore= scoreNumerator / scoreDenominator * 100; // denominator is count of items need to be scored and scorable, numerator is score goal.
+                let totalScoreFixed = totalScore > 100 ? 100 : totalScore;//总分大于100分就是100分
+                totalScoreFixed = totalScore < 0 ? 0 : totalScore;//总分小于0分就是0分
+                let totalScoreFactor= scoreNumerator / scoreDenominator * 100; // denominator is count of items need to be scored and scorable, numerator is score goal.
+                totalScore=this.data_to_score.score_method==='1'?totalScoreFactor:totalScoreFixed;
+                console.log('fixed score:' + totalScoreFixed.toFixed(2)); // fixed score.
                 this.totalScore=isNaN(totalScore)?null:totalScore.toFixed(2);// if no items can be scored, score is null.
-                score.score=isNaN(totalScore)?null:totalScore.toFixed(2);
+                score.score=this.totalScore;
                 score.data_id = this.data_to_score.id;
                 score.project_id = this.project_id;
                 let url = "/project/score", args = score;

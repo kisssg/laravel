@@ -1,11 +1,4 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace App\Http\Controllers\ScoreCard;
 
 use App\Http\Controllers\Controller;
@@ -15,8 +8,8 @@ use Illuminate\Http\Request;
 use App\ScoreCard\DataToScore as Data;
 use Carbon\Carbon;
 /**
- * Description of ScoreController
- *
+ * ScoreController
+ * store new score or update if exists.
  * @author Sucre.xu
  */
 class ScoreController extends Controller

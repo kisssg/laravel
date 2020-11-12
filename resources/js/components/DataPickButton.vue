@@ -98,7 +98,7 @@
                     console.log('ajax got score and sent to app');
                     this.$parent.scoreCardKey++;
                     console.log('card key++');
-                    console.log(this);
+                    //console.log(this);
                     $(".bs-score-card").modal('show');
                 }, error => {
                     if (error.response.status !== 200) {
