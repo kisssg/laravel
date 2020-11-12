@@ -62,6 +62,12 @@
                         <td><input name='score_save_to' class='form-control' type='text' value='{{old('score_save_to')}}'/></td>
                     </tr>
                     <tr>
+                        <td class="text-right">Score method:</td>
+                        <td><input name='score_method' class='form-control' type='text' value='{{old('score_method')}}'/>
+                            <span class="text-muted">1:count passed/count scorable, 2:fixed score for each item</span>
+                        </td>
+                    </tr>
+                    <tr>
                         <td class="text-right">Score columns:</td>
                         <td><input name='score_fillable' class='form-control' type='text' value='{{old('score_fillable')}}'/></td>
                     </tr>
