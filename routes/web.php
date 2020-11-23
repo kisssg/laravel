@@ -40,7 +40,6 @@ Route::group([
 Route::resource('issue', 'Issue\IssueController')->middleware('auth');
 Route::get('article/{id}', 'ArticleController@show');
 Route::post('comment', 'CommentController@store');
-
 Route::post('violation/feedback/{id}', 'Violation\ViolationController@feedbackStore');
 Route::group([
     'namespace' => 'Violation',
@@ -62,7 +61,7 @@ Route::get('collector/export', 'CollectorController@export')->middleware('auth')
 Route::post('collector/import', 'CollectorController@import')->middleware('auth')->middleware('can:manage collectors');
 Route::post('collector/delete', 'CollectorController@delete')->middleware('auth')->middleware('can:manage collectors');
 Route::get('collector/search', 'CollectorController@searchCollectors')->middleware('auth');
-Route::get('collector/get','CollectorController@getCollector');
+Route::get('collector/get','CollectorController@getCollector')->middleware('auth');
 Route::resource('collector', 'CollectorController')->middleware('auth');
 Route::get('payment/upload','PaymentController@upload')->middleware('auth');
 Route::post('payment/import','PaymentController@import')->middleware('auth');
