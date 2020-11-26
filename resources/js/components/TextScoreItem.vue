@@ -4,7 +4,6 @@
         <span style="font-family: Verdana;font-size: 9px;" class="text-muted">{{item.sub_title}}</span>
         <span class="float-right" style="width:100%">
             <textarea class="form-control " v-model="answer">
-                {{answer}}
             </textarea>                  
         </span>
     </div>
