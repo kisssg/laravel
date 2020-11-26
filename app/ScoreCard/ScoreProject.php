@@ -11,7 +11,8 @@ namespace App\ScoreCard;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Description of ScoreProject
+ * ScoreProject
+ * given a set of data, create evaluation score card on the data with easy
  *
  * @author Sucre.xu
  */
