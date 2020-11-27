@@ -4,7 +4,7 @@
         <span v-else-if="results.length===0">No relevant data found.</span>
         <table class="table" v-else>
             <thead><th>Device</th><th>Status</th><th>Remark</th><th>Updated at</th></thead>
-        <tr v-for="item in results"><td>{{item.device}}</td>
+        <tr v-for="(item,index) in results" :key="index"><td>{{item.device}}</td>
             <td>{{item.status}}</td>
             <td>{{item.remark}}</td>
             <td>{{item.updated_at}}</td>

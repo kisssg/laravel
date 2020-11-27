@@ -7,7 +7,7 @@
         <span v-else-if="issues.length===0">No relevant data</span>
         <table class="table" v-else>
             <thead><th>Type</th><th>Count</th><th>Action</th></thead>
-        <tr v-for="item in issues">
+        <tr v-for="(item,index) in issues" :key="index">
             <td>{{item.issue}}</td>
             <td>{{item.count}}</td>
             <td><a :href="'issue/search?s=[issue:'+item.issue+'][result:有效][employeeid:'+id+']'" target="_blank">Detail</a></td>

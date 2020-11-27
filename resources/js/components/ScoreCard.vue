@@ -8,14 +8,14 @@
         <div class='modal-body'>
             <table class="table table-bordered table-hover">
                 <tbody>
-                <div v-for="(item,key,index) in data_to_score" class="d-inline-block" style="padding:0 20px 3px 0;font-family: sans-serif;font-size: 16px;">
+                <div v-for="(item,key,index) in data_to_score" :key="index" class="d-inline-block" style="padding:0 20px 3px 0;font-family: sans-serif;font-size: 16px;">
                     <span style="border: 1px solid #515151;"><span style="background-color:#515151;color: white;align-content: center">
                             <span style="font-size: 12px;padding:2px;">{{key}}</span>
                         </span>
                         <span class="user-select-all" style="font-size: 12px;padding:2px;">{{item}}</span>
                     </span>        
                 </div>
-                <tr v-for="(item,key,index) in items">
+                <tr v-for="(item,key,index) in items" :key="index">
                     <td v-if="item.option_type==='text'">
                 <text-score-item :item="item" :savedAnswer="score?score[item.score_field]:null" :ref="item.score_field"></text-score-item>
                 </td>    
@@ -42,7 +42,7 @@
             </table>
         </div>     
         <div class="modal-footer text-center">
-            <span v-model="msg" class="float-right">{{msg}}</span>
+            <span class="float-right">{{msg}}</span>
             <button type="button" class="btn btn-secondary float-left" data-dismiss="modal" aria-label="Close">
                 关闭
             </button>
