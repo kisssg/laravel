@@ -45,7 +45,7 @@
                     this.pickData(this.project, this.id, this);
                 } else {
                     this.clicked= true;
-                    console.log(this.clicked);
+                    //console.log(this.clicked);
                     if (!this.dataFetched) {
                         this.$emit("set-data", null);//send null data in case ajax fethch nothing and score card show the previous
                         this.$emit("set-score", null);

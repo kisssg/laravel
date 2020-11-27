@@ -11,7 +11,7 @@
                 <img src="picture/loading.gif" v-else-if="collector===null" alt="Loading...">
                 <span v-else-if="collector===undefined">No data found</span>
                 <table class="table" v-else>
-                    <tr v-for="(item, key, index) in collector" class="row">                        
+                    <tr v-for="(item, key, index) in collector" :key="index" class="row">                        
                         <td class="col-3" v-if="item">{{ key }} </td><td class="col-6"  v-if="item">{{ item }} </td>
                     </tr>
                 </table>

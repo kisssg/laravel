@@ -37,7 +37,7 @@
                         </div>
                         <div class="form-group">
                             Owner
-                            <input type="text"v-model="owner"/>
+                            <input type="text" v-model="owner"/>
                         </div>
                         <div class="form-group">
                             Status
@@ -51,7 +51,7 @@
                         <div class="input-group">
                             <div class="input-group-prepend">
                             <select v-model="diySearchItem"  class="custom-select">
-                                <option v-for="item in diySearchItems" class="form-control">{{item}}</option>
+                                <option v-for="(item,index) in diySearchItems" class="form-control" :key="index">{{item}}</option>
                             </select>
                             </div>
                                 <input type="text"  class="form-control input-group-append" v-model="diySearchValue"/>
@@ -59,7 +59,7 @@
                         <div class="input-group">
                             <div class="input-group-prepend">
                             <select v-model="diySearchItem1"  class="custom-select">
-                                <option v-for="item in diySearchItems" class="form-control">{{item}}</option>
+                                <option v-for="(item,index) in diySearchItems" class="form-control" :key="index">{{item}}</option>
                             </select>
                             </div>
                                 <input type="text"  class="form-control input-group-append" v-model="diySearchValue1"/>
@@ -67,7 +67,7 @@
                         <div class="input-group">
                             <div class="input-group-prepend">
                             <select v-model="diySearchItem2"  class="custom-select">
-                                <option v-for="item in diySearchItems" class="form-control">{{item}}</option>
+                                <option v-for="(item,index) in diySearchItems" class="form-control" :key="index">{{item}}</option>
                             </select>
                             </div>
                                 <input type="text"  class="form-control input-group-append" v-model="diySearchValue2"/>
@@ -188,7 +188,7 @@
             let day = (date.getDate())>9?(date.getDate()):0+""+(date.getDate());// getDate() (1 ~ 31)
             this.today =(year+"-"+month+"-"+day);
             this.monthFirst=(year+"-"+month+"-01");
-            console.log(this.needRestrict);
+            //console.log(this.needRestrict);
         },
         data() {
             return{
@@ -216,7 +216,7 @@
             getDiySearchItems:function(project_id){
                 axios.get('/project/search_columns/'+project_id).then(res=>{
                     this.diySearchItems=res.data;
-                    console.log(res.data);
+                    //console.log(res.data);
                 });
             }
         }
