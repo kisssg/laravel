@@ -37,7 +37,12 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <!-- Left Side Of Navbar -->
                         <ul class="navbar-nav mr-auto">
-
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url('lang?lang=en') }}">{{ __('En') }}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url('lang?lang=ch') }}">{{ __('中') }}</a>
+                            </li>
                         </ul>
 
                         <!-- Right Side Of Navbar -->

@@ -12,6 +12,7 @@
  */
 Auth::routes(
         ['register' => false]);
+Route::get('lang','LangController@index')->name('lang');
 Route::resource('roles','Permission\RolesController');
 Route::resource('permissions','Permission\PermissionsController');
 Route::resource('users','Permission\UsersController');
