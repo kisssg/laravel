@@ -18,8 +18,8 @@
                     </table>
                 </div>
                 <div class="card-footer text-right">
-                    <a class='btn btn-light' href='{{url("collector/".$collector['id']."/edit")}}'>Edit</a>
-                    <a class='btn btn-light' href='{{url('collector')}}'>Back</a>
+                    <a class='btn btn-light' href='{{url("collector/".$collector['id']."/edit")}}'>{{__('Edit')}}</a>
+                    <a class='btn btn-light' href='{{url('collector')}}'>{{__("Back")}}</a>
                 </div>
             </div>
         </div>

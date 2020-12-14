@@ -4,8 +4,8 @@
     <form action='{{url('project/data/'.$data->id)}}' method="POST">
         <div class="card">
             <div class="card-header">
-                <span class="float-left"><a href='{{url('project/'.$project->id)}}' >{{$project->name}}</a> -> Data ->Edit</span>
-                <button type='submit' class='float-right btn btn-primary'>Save</button>
+                <span class="float-left"><a href='{{url('project/'.$project->id)}}' >{{$project->name}}</a> -> Data ->{{__("Edit")}}</span>
+                <button type='submit' class='float-right btn btn-primary'>{{__("Save")}}</button>
             </div>
             {{ method_field('PUT') }}
             {!! csrf_field() !!}
@@ -28,9 +28,9 @@
             </div>
             <div class='card-footer text-center'>
                 <input type="hidden" name="project_id" value="{{\Request::get('project_id')}}"/>
-                <button type='submit' class='float-right btn btn-primary'>Save</button>
+                <button type='submit' class='float-right btn btn-primary'>{{__("Save")}}</button>
                 <span class=" alert-success">{{old('msg')}}</span>
-                <a href='{{url('project/'.\Request::get('project_id'))}}' class='float-left btn btn-secondary'>Back</a>
+                <a href='{{url('project/'.\Request::get('project_id'))}}' class='float-left btn btn-secondary'>{{__("Back")}}</a>
             </div>
         </div>
     </form>

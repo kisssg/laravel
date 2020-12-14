@@ -22,7 +22,7 @@
                             <td>{{$item->option_type}}</td>   
                             <td>{{$item->options}}<br/>
                                 {{$item->scores}}</td>   
-                            <td><a  href="{{url('project/item/'.$item->id."/edit")}}" class="btn btn-info btn-xs">Edit</a>
+                            <td><a  href="{{url('project/item/'.$item->id."/edit")}}" class="btn btn-info btn-xs">{{__("Edit")}}</a>
                                 <form action="{{ url('project/item/'.$item->id) }}" method="POST" onsubmit="return confirm('Really want to remove this item?');" style="display: inline;">
                                     {{ method_field('DELETE') }}
                                     {{ csrf_field() }}
