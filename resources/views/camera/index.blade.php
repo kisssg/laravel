@@ -10,7 +10,7 @@
                         <div class="input-group">
                             <input type="text" class="form-control" name="s" value="{{Request::get('s')}}" placeholder="Search by name of collector...">
                             <span class="input-group-btn">
-                                <button class="btn btn-primary" type="submit">Go
+                                <button class="btn btn-primary" type="submit">{{__("Search")}}
                                 </button>
                             </span>
                         </div>

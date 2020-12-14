@@ -13,7 +13,7 @@
                 @foreach(explode(",",$project->data_list_column_alias) as $title)
             <th>{{$title}}</th>                    
             @endforeach
-            <th>Action</th>
+            <th>{{__("Action")}}</th>
             </thead>
             @foreach($data as $d)
             <tr>
@@ -29,11 +29,11 @@
                                 ...
                             </a>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="{{url("project/data/".$d->id."/edit?project_id=".$project->id)}}">Edit</a>
+                                <a class="dropdown-item" href="{{url("project/data/".$d->id."/edit?project_id=".$project->id)}}">{{__("Edit")}}</a>
                                 <form action="{{ url('project/data/'.$d->id.'?project_id='.$project->id) }}" method="POST" onsubmit="return confirm('Really want to remove this data?');">
-                                    {{ method_field('DELETE') }}
+                                    {{ method_field("DELETE") }}
                                     {{ csrf_field() }}
-                                    <input type="submit" class="dropdown-item"  value="Delete"/>
+                                    <input type="submit" class="dropdown-item"  value="{{__("Delete")}}"/>
                                 </form>
                             </div>
                         </div>
