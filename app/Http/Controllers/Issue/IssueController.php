@@ -54,7 +54,7 @@ class IssueController extends Controller {
                             $query->where($matches[1][$i], $matches[2][$i]);
                         }
                     }
-                });
+                })->orderBy('result','desc')->orderBy('date','desc');
         $excel = $data->count() > 6000 ? 0 : \Request::get('e');
         return $excel ? $this->arrayToExcel($data->get()->toArray(), 'issues' . date("Ymd"), $this->exceltTitle, 'A2') : view("issue.search")->withIssues($data->paginate(20)->appends(['s' => $key]))->with('search', $key);
     }
