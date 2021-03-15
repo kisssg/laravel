@@ -23,7 +23,7 @@
                             <div class="title row">
                                 <div><span class='badge {{$issue->result=="无效"?'badge-secondary':'badge-primary'}}'>{{$issue->result}}</span></div>
                                 <a href="{{ url('issue/'.$issue->id) }}">
-                                    <h4>{{ $issue->contract_no.'-'.$issue->issue.'-'.$issue->collector  }}</h4>
+                                    <h4>{{ $issue->date.' '.$issue->issue  }}</h4>
                                 </a>
                             </div>
                             <div class="body">
