@@ -32,15 +32,15 @@
                         <tr><td>Created at：{{$issue->add_time}}</span></td><td>Source ID：<span id='cid'>{{$issue->callback_id}}</td></tr>
                         <tr><td>Closed at：{{$issue->close_time}}</td><td>Closed by：{{$issue->close_person}}</td></tr><tr><td colspan='2'>Close reason：{{$issue->close_reason}}</td></tr>
                         <tr><td colspan="2"> 
-                                Punishment：
-                                @if($issue->violation)
+                                Punishment：<span class="text-muted">Function to be reshaped. Related punishment like bonus reduction, administrative actions taken, will be shown when data reconstructuring completed.</span>
+                                <!--@if($issue->violation)
                                 <span class="badge badge-danger">{{$issue->violation->punishment_decided}}</span><br/>
                                 Punishment proposed：{{$issue->violation->punishment_proposed}}<br/>
                                 {{$issue->violation->who_execute_disciplinary.'：'.$issue->violation->comment}}<br/>
                                 <a href="{{url('violation/'.$issue->violation->id)}}">Violation detail</a>
                                 @else
                                 <span class="badge badge-danger">No punishment yet</span>
-                                @endif
+                                @endif-->
                             </td></tr></table>
                 </div>
                 <div class="card-footer">
